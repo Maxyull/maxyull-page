@@ -609,9 +609,25 @@ p  { margin: 0; }
      plan ne pose que des pastilles espacées. À la même opacité, les écrans et
      le tapis passaient derrière les libellés et les rendaient sales. */
   .decor img { opacity: .10; }
-  /* Sous 880 px il ne reste plus de vide à gauche : le repli occupe toute la
-     largeur, le personnage passerait pile derrière les libellés des liens. */
-  .decor__perso { display: none; }
+
+  /* ⚠️ Le bouton de vue éclatée ne pilote QUE `.plan`, qui est masqué juste
+     au-dessus : sous 880 px il ne pouvait rien déplier. Le repli montre déjà
+     toute l'arborescence, il n'y a rien à éclater. */
+  .eclat { display: none; }
+
+  /* Le personnage remonte en haut : à gauche il n'y a plus de vide sous 880 px,
+     le repli occupe toute la largeur et il tomberait pile derrière les libellés
+     des liens. En haut il occupe le blanc du chapeau, où rien ne se lit. */
+  .decor__perso {
+    top: 1vh;
+    bottom: auto;
+    left: 50%;
+    right: auto;
+    translate: -50% 0;      /* pas `transform` : le décor n'en a pas ici, mais
+                               la propriété séparée ne peut rien écraser */
+    height: 52vh;
+    opacity: .15;
+  }
 }
 
 
