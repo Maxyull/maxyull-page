@@ -34,6 +34,17 @@ Options -Indexes
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # ⚠️ HSTS : sans lui, la redirection 301 ne suffit pas. Un navigateur qui a
+  # chargé la page en clair AVANT que la redirection n'existe garde sa réponse
+  # en cache et continue d'afficher « Non sécurisé » sans jamais redemander au
+  # serveur. C'est arrivé. HSTS lui interdit d'essayer http pour ce domaine.
+  # 180 jours, sans `preload` : le préchargement est quasi irréversible, il
+  # s'inscrit en dur dans les navigateurs et se retire en plusieurs mois.
+  # Envoyé aussi sur http, où les navigateurs l'ignorent par spécification —
+  # c'est sans effet et ça évite de dépendre d'une variable d'environnement
+  # que le répartiteur de charge d'OVH ne renseigne pas forcément.
+  Header always set Strict-Transport-Security "max-age=15552000"
   # La page ne charge RIEN de tiers : ni script, ni police, ni image externe.
   # `default-src 'self'` le dit au navigateur — c'est la partie qui protège.
   #
