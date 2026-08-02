@@ -48,6 +48,66 @@ p  { margin: 0; }
   border-radius: var(--radius-sm);
 }
 
+/* ------------------------------------------------------------ le décor */
+
+/* Le poste de travail, de biais derrière tout le reste.
+   ⚠️ `z-index: -1` est obligatoire, pas un réglage de goût : `.chapeau` et
+   `.repli` ne sont pas positionnés, donc un décor à z-index 0 passerait
+   PAR-DESSUS le nom et les liens. Le négatif le renvoie derrière le contenu
+   tout en le laissant devant le fond du body. */
+.decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Le personnage, debout à gauche, en vis-à-vis du poste. Il vient de la même
+   character sheet que la marionnette des vidéos, donc le même Maxime dessiné
+   sert aux deux usages.
+   ⚠️ Pas de masque en bas : il a des pieds, un fondu les ferait fondre dans
+   le vide. Il est simplement ancré sous le bord de l'écran. */
+.decor__perso {
+  position: absolute;
+  left: clamp(8px, 3vw, 64px);
+  bottom: -3vh;
+  height: clamp(380px, 76vh, 860px);
+  width: auto;
+  /* ⚠️ Plus effacé que le bureau, à dessein : sa peau claire est la seule
+     grande plage lumineuse du décor, à opacité égale il sautait aux yeux
+     alors que le poste, presque noir, restait en retrait. */
+  opacity: .13;
+}
+
+/* Ancré en bas à droite et débordant volontairement : le plateau et la tour
+   sont coupés par le cadre de l'image source, ce débord met la coupe hors
+   de l'écran. Le masque efface ce qu'il en resterait. */
+.decor__bureau {
+  position: absolute;
+  right: -6vw;
+  bottom: -7vh;
+  width: clamp(620px, 68vw, 1180px);
+  height: auto;
+  transform: rotate(-7deg);
+  transform-origin: 100% 100%;
+  opacity: .16;
+  /* ⚠️ Le masque part de DEUX bords : sans le dégradé vertical, la ligne du
+     plateau reste franche en haut de l'image et se lit comme un trait posé
+     en travers de la page.
+     ⚠️ Le dégradé horizontal s'arrête tôt (12 %) : il ne sert qu'à noyer la
+     coupe du cadre. Plus long, il mangeait l'écran de gauche, celui qui
+     affiche justement cette page-ci. */
+  -webkit-mask-image:
+    linear-gradient(to right,  transparent, #000 12%),
+    linear-gradient(to top,    #000 22%, transparent);
+  mask-image:
+    linear-gradient(to right,  transparent, #000 12%),
+    linear-gradient(to top,    #000 22%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
 /* ---------------------------------------------------------- le chapeau */
 
 .chapeau {
@@ -549,6 +609,13 @@ p  { margin: 0; }
 @media (max-width: 880px) {
   .plan  { display: none; }
   .repli { display: block; }
+  /* ⚠️ Le repli est une LISTE de liens posée en plein sur le décor, là où le
+     plan ne pose que des pastilles espacées. À la même opacité, les écrans et
+     le tapis passaient derrière les libellés et les rendaient sales. */
+  .decor img { opacity: .10; }
+  /* Sous 880 px il ne reste plus de vide à gauche : le repli occupe toute la
+     largeur, le personnage passerait pile derrière les libellés des liens. */
+  .decor__perso { display: none; }
 }
 
 
@@ -575,6 +642,6 @@ p  { margin: 0; }
 /* --------------------------------------------------------- impression */
 
 @media print {
-  .plan, .langue { display: none; }
+  .plan, .langue, .decor { display: none; }
   .repli { display: block; }
 }
