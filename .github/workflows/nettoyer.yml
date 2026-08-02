@@ -45,9 +45,13 @@ jobs:
           # compte, où ces noms n'existent pas — l'échec passerait pour un
           # succès. Les `rm` qui suivent tolèrent l'absence des dossiers, pour
           # que le workflow reste rejouable sans erreur.
+          # ⚠️ Pas de `\$` ici : le shell doit remplacer les variables AVANT de
+          # passer la chaîne à lftp, qui ne fait aucune expansion. Échappées,
+          # elles lui arrivaient littéralement et il répondait « Not connected »
+          # à chaque commande, sans jamais dire que l'hôte était vide.
           lftp -c "
             set ftp:ssl-allow no;
-            open -u \"\$FTP_USER\",\"\$FTP_PASSWORD\" \"\$FTP_SERVER\";
+            open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_SERVER\";
             cd www;
             set cmd:fail-exit no;
             rm -r decor-src;
