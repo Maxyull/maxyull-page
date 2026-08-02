@@ -1,0 +1,791 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>maxyull · Maxime Lacoste</title>
+<meta name="description" content="Le plan de ce que fabrique Maxime Lacoste (maxyull), développeur full-stack freelance : Occulta, Black Desert Idle, boilerplates, GitHub.">
+<meta name="theme-color" content="#0a0c0b">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="avatar.png">
+
+<!-- ⚠️ crossorigin est OBLIGATOIRE même en même origine pour les polices,
+     sinon le préchargement est jeté et le fichier téléchargé DEUX fois. -->
+<link rel="preload" href="fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/jetbrains-mono-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ jeu d'icônes ══════════════
+     Marques : Simple Icons v16 (CC0), tracés recopiés tels quels.
+     Dessinés à la main, même voix (plein, monochrome, 24×24) : LinkedIn
+     (retiré de Simple Icons), l'enveloppe, l'épée de Black Desert Idle (son
+     favicon est une épée dans un disque, illisible en petit), et ComeUp —
+     ⚠️ ce dernier n'est PAS la vraie marque, c'est un signe neutre « vers le
+     haut », à remplacer si le logo devient disponible.
+     Occulta utilise son vrai symbole (occulta/assets/brand/symbole.svg).
+     Tout est inliné : la page ne charge aucune ressource tierce. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+
+  <symbol id="i-occulta" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M52.7677 37.7112 A23.25 23.25 0 1 1 29.1222 9.7666 A18.5 18.5 0 0 0 24.9173 18.0927 A15.75 15.75 0 1 0 43.8605 40.4800 A18.5 18.5 0 0 0 52.7677 37.7112 Z M28.5 22a14.5 14.5 0 1 0 29 0a14.5 14.5 0 1 0 -29 0Z"/></symbol>
+
+  <symbol id="i-bdi" viewBox="0 0 64 64">
+    <g fill="currentColor">
+      <polygon points="32,2 40,15 24,15"/>
+      <rect x="28" y="13" width="8" height="24" rx="1"/>
+      <rect x="14" y="33" width="36" height="7" rx="2"/>
+      <rect x="28" y="39" width="8" height="10" rx="1"/>
+      <circle cx="32" cy="55" r="7"/>
+    </g>
+  </symbol>
+
+  <symbol id="i-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
+
+  <!-- Les mères qui n'ont pas de marque à porter. Dessinées ici, dans la même
+       voix que les autres (plein, monochrome, 24×24) : ce ne sont pas des
+       marques, il n'existe pas de logo à recopier. « Projets » n'est pas de la
+       partie, elle porte le vrai symbole GitHub. -->
+  <symbol id="i-projet" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.4 22.6 7 12 12.6 1.4 7zM2.6 9.7l8.3 4.4v7.9L2.6 17.6zm10.5 4.4 8.3-4.4v7.9l-8.3 4.4z"/></symbol>
+
+  <symbol id="i-reseaux" viewBox="0 0 24 24"><g fill="currentColor">
+    <path d="M11.1 3.2h1.8v8.8h-1.8z"/>
+    <path d="M11.534 12.77 12.466 11.23 20.066 15.83 19.134 17.37Z"/>
+    <path d="M11.534 11.23 12.466 12.77 4.866 17.37 3.934 15.83Z"/>
+    <circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="3.2" r="2.6"/>
+    <circle cx="19.6" cy="16.6" r="2.6"/><circle cx="4.4" cy="16.6" r="2.6"/>
+  </g></symbol>
+
+  <!-- ⚠️ `fill-rule="evenodd"` : sans lui la croix de la manette et ses boutons
+       se remplissent au lieu d'être évidés (les sous-tracés tournent dans le
+       même sens, la règle « non nulle » ne creuse rien). -->
+  <symbol id="i-gaming" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M17.5 5.5h-11A5.5 5.5 0 0 0 1 11v3.5a4 4 0 0 0 7.2 2.4l.9-1.2h5.8l.9 1.2a4 4 0 0 0 7.2-2.4V11a5.5 5.5 0 0 0-5.5-5.5M8.9 12.3H7.4v1.5H5.9v-1.5H4.4v-1.5h1.5V9.3h1.5v1.5h1.5zm5.6 1a1.2 1.2 0 1 1 1.2-1.2 1.2 1.2 0 0 1-1.2 1.2m3.4 2.2a1.2 1.2 0 1 1 1.2-1.2 1.2 1.2 0 0 1-1.2 1.2m0-4.4a1.2 1.2 0 1 1 1.2-1.2 1.2 1.2 0 0 1-1.2 1.2"/></symbol>
+
+  <symbol id="i-shop" viewBox="0 0 24 24"><path fill="currentColor" d="M8.2 6.4a3.8 3.8 0 0 1 7.6 0v.7h3.3l1.3 15.7H3.6L4.9 7.1h3.3zm2.3 0v.7h3V6.4a1.5 1.5 0 0 0-3 0"/></symbol>
+
+  <symbol id="i-contact" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.2c5.7 0 10.3 3.8 10.3 8.5S17.7 19.2 12 19.2a13 13 0 0 1-2.6-.26L4.1 21.8l1.2-4.2C3 16.05 1.7 13.6 1.7 10.7 1.7 6 6.3 2.2 12 2.2"/></symbol>
+
+  <symbol id="i-steam" viewBox="0 0 24 24"><path fill="currentColor" d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></symbol>
+
+  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+
+  <symbol id="i-gumroad" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0Zm-.007 5.12c4.48 0 5.995 3.025 6.064 4.744h-3.239c-.069-.962-.897-2.406-2.896-2.406-2.136 0-3.514 1.857-3.514 4.126 0 2.27 1.378 4.125 3.514 4.125 1.93 0 2.758-1.512 3.103-3.025h-3.103v-1.238h6.509v6.327h-2.855v-3.989c-.207 1.444-1.102 4.264-4.617 4.264-3.516 0-5.584-2.82-5.584-6.326 0-3.645 2.276-6.602 6.618-6.602z"/></symbol>
+
+  <symbol id="i-fiverr" viewBox="0 0 24 24"><path fill="currentColor" d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z"/></symbol>
+
+  <symbol id="i-comeup" viewBox="0 0 24 24">
+    <g fill="currentColor">
+      <path d="M12 1.6 21.4 11h-5.7v7.1H8.3V11H2.6z"/>
+      <rect x="2.6" y="20" width="18.8" height="2.7" rx="1.35"/>
+    </g>
+  </symbol>
+
+  <symbol id="i-producthunt" viewBox="0 0 24 24"><path fill="currentColor" d="M13.604 8.4h-3.405V12h3.405c.995 0 1.801-.806 1.801-1.801 0-.993-.805-1.799-1.801-1.799zM12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm1.604 14.4h-3.405V18H7.801V6h5.804c2.319 0 4.2 1.88 4.2 4.199 0 2.321-1.881 4.201-4.201 4.201z"/></symbol>
+
+  <symbol id="i-paypal" viewBox="0 0 24 24"><path fill="currentColor" d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/></symbol>
+
+  <symbol id="i-mail" viewBox="0 0 24 24"><path fill="currentColor" d="M0 5.4A2.4 2.4 0 0 1 2.4 3h19.2A2.4 2.4 0 0 1 24 5.4v.36L12 13.2 0 5.76ZM0 8.1l11.52 7.14a.9.9 0 0 0 .96 0L24 8.1v10.5a2.4 2.4 0 0 1-2.4 2.4H2.4A2.4 2.4 0 0 1 0 18.6Z"/></symbol>
+
+  <symbol id="i-x" viewBox="0 0 24 24"><path fill="currentColor" d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></symbol>
+
+  <symbol id="i-linkedin" viewBox="0 0 24 24">
+    <g fill="currentColor">
+      <circle cx="3.4" cy="3.6" r="2.7"/>
+      <rect x="1" y="8.2" width="4.8" height="14.9" rx=".5"/>
+      <path d="M8.9 8.2h4.6v2.1a4.9 4.9 0 0 1 4.4-2.4c4.7 0 5.6 3 5.6 7v8.2h-4.8v-7.3c0-1.7 0-4-2.5-4s-2.9 1.9-2.9 3.9v7.4H8.9z"/>
+    </g>
+  </symbol>
+
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path fill="currentColor" d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></symbol>
+
+  <symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></symbol>
+
+  <symbol id="i-instagram" viewBox="0 0 24 24"><path fill="currentColor" d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></symbol>
+
+  <symbol id="i-threads" viewBox="0 0 24 24"><path fill="currentColor" d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></symbol>
+
+  <symbol id="i-reddit" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0Zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.998-5.87-.954-.447-1.614-1.415-1.614-2.538 0-1.548 1.255-2.802 2.803-2.802.645 0 1.239.218 1.712.585 1.275-.79 2.881-1.291 4.64-1.365v-.01c0-1.663 1.263-3.034 2.88-3.207.188-.911.993-1.595 1.959-1.595Zm-8.085 8.376c-.784 0-1.459.78-1.506 1.797-.047 1.016.64 1.429 1.426 1.429.786 0 1.371-.369 1.418-1.385.047-1.017-.553-1.841-1.338-1.841Zm7.406 0c-.786 0-1.385.824-1.338 1.841.047 1.017.634 1.385 1.418 1.385.785 0 1.473-.413 1.426-1.429-.046-1.017-.721-1.797-1.506-1.797Zm-3.703 4.013c-.974 0-1.907.048-2.77.135-.147.015-.241.168-.183.305.483 1.154 1.622 1.964 2.953 1.964 1.33 0 2.47-.81 2.953-1.964.057-.137-.037-.29-.184-.305-.863-.087-1.795-.135-2.769-.135Z"/></symbol>
+
+</defs></svg>
+
+
+<!-- ⚠️ L'identité est sortie du plan. Elle vivait au-dessus du portrait, au
+     centre : dès que la photo partait sur une mère, le nom partait avec elle et
+     traversait la carte. Ici il ne bouge plus, et le centre est libre. -->
+<div class="chapeau">
+  <header class="tete">
+    <h1>Maxime Lacoste</h1>
+    <p class="h">@maxyull</p>
+    <p class="role">
+      <span data-fr>Développeur full-stack freelance</span>
+      <span data-en lang="en">Full-stack developer, freelance</span>
+    </p>
+  </header>
+
+  <!-- La vue éclatée : tout le plan déplié d'un coup, sans avoir à ouvrir
+       chaque étape. C'est la sortie de secours de la navigation. Les cinq
+       points s'écartent quand elle est active. -->
+  <button type="button" class="eclat" id="eclat" aria-pressed="false">
+    <span class="eclat__marque" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+    <span class="eclat__mot"></span>
+  </button>
+
+  <div class="langue" role="group" aria-label="Langue / Language">
+    <button type="button" data-set-lang="fr" aria-pressed="true" disabled>FR</button>
+    <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+  </div>
+</div>
+
+<!-- Le plan, sur grand écran. Nœuds et traits sont générés depuis NOEUDS. -->
+<div class="plan" id="plan">
+  <!-- le viewBox est repris en JS depuis VUE, pour qu'il ne puisse pas
+       diverger du calcul des positions -->
+  <svg class="traits" id="traits" preserveAspectRatio="none" aria-hidden="true"></svg>
+
+  <!-- ⚠️ La place vide laissée par le portrait. Sans elle, dès qu'il part sur
+       une mère, les quatre traits convergent vers un point où il n'y a plus
+       rien : le plan a l'air cassé. Décorative, jamais cliquable — c'est le
+       portrait lui-même qui ramène au centre. -->
+  <span class="siege" aria-hidden="true"></span>
+
+  <!-- ⚠️ `.moi` ne contient QUE le portrait dans le flux : c'est ce qui le pose
+       exactement au centre géométrique, là où convergent les traits. -->
+  <div class="moi" id="moi">
+    <!-- Le portrait est un BOUTON : une fois parti sur une mère, c'est lui qui
+         remonte d'un cran. Désactivé au centre, il n'y a rien à défaire. -->
+    <button type="button" class="moi__bouton" id="retour" disabled>
+      <span class="derive" style="--t:15s; --dx:0px; --dy:-4px">
+        <img src="avatar.png" width="108" height="108" alt="Maxime Lacoste" fetchpriority="high">
+      </span>
+    </button>
+
+    <p class="moi__ou" id="ou" hidden><b></b><span></span></p>
+  </div>
+</div>
+
+<!-- Le repli, sous 880 px. Les liens sont construits depuis la même source.
+     ⚠️ Il porte sa PROPRE identité : le portrait et le nom vivent dans `.plan`,
+     qui est masqué ici. Sans ce bloc, la version mobile perdait le portrait,
+     le nom et le rôle — il ne restait qu'une liste anonyme. -->
+<div class="repli">
+  <header class="repli__tete">
+    <img src="avatar.png" width="52" height="52" alt="Maxime Lacoste">
+    <div>
+      <h1>Maxime Lacoste</h1>
+      <p class="h">@maxyull</p>
+      <p class="role">
+        <span data-fr>Développeur full-stack freelance</span>
+        <span data-en lang="en">Full-stack developer, freelance</span>
+      </p>
+    </div>
+  </header>
+  <nav class="liste" id="liste" aria-label="Mes liens / My links"></nav>
+</div>
+
+<!-- La rangée d'icônes qui vivait ici a été retirée : les neuf comptes sont
+     désormais des nœuds du plan, elle n'était plus qu'un doublon.
+     ⚠️ Instagram est passé de `lemaitredufeu` à `maxyull` (confirmé le
+     02/08/2026) ; Threads et Instagram restent deux comptes SÉPARÉS. -->
+
+<script>
+/* ⚠️ UNE seule source de vérité : parenté, contenu FR/EN et destination au
+   même endroit. Les traits SVG, les nœuds du plan et la liste de repli en
+   sont tous les trois dérivés. Écrits séparément, ils finiraient par ne plus
+   coïncider — c'était le défaut de la première version du plan.
+
+   ⚠️ Les POSITIONS ne sont plus écrites à la main : elles sont calculées en
+   polaire depuis l'ordre de l'arbre (voir `placer`). À 15 nœuds, placer
+   chaque x/y à la main devenait ingérable et le moindre ajout décalait tout.
+   Ajouter une branche ou un enfant se fait maintenant en une ligne ici. */
+var VUE = { w: 1180, h: 780 };
+var CENTRE = { x: VUE.w / 2, y: VUE.h / 2 };
+
+/* ⚠️ QUATRE MÈRES, et elles ne mènent NULLE PART. Ce ne sont pas des liens :
+   ce sont des étapes. On clique, le portrait s'y rend, et c'est de là que
+   partent les vraies destinations. Leur donner une `url` casserait tout le
+   geste — un clic partirait du site avant d'avoir montré les enfants.
+   C'est aussi pour ça que ce sont des <button> et pas des <a>. */
+var MERES = [
+  /* ⚠️ TROIS NIVEAUX ici, et c'est la seule branche qui en a : Projets → GitHub
+     → les dépôts. GitHub porte À LA FOIS une `url` et des `enfants` : c'est un
+     LIEN, pas une étape. C'est possible parce qu'arriver sur Projets déplie
+     déjà ses dépôts — il n'y a rien à ouvrir, donc rien ne se perd à ce que le
+     clic parte sur le profil. Règle générale : `url` ⇒ destination (même avec
+     des enfants) · pas d'`url` + `enfants` ⇒ étape.
+     ⚠️ ORDRE DES DÉPÔTS = LEUR PLACE. Ils sont répartis sur un tour à partir de
+     -150° : le 1er en haut à gauche, le 2ᵉ en haut à droite, le 3ᵉ dessous.
+     Occulta est donc écrite EN DERNIER pour tomber en bas, seule, les deux
+     autres en haut — demandé explicitement. Les réordonner les déplace. */
+  { id:'projet', i:'i-projet', place: 4,
+    fr:['Projets', 'ce que je fabrique'], en:['Projects', 'what I build'],
+    enfants: [
+      { id:'code', i:'i-github', url:'https://github.com/Maxyull',
+        fr:['GitHub', 'Maxyull'], en:['GitHub', 'Maxyull'],
+        enfants: [
+          { id:'bot', i:'i-discord', url:'https://github.com/Maxyull/Black-Desert-Idle-Discord-Bot',
+            fr:['son bot', 'discord.js'], en:['its bot', 'discord.js'] },
+          { id:'jeu', i:'i-bdi', url:'https://github.com/Maxyull/black-desert-idle',
+            fr:['Black Desert Idle', 'le code'], en:['Black Desert Idle', 'the code'] },
+          { id:'occulta', i:'i-occulta', url:'https://occulta.fr',
+            fr:['Occulta', 'occulta.fr'], en:['Occulta', 'occulta.fr'] }
+        ] }
+    ] },
+
+  /* ⚠️ Aucun mailto ici : une adresse en clair sur une page indexée se fait
+     moissonner. Le contact passe par LinkedIn. Retiré à la demande de Maxime. */
+  { id:'contact', i:'i-contact', place: 0,
+    fr:['Contact', 'où me trouver'], en:['Contact', 'where to find me'],
+    enfants: [
+      { id:'linkedin', i:'i-linkedin', url:'https://www.linkedin.com/in/maxyull',
+        fr:['LinkedIn', 'un projet ?'], en:['LinkedIn', 'hire me'] },
+      { id:'insta', i:'i-instagram', url:'https://www.instagram.com/maxyull/',
+        fr:['Instagram', '@maxyull'], en:['Instagram', '@maxyull'] }
+    ] },
+
+  /* ⚠️ Réseaux tient la place de DROITE (3ᵉ de la liste) et ce n'est pas un
+     hasard : c'est la mère la plus nombreuse, et le flanc est le seul endroit
+     où son éventail a la hauteur qu'il lui faut. En haut à droite, ses six
+     enfants sortaient du cadre par le haut. Déplacer cette entrée dans la
+     liste, c'est la renvoyer là où elle ne rentre pas. */
+  { id:'reseaux', i:'i-reseaux', place: 2,
+    fr:['Réseaux', 'ce que je publie'], en:['Social', 'what I post'],
+    enfants: [
+      { id:'youtube', i:'i-youtube', url:'https://www.youtube.com/@Maxyull',
+        fr:['YouTube', '@Maxyull'], en:['YouTube', '@Maxyull'] },
+      { id:'tiktok', i:'i-tiktok', url:'https://www.tiktok.com/@maxyull',
+        fr:['TikTok', '@maxyull'], en:['TikTok', '@maxyull'] },
+      { id:'x', i:'i-x', url:'https://x.com/Maxyull_',
+        fr:['X', '@Maxyull_'], en:['X', '@Maxyull_'] },
+      { id:'threads', i:'i-threads', url:'https://www.threads.net/@maxyull',
+        fr:['Threads', '@maxyull'], en:['Threads', '@maxyull'] },
+      { id:'reddit', i:'i-reddit', url:'https://www.reddit.com/user/Maxyull',
+        fr:['Reddit', 'u/Maxyull'], en:['Reddit', 'u/Maxyull'] },
+      { id:'ph', i:'i-producthunt', url:'https://www.producthunt.com/@maxyull',
+        fr:['Product Hunt', 'lancements'], en:['Product Hunt', 'launches'] }
+    ] },
+
+  /* ⚠️ Une seule entrée pour l'instant. Black Desert Idle en a été RETIRÉ à la
+     demande de Maxime (02/08) : le jeu vit sous « Projets ». Reste à savoir ce
+     que cette mère accueille d'autre — rien n'y sera mis sans une source. */
+  { id:'gaming', i:'i-gaming', place: 1,
+    fr:['Gaming', 'où je joue'], en:['Gaming', 'where I play'],
+    enfants: [
+      { id:'steam', i:'i-steam', url:'https://steamcommunity.com/profiles/76561198035113183/',
+        fr:['Steam', 'mon profil'], en:['Steam', 'my profile'] }
+    ] },
+
+  { id:'shop', i:'i-shop', place: 3,
+    fr:['Boutique', 'ce que je vends'], en:['Shop', 'what I sell'],
+    enfants: [
+      { id:'gumroad', i:'i-gumroad', url:'https://maxyull.gumroad.com',
+        fr:['Boilerplates', 'gumroad'], en:['Boilerplates', 'gumroad'] },
+      { id:'fiverr', i:'i-fiverr', url:'https://www.fiverr.com/maxyull',
+        fr:['Fiverr', 'prestations'], en:['Fiverr', 'services'] },
+      { id:'comeup', i:'i-comeup', url:'https://comeup.com/@maxyull',
+        fr:['ComeUp', 'en français'], en:['ComeUp', 'in French'] },
+      { id:'paypal', i:'i-paypal', url:'https://paypal.me/maxyull',
+        fr:['PayPal', 'régler'], en:['PayPal', 'pay'] }
+    ] }
+];
+
+/* ── placement polaire ─────────────────────────────────────────────────
+   Les mères font le tour, chaque fratrie s'ouvre en éventail à partir de SA
+   mère et non du centre. Ellipse et non cercle : la vue est plus large que
+   haute. Le tour démarre à -126° : l'axe vertical du haut sert de respiration
+   entre les deux mères hautes. */
+var RX = 330, RY = 160;        /* mère → depuis le centre */
+
+var NOEUDS = [];
+
+function placer(n, profondeur) {
+  if (!n.enfants) return;
+
+  /* ⚠️ Une grande fratrie ne tient PAS sur le même arc qu'une petite. Une
+     étiquette fait ~90 px de haut, il faut donc ~100 px entre deux voisins,
+     soit un arc de 100 × (n-1). À six enfants sur l'arc court, Threads
+     percutait Reddit qui percutait Product Hunt (mesuré). On pousse l'anneau
+     ET on l'arrondit : c'est l'aplatissement vertical qui tassait les voisins
+     dès que l'éventail passait à l'horizontale. */
+  var large = n.enfants.length >= 5;
+  /* ⚠️ 30° et 230 pour une grande fratrie, pas moins : à 26°/215 l'écart entre
+     deux voisins tombait à 87 px pour une étiquette de 88 px de haut. Ça
+     passait tout juste à 1120 px de large et se percutait dès que la carte
+     rétrécissait d'un cheveu (X × Threads, constaté à 1094). */
+  var rx = 225, ry = large ? 230 : 190, pas = large ? 30 : 38;
+  var dir = n.a;
+
+  /* ⚠️ Un enfant unique QUI A LUI-MÊME DES ENFANTS (GitHub sous Projets) se pose
+     tout près de sa mère : à pleine distance il mangeait tout le rayon
+     disponible et il ne restait plus rien pour ses propres enfants. Un enfant
+     unique ordinaire (Steam sous Gaming) garde l'anneau normal — le rapprocher
+     n'aurait servi qu'à le coller à sa mère. */
+  if (n.enfants.length === 1 && n.enfants[0].enfants) { rx = 130; ry = 105; }
+
+  /* ⚠️ Au 3ᵉ niveau : LE DERNIER ENFANT PASSE DESSOUS, les autres s'ouvrent vers
+     le haut. Deux essais ratés avant celui-là — un éventail vers le haut met
+     forcément le milieu en haut et les DEUX extrêmes en bas (l'inverse de ce
+     que Maxime demande) ; et un tour réparti régulièrement à trois enfants
+     impose des positions à -150/-30/+90, or -30 vise exactement « Projets »
+     depuis GitHub (63 px d'écart, mesuré).
+     L'anneau est APLATI (130 × 190) : GitHub n'est qu'à 150 px du bord gauche,
+     un cercle de 190 en sortait. Et tout ceci ne tient que parce que « Projets »
+     occupe la place de GAUCHE (`place: 4`) — ailleurs, pas la hauteur. */
+  var tour = profondeur >= 2;
+  if (tour) { rx = 130; ry = 190; pas = 75; }
+
+  n.enfants.forEach(function (e, j, tous) {
+    var dessus = tous.length - 1;          /* tous sauf le dernier */
+    var ae = tour
+      ? (j === dessus ? 90 : -90 + (j - (dessus - 1) / 2) * pas) * Math.PI / 180
+      : dir + (j - (tous.length - 1) / 2) * pas * Math.PI / 180;
+    e.a = ae;
+    e.de = n;
+    e.p = profondeur + 1;
+    e.x = n.x + Math.cos(ae) * rx;
+    e.y = n.y + Math.sin(ae) * ry;
+    NOEUDS.push(e);
+    placer(e, profondeur + 1);
+  });
+}
+
+/* ⚠️ La position vient de `place`, PAS de l'ordre du tableau : l'ordre du
+   tableau reste l'ordre de lecture (et de tabulation), la place est un choix
+   de terrain, chacune payée d'un chevauchement mesuré :
+   · Projets (4, gauche) — seul flanc où sa branche à trois niveaux tient, et
+     le seul d'où un éventail vers le haut ne sort pas du cadre.
+   · Réseaux (2, droite) — six enfants, il lui faut le flanc le plus haut.
+   · Boutique (3, bas) et Gaming (1, haut-droite) sont ÉCHANGÉES : Boutique en
+     haut à droite, son dernier enfant (PayPal) tombait sur le premier de
+     Réseaux (YouTube) — 30 px d'écart, visible en vue éclatée seulement.
+   Déplacer une de ces valeurs, c'est rouvrir le chevauchement correspondant. */
+MERES.forEach(function (m) {
+  m.a = (-126 + m.place * (360 / MERES.length)) * Math.PI / 180;
+  m.p = 1;
+  m.x = CENTRE.x + Math.cos(m.a) * RX;
+  m.y = CENTRE.y + Math.sin(m.a) * RY;
+  NOEUDS.push(m);
+  placer(m, 1);
+});
+
+var NS = 'http://www.w3.org/2000/svg';
+var plan = document.getElementById('plan');
+var svg = document.getElementById('traits');
+var liste = document.getElementById('liste');
+var moi = document.getElementById('moi');
+var retour = document.getElementById('retour');
+var ou = document.getElementById('ou');
+var racine = document.documentElement;
+
+svg.setAttribute('viewBox', '0 0 ' + VUE.w + ' ' + VUE.h);
+
+var LENT = matchMedia('(prefers-reduced-motion: reduce)');
+
+/* Deux allures. Quitter le centre est le geste qu'on regarde : il prend son
+   temps. Passer d'une mère à l'autre, on connaît déjà le trajet, il file.
+   ⚠️ La durée est posée en ligne sur `.moi` et sur `--vol` : la valeur du CSS
+   n'est qu'un repli. Les changer là-bas seul ne ferait rien. */
+var VOYAGE = 620;         /* mère → centre, et centre → mère en transit */
+var VOYAGE_DEPART = 980;  /* centre → mère, au départ du repos */
+
+/* --- fabriques ------------------------------------------------------- */
+
+function trait(de, vers, classe) {
+  var l = document.createElementNS(NS, 'line');
+  l.setAttribute('x1', de.x); l.setAttribute('y1', de.y);
+  l.setAttribute('x2', vers.x); l.setAttribute('y2', vers.y);
+  /* ⚠️ `pathLength="1"` normalise la longueur : sans lui un trait court se
+     dessine plus vite qu'un long et la construction paraît boiteuse. C'est un
+     attribut SVG, il n'a pas d'équivalent CSS. */
+  l.setAttribute('pathLength', '1');
+  l.setAttribute('class', classe);
+  return l;
+}
+
+function corps(n, k) {
+  return '<span class="derive" style="--t:' + (11 + k * 1.4) + 's;--dx:' +
+    (k % 2 ? 5 : -5) + 'px;--dy:' + (k % 3 ? -6 : 5) + 'px">' +
+      '<span class="pastille"><svg aria-hidden="true"><use href="#' + n.i + '"/></svg></span>' +
+    '</span><span class="n"></span><span class="f"></span>';
+}
+
+function poser(el, n) {
+  el.style.left = (n.x / VUE.w * 100) + '%';
+  el.style.top = (n.y / VUE.h * 100) + '%';
+}
+
+/* le pouls court le long du trait quand on survole le nœud qu'il dessert */
+function brancherPouls(el, pouls) {
+  ['mouseenter', 'focus'].forEach(function (ev) {
+    el.addEventListener(ev, function () { pouls.classList.add('actif'); });
+  });
+  ['mouseleave', 'blur'].forEach(function (ev) {
+    el.addEventListener(ev, function () { pouls.classList.remove('actif'); });
+  });
+}
+
+/* --- les quatre mères, posées une fois pour toutes -------------------- */
+MERES.forEach(function (m, k) {
+  var base = trait(CENTRE, m, 'base base--vif');
+  base.style.animationDelay = (240 + k * 90) + 'ms';
+  svg.appendChild(base);
+
+  m._base = base;
+
+  var pouls = trait(CENTRE, m, 'pouls');
+  svg.appendChild(pouls);
+  m._pouls = pouls;
+
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'noeud noeud--mere';
+  b.setAttribute('aria-expanded', 'false');
+  poser(b, m);
+  b.style.animationDelay = (240 + k * 90 + 420) + 'ms';
+  b.innerHTML = corps(m, k);
+  brancherPouls(b, pouls);
+  b.addEventListener('click', function () { basculer(m); });
+
+  m._noeud = b;
+  plan.appendChild(b);
+});
+
+/* --- ouvrir / fermer une mère ---------------------------------------- */
+
+var ouverte = null;
+var enVol = false;
+
+/* ⚠️ Le portrait voyage par `left`/`top` en POURCENTAGE, pas par `transform`.
+   `transform: translate(%)` résout ses pourcentages sur la boîte de l'élément
+   (108 px), pas sur le plan : il n'irait nulle part. Et une valeur en pixels
+   serait fausse dès le premier redimensionnement, le plan étant fluide.
+   Un seul élément absolu animé, le surcoût de mise en page est négligeable. */
+function viser(n) {
+  moi.style.left = ((n ? n.x : CENTRE.x) / VUE.w * 100) + '%';
+  moi.style.top  = ((n ? n.y : CENTRE.y) / VUE.h * 100) + '%';
+}
+
+/* Un nœud qui a des enfants est une ÉTAPE (bouton) ; sinon c'est une
+   destination (lien). Une seule règle, valable à toutes les profondeurs. */
+function fratrie(m, montrer) {
+  m.enfants.forEach(function (e, j) {
+    if (!montrer) {
+      if (e.enfants) fratrie(e, false);   /* on replie aussi ses descendants */
+      if (e._noeud) { e._noeud.remove(); e._noeud = null; }
+      if (e._base) { e._base.remove(); e._base = null; }
+      if (e._pouls) { e._pouls.remove(); e._pouls = null; }
+      return;
+    }
+    if (e._noeud) return;                 /* déjà posée (vue éclatée) */
+
+    var base = trait(m, e, 'base');
+    base.style.animationDelay = (j * 80) + 'ms';
+    svg.appendChild(base);
+    e._base = base;
+
+    var pouls = trait(m, e, 'pouls');
+    svg.appendChild(pouls);
+    e._pouls = pouls;
+
+    /* ⚠️ C'est l'`url` qui tranche, pas les `enfants` : GitHub a les deux et
+       doit rester un LIEN (ses dépôts sont déjà dépliés, il n'y a rien à
+       ouvrir). Sans `url`, le nœud est une étape et le portrait s'y rend. */
+    var el;
+    if (e.url) {
+      el = document.createElement('a');
+      el.href = e.url;
+    } else {
+      el = document.createElement('button');
+      el.type = 'button';
+      el.setAttribute('aria-expanded', 'false');
+      el.addEventListener('click', function () { basculer(e); });
+    }
+    el.className = 'noeud noeud--enfant' + (e.url ? '' : ' noeud--etape');
+    poser(el, e);
+    el.style.animationDelay = (200 + j * 80) + 'ms';
+    el.innerHTML = corps(e, j);
+    brancherPouls(el, pouls);
+    e._noeud = el;
+    plan.appendChild(el);
+  });
+
+  /* ⚠️ Une étape parmi les enfants est dépliée DANS LA FOULÉE : arriver sur
+     Projets pour n'y trouver que GitHub, seul, ne montrerait rien. On voit
+     donc GitHub ET ses dépôts d'un coup ; y aller ensuite ne fait que
+     rapprocher le portrait. */
+  if (montrer) {
+    m.enfants.forEach(function (e) { if (e.enfants) fratrie(e, true); });
+    ecrire(racine.getAttribute('data-lang'));
+  }
+}
+
+/* du centre jusqu'au nœud, en passant par ses ascendants */
+function chemin(n) {
+  var c = [];
+  while (n) { c.unshift(n); n = n.de; }
+  return c;
+}
+
+function basculer(n) {
+  if (enVol) return;
+  if (eclate) eclater(false);
+  var cible = (ouverte === n) ? (n.de || null) : n;   /* recliquer = remonter */
+  var precedente = ouverte;
+
+  var ancien = precedente ? chemin(precedente) : [];
+  var nouveau = cible ? chemin(cible) : [];
+  var commun = 0;
+  while (commun < ancien.length && commun < nouveau.length && ancien[commun] === nouveau[commun]) commun++;
+
+  /* ⚠️ On REMONTE puis on REDESCEND, on ne coupe jamais à travers la carte :
+     le portrait suit les traits, c'est tout le sens du geste. D'une mère à
+     l'autre ça fait deux étapes par le centre ; d'un petit-enfant à une autre
+     branche, trois. */
+  var etapes = [];
+  for (var i = ancien.length - 2; i >= commun - 1; i--) etapes.push(i >= 0 ? ancien[i] : null);
+  for (var k = commun; k < nouveau.length; k++) etapes.push(nouveau[k]);
+  if (!etapes.length) return;
+
+  /* on replie ce qui quitte le chemin, tout de suite : ces nœuds ne doivent
+     pas rester posés pendant le trajet */
+  ancien.slice(commun).forEach(function (a) { fratrie(a, false); });
+  ancien.forEach(function (a) {
+    if (nouveau.indexOf(a) < 0) {
+      a._noeud.setAttribute('aria-expanded', 'false');
+      a._noeud.classList.remove('actif');
+    }
+    if (a._base) a._base.classList.remove('suivi');
+  });
+
+  ouverte = cible;
+  plan.classList.toggle('ouvert', !!cible);
+  /* ⚠️ Au 3ᵉ niveau les mères s'effacent : la fratrie profonde vise l'intérieur
+     de la carte et leur passerait dessus. */
+  plan.classList.toggle('profond', nouveau.length >= 2);
+
+  nouveau.forEach(function (a) { if (a._base) a._base.classList.add('suivi'); });
+  if (cible) {
+    cible._noeud.setAttribute('aria-expanded', 'true');
+    cible._noeud.classList.add('actif');
+  }
+
+  retour.disabled = !cible;
+  ou.hidden = !cible;
+
+  /* seul le départ depuis le repos est ralenti : en transit on repasse par le
+     centre sans s'y arrêter */
+  var lentDepart = !precedente && etapes.length === 1;
+
+  enVol = true;
+  var pas = 0;
+  (function voler() {
+    var etape = etapes[pas++];
+    var duree = (lentDepart ? VOYAGE_DEPART : VOYAGE);
+    var fil = etape || ancien[commun - 1] || precedente;
+    if (fil && fil._pouls) fil._pouls.classList.add('actif');
+    moi.style.transitionDuration = duree + 'ms';
+    moi.style.setProperty('--vol', duree + 'ms');
+    viser(etape);
+
+    /* le portrait rétrécit en chemin et reprend sa taille à l'arrivée : il file
+       sur le trait au lieu de glisser. On retire puis repose la classe (avec un
+       reflow forcé) sinon la seconde étape ne rejouerait pas l'animation. */
+    if (!LENT.matches) {
+      moi.classList.remove('moi--vol');
+      void moi.offsetWidth;
+      moi.classList.add('moi--vol');
+    }
+
+    setTimeout(function () {
+      if (fil && fil._pouls) fil._pouls.classList.remove('actif');
+      if (pas < etapes.length) return voler();
+
+      enVol = false;
+      moi.classList.remove('moi--vol');
+      if (ouverte !== cible) return;        /* un autre clic a pris la main */
+      /* ⚠️ La fratrie n'apparaît qu'À L'ARRIVÉE. La faire entrer tout de suite
+         tuerait la lecture : on ne verrait plus le voyage, seulement un
+         changement d'écran. C'est tout le geste demandé. */
+      if (cible) fratrie(cible, true);
+      ecrire(racine.getAttribute('data-lang'));
+    }, LENT.matches ? 0 : duree);
+  })();
+
+  ecrire(racine.getAttribute('data-lang'));
+  placerOu();
+}
+
+/* ⚠️ Le nom de l'étape se pose du côté du CENTRE, jamais sous le portrait :
+   l'éventail sort vers l'extérieur, et une étiquette fixe en dessous percutait
+   les enfants dès que la fratrie descendait (Gaming × Steam, Boutique ×
+   Boilerplates, mesurés).
+   ⚠️ La distance est CALCULÉE sur la boîte réelle de l'étiquette, pas fixée :
+   à distance constante, une direction presque horizontale (l'ellipse en produit)
+   ramenait le coin de l'étiquette sur le portrait. Et il faut la mesurer APRÈS
+   `ecrire`, sinon on mesure le texte précédent. */
+function placerOu() {
+  if (!ouverte) return;
+  var vers = Math.atan2(ouverte.y - CENTRE.y, ouverte.x - CENTRE.x);
+  var ux = -Math.cos(vers), uy = -Math.sin(vers);
+  /* ⚠️ Le demi-portrait est LU, pas écrit en dur : il est dimensionné en `cqw`
+     et rétrécit avec le plan sur les écrans courts. Une constante figée
+     éloignerait l'étiquette bien trop sur petite carte. */
+  var demi = retour.offsetWidth / 2 + 8;
+  var lx = ou.offsetWidth / 2 + demi;
+  var ly = ou.offsetHeight / 2 + demi;
+  var k = 1 / Math.max(Math.abs(ux) / lx, Math.abs(uy) / ly);
+  ou.style.setProperty('--ox', (ux * k) + 'px');
+  ou.style.setProperty('--oy', (uy * k) + 'px');
+}
+
+/* remonter d'un cran : le portrait est le bouton retour */
+retour.addEventListener('click', function () { if (ouverte) basculer(ouverte); });
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Escape') return;
+  if (eclate) eclater(false);
+  else if (ouverte) basculer(ouverte);
+});
+
+/* --- la vue éclatée --------------------------------------------------- */
+
+/* Tout le plan déplié d'un coup. ⚠️ Les étiquettes rapetissent (`.eclate` en
+   CSS) : à taille normale, 22 nœuds sur la même carte se percutent. */
+var eclate = false;
+var bouton = document.getElementById('eclat');
+
+function deplier(n) {
+  fratrie(n, true);
+  n.enfants.forEach(function (e) { if (e.enfants) deplier(e); });
+}
+
+function eclater(on) {
+  if (on === eclate) return;
+  eclate = on;
+  bouton.setAttribute('aria-pressed', on ? 'true' : 'false');
+  plan.classList.toggle('eclate', on);
+
+  if (on) {
+    if (ouverte) {                       /* on rentre au centre avant d'ouvrir */
+      chemin(ouverte).forEach(function (a) {
+        a._noeud.setAttribute('aria-expanded', 'false');
+        a._noeud.classList.remove('actif');
+        if (a._base) a._base.classList.remove('suivi');
+      });
+      ouverte = null;
+    }
+    plan.classList.remove('ouvert', 'profond');
+    retour.disabled = true;
+    ou.hidden = true;
+    viser(null);
+    MERES.forEach(deplier);
+  } else {
+    MERES.forEach(function (m) { fratrie(m, false); });
+  }
+  ecrire(racine.getAttribute('data-lang'));
+}
+
+bouton.addEventListener('click', function () { eclater(!eclate); });
+
+/* --- le repli, même source -------------------------------------------
+   ⚠️ Sous 880 px il n'y a rien à ouvrir : tout est déjà déplié. Les étapes
+   (mères, et GitHub) ne sont donc que des intertitres, jamais des liens. */
+function replier(n, niveau) {
+  n.enfants.forEach(function (e) {
+    /* une étape sans destination n'est qu'un intertitre */
+    if (!e.url) {
+      var t = document.createElement('p');
+      t.className = 'liste__mere' + (niveau ? ' liste__mere--sous' : '');
+      e._liste = t;
+      liste.appendChild(t);
+      replier(e, niveau + 1);
+      return;
+    }
+    var a = document.createElement('a');
+    a.className = 'liste__lien' + (niveau > 1 ? ' liste__lien--enfant' : '');
+    a.href = e.url;
+    a.innerHTML = '<svg aria-hidden="true"><use href="#' + e.i + '"/></svg><b></b><span></span>';
+    e._liste = a;
+    liste.appendChild(a);
+    /* GitHub est un lien ET un parent : ses dépôts se rangent sous lui */
+    if (e.enfants) replier(e, niveau + 1);
+  });
+}
+replier({ enfants: MERES }, 0);
+
+/* --- langue ---------------------------------------------------------- */
+function ecrire(lang) {
+  NOEUDS.forEach(function (n) {
+    var t = n[lang];
+    if (n._noeud) {
+      n._noeud.querySelector('.n').textContent = t[0];
+      n._noeud.querySelector('.f').textContent = t[1];
+      n._noeud.setAttribute('aria-label', t[0] + ', ' + t[1]);
+    }
+    if (n._liste) {
+      /* ⚠️ Sur `url`, pas sur `enfants` : GitHub a des enfants mais reste un
+         lien, avec son icône et sa note — pas un intertitre. */
+      if (!n.url) { n._liste.textContent = t[0]; }
+      else {
+        n._liste.querySelector('b').textContent = t[0];
+        n._liste.querySelector('span').textContent = t[1];
+      }
+    }
+  });
+
+  var mots = lang === 'fr'
+    ? { retour: 'revenir', centre: 'revenir au centre', eclat: 'Vue éclatée', replier: 'Replier' }
+    : { retour: 'back',    centre: 'back to centre',    eclat: 'Exploded view', replier: 'Collapse' };
+
+  /* le retour remonte d'un CRAN, pas jusqu'au centre : depuis GitHub il ramène
+     à Projets, et le libellé doit le dire */
+  var parent = ouverte && ouverte.de;
+  retour.setAttribute('aria-label',
+    !ouverte ? 'Maxime Lacoste' : (parent ? mots.retour + ' : ' + parent[lang][0] : mots.centre));
+  if (ouverte) {
+    ou.querySelector('b').textContent = ouverte[lang][0];
+    ou.querySelector('span').textContent = parent ? parent[lang][0] : mots.centre;
+  }
+  bouton.querySelector('.eclat__mot').textContent = eclate ? mots.replier : mots.eclat;
+}
+
+function appliquer(lang) {
+  racine.setAttribute('data-lang', lang);
+  racine.setAttribute('lang', lang);
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    var on = b.getAttribute('data-set-lang') === lang;
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.disabled = on;
+  });
+  ecrire(lang);
+  try { localStorage.setItem('maxyull-lang', lang); } catch (e) {}
+}
+
+/* ?lang=fr / ?lang=en force la langue — lien partageable, capture déterministe */
+var choix = new URLSearchParams(location.search).get('lang');
+if (choix !== 'fr' && choix !== 'en') {
+  try { choix = localStorage.getItem('maxyull-lang'); } catch (e) {}
+}
+if (choix !== 'fr' && choix !== 'en') {
+  choix = (navigator.language || 'fr').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en';
+}
+appliquer(choix);
+
+document.addEventListener('click', function (e) {
+  var b = e.target.closest('[data-set-lang]');
+  if (b) appliquer(b.getAttribute('data-set-lang'));
+});
+
+/* on lance l'entrée après le premier rendu, sinon la première image saute */
+requestAnimationFrame(function () { plan.classList.add('dessine'); });
+
+/* ⚠️ `fini` décroche l'animation d'entrée des mères. Sans ça leur `forwards`
+   garde la main sur `opacity` et le fondu des mères non ouvertes ne se produit
+   jamais. Le délai couvre la dernière : 240 + 4×90 + 420 (pose) + 420 (durée).
+   Deux pièges déjà rencontrés : ce doit rester un TIMER et pas un
+   `animationend` (en mouvement réduit l'animation n'existe pas, l'événement ne
+   viendrait jamais), et il doit vivre HORS du `requestAnimationFrame` ci-dessus
+   — imbriqué dedans, il ne se posait pas du tout dans certains rendus. */
+setTimeout(function () { plan.classList.add('fini'); }, LENT.matches ? 0 : 1500);
+</script>
+
+</body>
+</html>

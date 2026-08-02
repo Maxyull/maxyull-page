@@ -1,0 +1,580 @@
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5
+ * Hallmark · genre: editorial · macrostructure: Map / Diagram · theme: Le Plan
+ * enrichment: SVG construit (traces + pouls) · nav: aucune · footer: Ft2 inline
+ * accent: rouge #ef4444 · axes: papier sombre / grotesque technique / accent chaud
+ *
+ * La page n'est pas une liste : c'est un PLAN. Maxime au centre, ce qu'il
+ * fabrique en satellites, reliés par des traits. On voit d'un coup que le bot
+ * appartient au jeu et que les prestations sortent de la boutique — une liste
+ * ne peut pas dire ça.
+ *
+ * ⚠️ Le `?v=` de l'import n'est pas décoratif : sans en-tête Cache-Control
+ * (python http.server, mutualisé OVH…) le navigateur sert une feuille périmée
+ * sans le moindre signe. L'incrémenter à chaque modif de tokens.css.
+ */
+
+@import url("fonts/fonts.css");
+@import url("tokens.css?v=9");
+
+/* ------------------------------------------------------------------ base */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; overflow-x: clip; }
+
+body {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) var(--gutter) var(--space-md);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { text-decoration: none; color: inherit; }
+h1 { margin: 0; }
+p  { margin: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------------------------------------------------------- le chapeau */
+
+.chapeau {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.tete { text-align: center; }
+.tete h1 { font-size: var(--text-xl); font-weight: 700; letter-spacing: -.035em; }
+.tete .h {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--text-3xs);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.tete .role { margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-ink-2); }
+
+/* --------------------------------------------------------- vue éclatée */
+
+.eclat {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 9px 16px 9px 12px;   /* cible tactile : ~34 px de haut */
+  border: var(--rule-hair) solid var(--color-line-2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink-2);
+  font: 600 var(--text-3xs) / 1 var(--font-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--dur-short) var(--ease-out),
+              border-color var(--dur-short) var(--ease-out);
+}
+
+.eclat:hover { color: var(--color-ink); border-color: var(--color-accent-line); }
+.eclat[aria-pressed="true"] { color: var(--color-accent); border-color: var(--color-accent); }
+
+/* les cinq points : serrés au repos, écartés une fois la carte dépliée —
+   le bouton montre ce qu'il fait */
+.eclat__marque { position: relative; width: 15px; height: 15px; flex: none; }
+
+.eclat__marque i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px 0 0 -1.5px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: translate 260ms var(--ease-out);
+}
+
+.eclat__marque i:nth-child(2) { translate: -3px -3px; }
+.eclat__marque i:nth-child(3) { translate:  3px -3px; }
+.eclat__marque i:nth-child(4) { translate: -3px  3px; }
+.eclat__marque i:nth-child(5) { translate:  3px  3px; }
+
+.eclat[aria-pressed="true"] .eclat__marque i:nth-child(2) { translate: -6px -6px; }
+.eclat[aria-pressed="true"] .eclat__marque i:nth-child(3) { translate:  6px -6px; }
+.eclat[aria-pressed="true"] .eclat__marque i:nth-child(4) { translate: -6px  6px; }
+.eclat[aria-pressed="true"] .eclat__marque i:nth-child(5) { translate:  6px  6px; }
+
+/* ------------------------------------------------------- bascule FR / EN */
+
+:root[data-lang="fr"] [data-en] { display: none; }
+:root[data-lang="en"] [data-fr] { display: none; }
+
+.langue {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  border: var(--rule-hair) solid var(--color-line-2);
+  border-radius: 999px;
+}
+
+.langue button {
+  font: 600 var(--text-3xs) / 1 var(--font-mono);
+  letter-spacing: .1em;
+  white-space: nowrap;
+  padding: 11px 15px;          /* cible tactile : ~35 px de haut */
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink-3);
+  cursor: pointer;
+  transition: background-color var(--dur-short) var(--ease-out),
+              color var(--dur-short) var(--ease-out);
+}
+
+.langue button:hover { color: var(--color-ink); background: var(--color-paper-2); }
+.langue button[aria-pressed="true"] { background: var(--color-accent); color: var(--color-accent-ink); }
+.langue button[disabled] { cursor: default; }
+
+/* ══════════════════════════════════════════════════════════ le plan ═══ */
+
+/* ⚠️ Le rapport doit suivre `VUE` dans index.html : les positions des nœuds
+   sont des pourcentages calculés sur ces dimensions. Les désaccorder décale
+   tous les nœuds par rapport à leurs traits.
+
+   ⚠️ La largeur est bornée par la HAUTEUR disponible, pas seulement par la
+   fenêtre : depuis que le nom est sorti du plan, le chapeau prend 165 px et la
+   page se mettait à défiler sous 990 px de haut (mesuré : 281 px de trop en
+   1280×800). 265 px = chapeau + gouttières + un peu d'air.
+
+   ⚠️ `container-type: inline-size` va avec : TOUT ce qu'il y a dedans est
+   dimensionné en `cqw`, donc la carte rapetisse d'un bloc. Repasser une taille
+   en px ferait grossir cet élément quand le plan rétrécit, et les étiquettes
+   se percuteraient sur les petits écrans — alors que rien ne bouge sur grand. */
+.plan {
+  position: relative;
+  container-type: inline-size;
+  /* ⚠️ Le plancher à 880 px n'est pas négociable : sans lui, un écran court
+     (1280×800) rétrécissait la carte à 810 px, les pastilles tombaient sous
+     30 px et les étiquettes devenaient illisibles. Passé ce plancher on laisse
+     la page défiler de quelques dizaines de pixels — c'est le moindre mal. */
+  width: min(1120px, 100%, max(880px, (100dvh - 265px) * 1180 / 780));
+  aspect-ratio: 1180 / 780;
+}
+
+/* ------------------------------------------------------------- traits */
+
+.traits {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;        /* ⚠️ sinon le SVG mange les clics des nœuds */
+  z-index: var(--z-plan);
+}
+
+/* ⚠️ `pathLength="1"` normalise tous les traits : sans lui un trait court se
+   dessine plus vite qu'un long et la construction paraît boiteuse. C'est un
+   ATTRIBUT SVG, posé en JS à la création — il n'a pas d'équivalent CSS. */
+.traits line {
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.traits .base      { stroke: var(--color-line); }
+.traits .base--vif { stroke: var(--color-accent-line); }
+
+/* Une mère ouverte : son trait est celui que le portrait vient d'emprunter, il
+   reste allumé ; les autres reculent avec leurs mères. */
+.plan.ouvert .base--vif       { stroke: var(--color-line); }
+.plan.ouvert .base--vif.suivi { stroke: var(--color-accent); }
+
+/* le pouls : un court segment qui court du parent vers le nœud, au survol */
+.traits .pouls {
+  stroke: var(--color-accent);
+  stroke-width: 1.6;
+  opacity: 0;
+  stroke-dasharray: .12 .88;
+  stroke-dashoffset: 1;
+}
+
+.traits .pouls.actif {
+  opacity: 1;
+  animation: courir 900ms cubic-bezier(.4, 0, .2, 1) infinite;
+}
+
+@keyframes courir { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* --------------------------------------------------- entrée orchestrée */
+
+.dessine .base { animation: tracer var(--dur-trace) var(--ease-out) forwards; }
+@keyframes tracer { to { stroke-dashoffset: 0; } }
+
+@keyframes poser {
+  from { opacity: 0; scale: .82; }
+  to   { opacity: 1; scale: 1; }
+}
+
+/* ----------------------------------------------------------- les nœuds */
+
+.noeud {
+  position: absolute;
+  translate: -50% -50%;
+  z-index: var(--z-noeud);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  text-align: center;
+  color: var(--color-ink-2);
+  opacity: 0;
+  /* reset : les mères sont des <button> */
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  transition: color var(--dur-short) var(--ease-out),
+              opacity var(--dur-short) var(--ease-out);
+}
+
+.dessine .noeud { animation: poser var(--dur-poser) var(--ease-out) forwards; }
+
+/* ----------------------------------------------------- mères et enfants */
+
+/* La mère est une ÉTAPE, pas une destination : plus grosse, nommée en clair,
+   et son cerclé reste allumé pour dire « c'est cliquable, ça ne part pas ». */
+.noeud--mere .pastille { width: 5.71cqw; height: 5.71cqw; border-color: var(--color-accent-line); }
+.noeud--mere .pastille svg { width: 2.32cqw; height: 2.32cqw; }
+.noeud--mere .n { font-size: 1.43cqw; color: var(--color-ink); }
+
+/* ⚠️ L'animation d'entrée est en `forwards` : tant qu'elle est accrochée, elle
+   garde la main sur `opacity` et AUCUNE règle normale ne peut atténuer une
+   mère (une animation bat la cascade ordinaire). On la retire donc une fois
+   les quatre posées, sinon le fondu des mères ci-dessous ne ferait rien. */
+.plan.fini .noeud--mere { animation: none; opacity: 1; }
+
+/* ⚠️ Une mère ouverte s'EFFACE : le portrait vient prendre sa place, les deux
+   superposés feraient une bouillie. Elle reste dans le flux (pas de
+   `display:none`) pour que son trait et sa position ne bougent pas. */
+.plan.ouvert.fini .noeud--mere       { opacity: .34; }
+.plan.ouvert.fini .noeud--mere:hover { opacity: 1; }
+.plan.ouvert.fini .noeud--mere.actif { opacity: 0; pointer-events: none; }
+
+.noeud--enfant .pastille { width: 4.46cqw; height: 4.46cqw; }
+.noeud--enfant .pastille svg { width: 1.88cqw; height: 1.88cqw; }
+
+/* un enfant qui a lui-même des enfants reste une ÉTAPE : même cerclé que les
+   mères, pour qu'on voie qu'il ouvre au lieu de partir */
+.noeud--etape .pastille { border-color: var(--color-accent-line); }
+.plan.ouvert.fini .noeud--etape.actif { opacity: 0; pointer-events: none; }
+
+/* ⚠️ Au 3ᵉ niveau les mères s'effacent : la fratrie profonde vise l'intérieur
+   de la carte et leur passerait dessus. Leurs traits, eux, restent — c'est le
+   fil d'Ariane par lequel le portrait est arrivé. */
+.plan.profond.fini .noeud--mere { opacity: 0; pointer-events: none; }
+
+/* ------------------------------------------------------ la vue éclatée */
+
+/* ⚠️ Tout est déplié en même temps : à taille normale, 22 nœuds sur la même
+   carte se percutent. Les étiquettes rapetissent et les notes disparaissent —
+   c'est une vue d'ensemble, pas une vue de lecture. */
+.plan.eclate .noeud--enfant .pastille { width: 3.57cqw; height: 3.57cqw; }
+.plan.eclate .noeud--enfant .pastille svg { width: 1.52cqw; height: 1.52cqw; }
+.plan.eclate .noeud--enfant .n { font-size: .94cqw; }
+.plan.eclate .noeud--enfant .f { display: none; }
+.plan.eclate .noeud--mere .pastille { width: 4.64cqw; height: 4.64cqw; }
+.plan.eclate .noeud--mere .f { display: none; }
+
+.pastille {
+  display: grid;
+  place-items: center;
+  width: 5cqw;
+  height: 5cqw;
+  border-radius: 50%;
+  background: var(--color-paper);
+  border: var(--rule-hair) solid var(--color-line);
+  transition: border-color var(--dur-short) var(--ease-out),
+              background-color var(--dur-short) var(--ease-out),
+              scale 220ms var(--ease-out);
+}
+
+.noeud:hover { color: var(--color-accent); }
+.noeud:hover .pastille,
+.noeud:focus-visible .pastille {
+  border-color: var(--color-accent);
+  background: var(--color-accent-soft);
+  scale: 1.12;
+}
+
+.pastille svg { width: 2.05cqw; height: 2.05cqw; fill: currentColor; }
+
+.noeud .n { font-size: 1.29cqw; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; }
+.noeud .f { font-family: var(--font-mono); font-size: .89cqw; color: var(--color-ink-3); white-space: nowrap; }
+
+/* ------------------------------------------------------------ le centre */
+
+/* le siège vide : un anneau discret, révélé seulement quand le portrait est
+   parti — au repos il serait caché sous la photo de toute façon */
+.siege {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 3.04cqw;
+  height: 3.04cqw;
+  translate: -50% -50%;
+  border: var(--rule-hair) dashed var(--color-line-2);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--z-plan);
+  transition: opacity var(--dur-short) var(--ease-out);
+}
+
+.plan.ouvert .siege { opacity: 1; }
+
+/* ⚠️ `.moi` ne contient QUE le portrait dans le flux : c'est ce qui le laisse
+   exactement au centre géométrique, là où convergent les traits. Le nom, le
+   pseudo et le rôle sont posés au-dessus, hors du flux. */
+/* ⚠️ La durée doit rester égale à `VOYAGE` dans index.html : c'est elle qui
+   décide du moment où la fratrie apparaît. Les désaccorder fait entrer les
+   enfants avant l'arrivée du portrait, ou les fait attendre dans le vide. */
+.moi {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  z-index: var(--z-dessus);
+  opacity: 0;
+  transition: left 620ms var(--ease-out), top 620ms var(--ease-out);
+}
+
+/* ⚠️ Deux allures : lente au départ du centre, vive en transit d'une mère à
+   l'autre. La durée réelle est posée EN LIGNE par `basculer` (sur la
+   transition et sur `--vol`) ; les 620 ms écrites ici ne sont qu'un repli. */
+
+/* --- le portrait est un bouton de retour une fois qu'on a quitté le centre */
+
+/* ⚠️ `position` + `z-index` ne sont pas décoratifs : le halo est un `::before`
+   à `z-index: -1`, il lui faut ce contexte d'empilement pour rester DERRIÈRE
+   le portrait mais DEVANT le papier. Et c'est ce bloc, halo compris, qui est
+   mis à l'échelle pendant le voyage — un portrait qui rétrécit en laissant son
+   halo à taille réelle ferait un trou lumineux. */
+.moi__bouton {
+  position: relative;
+  z-index: 0;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.moi__bouton[disabled] { cursor: default; }
+
+/* Le portrait rétrécit en chemin et retrouve sa taille en arrivant : il file
+   sur le trait au lieu de glisser. La durée doit rester celle du voyage. */
+.moi--vol .moi__bouton { animation: filer var(--vol, 620ms) var(--ease-out); }
+
+@keyframes filer {
+  0%, 100% { scale: 1; }
+  46%      { scale: .46; }
+}
+
+/* ⚠️ `--ox`/`--oy` sont posés en JS depuis l'angle de la mère ouverte : le nom
+   se range du côté du centre, à l'opposé de l'éventail. Voir `basculer`. */
+.moi__ou {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: calc(-50% + var(--ox, 0px)) calc(-50% + var(--oy, 104px));
+  width: max-content;
+  text-align: center;
+}
+
+.moi__ou b {
+  display: block;
+  font-size: 1.43cqw;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--color-ink);
+}
+
+.moi__ou span {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: .89cqw;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* la flèche vit sur la ligne du retour, pas avant le nom : posée sur `.moi__ou`
+   elle tomberait seule sur sa propre ligne, `<b>` étant en bloc */
+.moi__ou span::before { content: "\2190\00a0"; }
+
+.moi__bouton:not([disabled]):hover img,
+.moi__bouton:focus-visible img { box-shadow: 0 0 0 1px var(--color-accent), 0 0 70px -14px rgba(239, 68, 68, .7); }
+
+.dessine .moi { animation: poser 520ms var(--ease-out) forwards; }
+
+.moi img {
+  display: block;
+  width: 9.64cqw;
+  height: 9.64cqw;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15);
+  box-shadow: 0 0 0 1px var(--color-line), 0 0 70px -18px rgba(239, 68, 68, .45);
+}
+
+/* halo qui bat très lentement, derrière le portrait.
+   ⚠️ Accroché au BOUTON et non à `.moi` : `.moi` porte aussi le nom et la
+   ligne de retour, un halo posé là suivrait le texte et non la photo. */
+.moi__bouton::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16.96cqw;
+  height: 16.96cqw;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(rgba(239, 68, 68, .18), transparent 68%);
+  animation: battre 5.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes battre {
+  0%, 100% { opacity: .55; scale: .94; }
+  50%      { opacity: 1;   scale: 1.06; }
+}
+
+/* --------------------------------- dérive : l'image respire, sans bouger */
+
+.derive { animation: deriver var(--t, 13s) ease-in-out infinite alternate; }
+@keyframes deriver {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(var(--dx, 4px), var(--dy, -5px)); }
+}
+
+/* ═════════════════════════════════════ repli : la liste hiérarchique ═══ */
+
+/* ⚠️ Sous 880 px un plan devient illisible : nœuds superposés, traits croisés.
+   La liste garde l'information de PARENTÉ (le retrait) sans la position. */
+.repli { display: none; width: min(430px, 100%); }
+
+.repli__tete {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.repli__tete img {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15);
+  box-shadow: 0 0 0 1px var(--color-line);
+}
+
+.repli__tete h1 { font-size: var(--text-lg); font-weight: 700; letter-spacing: -.03em; }
+.repli__tete .role { margin-top: 2px; font-size: var(--text-xs); color: var(--color-ink-2); }
+.repli__tete .h {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--text-3xs);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.liste__lien {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 11px 0;
+  border-bottom: var(--rule-hair) solid var(--color-line);
+  color: var(--color-ink-2);
+  transition: color var(--dur-short) var(--ease-out);
+}
+
+.liste__lien:hover { color: var(--color-accent); }
+.liste__lien svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.liste__lien b { font-weight: 600; color: var(--color-ink); font-size: var(--text-sm); }
+.liste__lien span { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-ink-3); }
+
+/* ⚠️ Les mères ne sont PAS des liens ici non plus : sur le repli il n'y a rien
+   à ouvrir, tout est déjà déplié. Elles ne sont que des intertitres. */
+.liste__mere {
+  margin-top: var(--space-md);
+  padding-bottom: var(--space-2xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-3xs);
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.liste__mere--sous {
+  margin-top: var(--space-sm);
+  padding-left: 26px;
+  color: var(--color-ink-3);
+}
+
+.liste__lien--enfant { padding-left: 26px; }
+
+@media (max-width: 880px) {
+  .plan  { display: none; }
+  .repli { display: block; }
+}
+
+
+/* ═════════════════════════════════════════════ mouvement réduit ═══ */
+
+/* ⚠️ Tout est coupé, et surtout traits et nœuds redeviennent VISIBLES : leur
+   état initial est « invisible », donc sans ces règles la page resterait vide
+   pour qui a désactivé les animations. C'est l'erreur classique du motif. */
+@media (prefers-reduced-motion: reduce) {
+  .traits line   { stroke-dashoffset: 0 !important; animation: none !important; }
+  .traits .pouls { display: none; }
+  .noeud, .moi   { opacity: 1 !important; animation: none !important; }
+  .derive, .moi__bouton::before, .moi--vol .moi__bouton { animation: none !important; }
+  /* le portrait se téléporte au lieu de voyager ; le JS suit (`LENT`) et fait
+     entrer la fratrie sans attendre */
+  .moi { transition: none !important; }
+  /* ⚠️ le `opacity: 1 !important` ci-dessus rendrait la mère ouverte visible
+     SOUS le portrait posé dessus — il faut la remasquer avec la même force */
+  .plan.ouvert.fini .noeud--mere       { opacity: .34 !important; }
+  .plan.ouvert.fini .noeud--mere.actif { opacity: 0 !important; }
+  *, *::before, *::after { transition-duration: 120ms !important; }
+}
+
+/* --------------------------------------------------------- impression */
+
+@media print {
+  .plan, .langue { display: none; }
+  .repli { display: block; }
+}

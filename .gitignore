@@ -1,0 +1,21 @@
+# Brouillons de conception : 16 directions explorées puis écartées. Elles vivent
+# en local (D:\DEV\maxyull-page\mockups) et servent d'archive de travail, mais
+# elles n'ont rien à faire dans une publication — et elles tirent quatre
+# familles de polices que la page finale n'utilise pas.
+mockups/
+
+# Journal de l'outil de conception, purement local.
+.hallmark/
+
+# Page de mesure fabriquée à la demande depuis index.html (voir verif.js).
+verif.html
+
+# ⚠️ Polices NON utilisées par la page. `fonts/fonts.css` déclare six familles
+# parce que le dossier local sert aussi aux brouillons ; seules Space Grotesk et
+# JetBrains Mono sont demandées par la page publiée. Les autres ne sont pas
+# redistribuées : un `@font-face` que personne n'appelle ne déclenche aucune
+# requête, leur absence est donc sans effet.
+fonts/fraunces-*.woff2
+fonts/ibm-plex-mono-*.woff2
+fonts/instrument-serif-*.woff2
+fonts/plus-jakarta-sans-*.woff2
