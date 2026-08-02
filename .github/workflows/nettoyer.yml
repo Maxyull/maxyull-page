@@ -1,0 +1,77 @@
+name: Retirer du serveur des dossiers publiés par erreur
+
+# ══════════════════════════════════════════════════════════════════════════
+#  ⚠️ CE WORKFLOW SUPPRIME SUR LE SERVEUR DE PRODUCTION.
+#
+#  Il n'existe que parce qu'ajouter un dossier à `exclude` dans deployer.yml
+#  empêche les envois FUTURS mais ne retire pas ce qui est déjà en ligne :
+#  `dangerous-clean-slate` est à false, et l'action de déploiement ne touche
+#  pas aux chemins qu'elle a appris à ignorer. Vérifié le 02/08/2026, les URL
+#  répondaient encore 200 après le déploiement suivant.
+#
+#  Déclenchement MANUEL uniquement (onglet Actions → Run workflow). Jamais sur
+#  push : une suppression ne doit pas partir toute seule à chaque commit.
+#
+#  ⚠️ Les chemins sont ÉCRITS EN DUR ci-dessous, et il ne faut pas les rendre
+#  paramétrables. Une entrée laissée vide dans un `rm -r` viderait la racine
+#  du site.
+# ══════════════════════════════════════════════════════════════════════════
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployer-maxyull     # le même que deployer.yml : jamais les deux à la fois
+  cancel-in-progress: false
+
+jobs:
+  nettoyer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Installer lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+
+      - name: Supprimer decor-src et outils de www
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          # `cd www` garde son comportement par défaut, qui est d'arrêter le
+          # script en cas d'échec : sans lui on se retrouverait à la racine du
+          # compte, où ces noms n'existent pas — l'échec passerait pour un
+          # succès. Les `rm` qui suivent tolèrent l'absence des dossiers, pour
+          # que le workflow reste rejouable sans erreur.
+          lftp -c "
+            set ftp:ssl-allow no;
+            open -u \"\$FTP_USER\",\"\$FTP_PASSWORD\" \"\$FTP_SERVER\";
+            cd www;
+            set cmd:fail-exit no;
+            rm -r decor-src;
+            rm -r outils;
+            cls -1;
+          "
+
+      - name: Vérifier que le site répond et que les dossiers ont disparu
+        run: |
+          echo "https://maxyull.fr/ -> $(curl -s -o /dev/null -w '%{http_code}' https://maxyull.fr/)"
+          for chemin in decor-src/brut-isole.png decor-src/LISEZ-MOI.md outils/detourer.py; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://maxyull.fr/$chemin")
+            echo "$code  $chemin"
+            if [ "$code" = "200" ]; then
+              echo "::error::$chemin répond encore, la suppression n'a pas pris."
+              exit 1
+            fi
+          done
+          # La page elle-même doit toujours être servie, décor compris.
+          for chemin in "" bureau.webp perso-macbook.webp; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://maxyull.fr/$chemin")
+            if [ "$code" != "200" ]; then
+              echo "::error::https://maxyull.fr/$chemin répond $code — le site est cassé."
+              exit 1
+            fi
+          done
+          echo "Site debout, dossiers de travail retirés."
