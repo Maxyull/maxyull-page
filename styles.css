@@ -74,6 +74,10 @@ p  { margin: 0; }
   bottom: -3vh;
   height: clamp(380px, 95vh, 1080px);
   width: auto;
+  /* Retourné, pour qu'il tienne son portable du côté du poste et non du bord
+     de l'écran. `transform` et non `scale`, et le centrage mobile passe par
+     `translate` : les trois propriétés sont séparées, aucune n'écrase l'autre. */
+  transform: scaleX(-1);
   /* ⚠️ Plus effacé que le bureau, à dessein : sa peau claire est la seule
      grande plage lumineuse du décor, à opacité égale il sautait aux yeux
      alors que le poste, presque noir, restait en retrait. */
