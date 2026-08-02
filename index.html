@@ -13,7 +13,14 @@
      sinon le préchargement est jeté et le fichier téléchargé DEUX fois. -->
 <link rel="preload" href="fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<!-- ⚠️ `?v=` OBLIGATOIRE, et à incrémenter à chaque modification de la feuille.
+     OVH sert tout avec `max-age=3600` : après un déploiement, le navigateur a
+     déjà le nouvel index.html mais garde une heure durant l'ANCIEN styles.css.
+     Le 02/08/2026 ça a donné une page où les images du décor tombaient en flux,
+     pleine taille, en haut, et où le plan ne se plaçait plus — sans la moindre
+     erreur visible. Le .htaccess force en plus le HTML à revalider, sans quoi
+     ce numéro de version n'arriverait jamais au navigateur. -->
+<link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
 
