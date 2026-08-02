@@ -72,7 +72,7 @@ p  { margin: 0; }
   position: absolute;
   left: clamp(8px, 3vw, 64px);
   bottom: -3vh;
-  height: clamp(380px, 76vh, 860px);
+  height: clamp(380px, 95vh, 1080px);
   width: auto;
   /* ⚠️ Plus effacé que le bureau, à dessein : sa peau claire est la seule
      grande plage lumineuse du décor, à opacité égale il sautait aux yeux
@@ -87,25 +87,21 @@ p  { margin: 0; }
   position: absolute;
   right: -6vw;
   bottom: -7vh;
-  width: clamp(620px, 68vw, 1180px);
-  height: auto;
+  width: auto;
+  height: clamp(300px, 64vh, 860px);
   transform: rotate(-7deg);
   transform-origin: 100% 100%;
   opacity: .16;
-  /* ⚠️ Le masque part de DEUX bords : sans le dégradé vertical, la ligne du
-     plateau reste franche en haut de l'image et se lit comme un trait posé
-     en travers de la page.
-     ⚠️ Le dégradé horizontal s'arrête tôt (12 %) : il ne sert qu'à noyer la
-     coupe du cadre. Plus long, il mangeait l'écran de gauche, celui qui
-     affiche justement cette page-ci. */
-  -webkit-mask-image:
-    linear-gradient(to right,  transparent, #000 12%),
-    linear-gradient(to top,    #000 22%, transparent);
-  mask-image:
-    linear-gradient(to right,  transparent, #000 12%),
-    linear-gradient(to top,    #000 22%, transparent);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
+  /* Un seul dégradé, horizontal, et court : il ne sert qu'à noyer la coupe du
+     cadre sur le bord gauche de l'image. Plus long, il mangerait l'écran de
+     gauche, celui qui affiche justement cette page-ci.
+     ⚠️ Il y avait AUSSI un fondu vertical, hérité de la version où la scène
+     portait encore son mur : il noyait la ligne franche du plateau, qui sinon
+     se lisait comme un trait posé en travers de la page. Depuis que l'image
+     est détourée, ce bord n'existe plus — et le fondu, lui, effaçait tout ce
+     qui dépassait 22 % de la hauteur. Les écrans et la tour disparaissaient. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%);
+  mask-image: linear-gradient(to right, transparent, #000 12%);
 }
 
 /* ---------------------------------------------------------- le chapeau */
