@@ -17,6 +17,20 @@
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════════ le décor ═══════════════
+     Le poste de travail de Maxime et Maxime lui-même, dessinés dans le style
+     de sa marionnette (freelance/branding/character-sheet), détourés et posés
+     derrière le plan. Purement décoratif : `aria-hidden`, aucun texte, et il
+     ne prend jamais le clic.
+     ⚠️ Il est en `z-index: -1` : le contenu de la page n'est PAS positionné,
+     il serait donc peint AVANT tout élément positionné à z-index 0 ou plus,
+     et le décor lui roulerait dessus. Voir `.decor` dans styles.css.
+     Les chaînes qui régénèrent les deux sont dans decor-src/LISEZ-MOI.md. -->
+<div class="decor" aria-hidden="true">
+  <img class="decor__bureau" src="bureau.webp" width="1024" height="792" alt="" decoding="async" fetchpriority="low">
+  <img class="decor__perso" src="perso-macbook.webp" width="505" height="913" alt="" decoding="async" fetchpriority="low">
+</div>
+
 <!-- ═══════════════════════════════════════════ jeu d'icônes ══════════════
      Marques : Simple Icons v16 (CC0), tracés recopiés tels quels.
      Dessinés à la main, même voix (plein, monochrome, 24×24) : LinkedIn

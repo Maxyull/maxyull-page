@@ -19,3 +19,12 @@ fonts/fraunces-*.woff2
 fonts/ibm-plex-mono-*.woff2
 fonts/instrument-serif-*.woff2
 fonts/plus-jakarta-sans-*.woff2
+
+# ⚠️ Photo réelle de l'intérieur de Maxime, source du décor. CE DÉPÔT EST
+# PUBLIC : seule l'illustration qui en dérive (bureau.webp) est publiée, la
+# photo reste en local. Voir decor-src/LISEZ-MOI.md.
+decor-src/photo-source.webp
+decor-src/photo.jpg
+
+# Aperçus de contrôle du détourage, régénérés par outils/detourer.py.
+decor-src/apercu-*.png
