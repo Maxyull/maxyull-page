@@ -81,7 +81,10 @@ Options -Indexes
   ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType image/png  "access plus 30 days"
   ExpiresByType text/css   "access plus 1 hour"
-  ExpiresByType text/html  "access plus 0 seconds"
+  # ⚠️ `text/html` est volontairement ABSENT d'ici. L'y déclarer faisait poser
+  # par mod_expires un SECOND `Cache-Control` à côté de celui de mod_headers :
+  # la réponse sortait avec `no-cache` ET `max-age=0`, deux en-têtes du même
+  # nom, et c'est alors au proxy de décider lequel compte. Un seul, ci-dessous.
 </IfModule>
 
 <IfModule mod_headers.c>
