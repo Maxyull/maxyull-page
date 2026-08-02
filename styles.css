@@ -85,10 +85,10 @@ p  { margin: 0; }
    de l'écran. Le masque efface ce qu'il en resterait. */
 .decor__bureau {
   position: absolute;
-  right: -6vw;
-  bottom: -7vh;
+  right: -1vw;
+  bottom: -14vh;
   width: auto;
-  height: clamp(300px, 64vh, 860px);
+  height: clamp(300px, 72vh, 980px);
   transform: rotate(-7deg);
   transform-origin: 100% 100%;
   opacity: .16;
@@ -100,8 +100,8 @@ p  { margin: 0; }
      se lisait comme un trait posé en travers de la page. Depuis que l'image
      est détourée, ce bord n'existe plus — et le fondu, lui, effaçait tout ce
      qui dépassait 22 % de la hauteur. Les écrans et la tour disparaissaient. */
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%);
-  mask-image: linear-gradient(to right, transparent, #000 12%);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%);
+  mask-image: linear-gradient(to right, transparent, #000 7%);
 }
 
 /* ---------------------------------------------------------- le chapeau */
