@@ -76,12 +76,19 @@ jobs:
           server-dir: ./www/        # racine du site chez OVH
           # `dangerous-clean-slate` reste à false : on n'efface JAMAIS le
           # serveur avant d'envoyer.
+          # ⚠️ Tout ce qui n'est pas exclu ici part sur le serveur. Les dossiers
+          # de travail y sont donc listés : `decor-src` (les illustrations
+          # sources du décor, ~2 Mo de PNG) et `outils` (les scripts Python qui
+          # les fabriquent) n'ont rien à servir à un visiteur. Ils ont été
+          # publiés une fois, faute d'être listés.
           exclude: |
             **/.git*
             **/.git*/**
             **/.github/**
             **/.hallmark/**
             **/mockups/**
+            **/decor-src/**
+            **/outils/**
             **/README.md
             **/LICENSE
             **/NOTICE.md
