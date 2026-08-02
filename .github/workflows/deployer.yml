@@ -1,0 +1,89 @@
+name: Déployer sur maxyull.fr
+
+# Un `git push` sur main met le site en ligne. Pas de publication manuelle.
+#
+# ══════════════════════════════════════════════════════════════════════════
+#  SECRETS À RENSEIGNER  (Settings → Secrets and variables → Actions)
+# ══════════════════════════════════════════════════════════════════════════
+#  FTP_SERVER    hôte FTP de l'hébergement OVH
+#  FTP_USER      identifiant FTP
+#  FTP_PASSWORD  son mot de passe
+#
+#  ⚠️ Ces trois valeurs vivent dans les secrets et NULLE PART AILLEURS. Ce
+#  dépôt est PUBLIC : y écrire l'hôte ou l'identifiant en clair reviendrait à
+#  publier la moitié des identifiants de l'hébergement.
+#
+#  ⚠️ Le mot de passe se règle depuis le manager OVH (onglet FTP-SSH, crayon
+#  à côté de « Mot de passe ») et se colle directement dans le secret GitHub.
+#  Il ne transite par aucun fichier de ce dépôt.
+# ══════════════════════════════════════════════════════════════════════════
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:          # déclenchement manuel depuis l'onglet Actions
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deployer-maxyull     # jamais deux envois FTP en parallèle
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      # ⚠️ PORTE DE PUBLICATION — ne pas retirer.
+      # La page ne doit charger AUCUNE ressource tierce : polices, icônes et
+      # portrait sont auto-hébergés, il n'y a ni analytics ni cookie. Une seule
+      # balise pointant vers un CDN casserait cette promesse sans que rien ne
+      # se voie à l'écran. On refuse donc de publier dans ce cas.
+      - name: Vérifier qu'aucune ressource tierce ne s'est glissée dans la page
+        run: |
+          if grep -nE '(src|href)="https?://' index.html; then
+            echo "::error::Ressource externe dans index.html (voir ci-dessus)."
+            echo "Seuls les liens de navigation sont autorisés en https, pas les ressources."
+            exit 1
+          fi
+          if grep -nE '@import[^;]*https?://' styles.css tokens.css fonts/fonts.css; then
+            echo "::error::@import distant dans une feuille de style."
+            exit 1
+          fi
+          echo "Aucune ressource tierce."
+
+      # Le mail personnel a été retiré de la page volontairement : en clair sur
+      # une page indexée, il se fait moissonner. On vérifie qu'il n'est pas
+      # revenu par une modification distraite.
+      - name: Vérifier qu'aucune adresse e-mail n'est en clair
+        run: |
+          if grep -nE 'mailto:|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' index.html; then
+            echo "::error::Adresse e-mail en clair dans index.html — le contact passe par LinkedIn."
+            exit 1
+          fi
+          echo "Aucune adresse en clair."
+
+      - name: Publier sur OVH
+        uses: SamKirkland/FTP-Deploy-Action@110f9186c050f71550953127052e77650219c287 # v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp             # OVH mutualisé : FTP simple, port 21
+          local-dir: ./
+          server-dir: ./www/        # racine du site chez OVH
+          # `dangerous-clean-slate` reste à false : on n'efface JAMAIS le
+          # serveur avant d'envoyer.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/.hallmark/**
+            **/mockups/**
+            **/README.md
+            **/LICENSE
+            **/verif.js
+            **/verif.html
+            **/*.ps1

@@ -1,0 +1,8 @@
+# Fins de ligne normalisées dans le dépôt : le poste de travail est sous
+# Windows, les exécuteurs GitHub sous Linux. Sans cette règle, un aller-retour
+# suffit à faire apparaître un diff sur des fichiers que personne n'a touchés.
+* text=auto eol=lf
+
+# Binaires : jamais de conversion.
+*.png  binary
+*.woff2 binary

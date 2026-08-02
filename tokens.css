@@ -1,0 +1,80 @@
+/* Hallmark · tokens · genre: editorial · theme: Le Plan
+ *
+ * ⚠️ THEME UNIQUE, ASSUME. Le plan est une constellation : elle n'existe que
+ * sur fond noir, les traits et le halo n'ont aucun sens sur du papier clair.
+ * On ne declare donc NI `prefers-color-scheme` NI de bascule `data-theme`.
+ * Ce n'est pas un oubli — l'ancien systeme clair/sombre a ete retire
+ * volontairement le 02/08/2026.
+ *
+ * Axes : papier sombre neutre / grotesque technique / accent rouge.
+ *
+ * ⚠️ L'accent est PORTEUR DE TEXTE (@pseudo, ligne de retour, intertitres du
+ * repli, survol des noeuds) : il doit tenir 4,5:1 sur le papier. #ef4444 est
+ * a 5,2:1, un rouge plus sature ou plus sombre tomberait sous la barre.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* --- surfaces --- */
+  --color-paper:        #0a0c0b;
+  --color-paper-2:      #121614;
+
+  /* --- encre --- */
+  --color-ink:          #eaefec;
+  --color-ink-2:        #97a29b;
+  --color-ink-3:        #7b867f;
+
+  /* --- filets --- */
+  --color-line:         rgba(234, 239, 236, .13);
+  --color-line-2:       rgba(234, 239, 236, .22);
+
+  /* --- accent --- */
+  --color-accent:       #ef4444;
+  --color-accent-2:     #f87171;
+  --color-accent-ink:   #1a0505;
+  --color-accent-soft:  rgba(239, 68, 68, .10);
+  --color-accent-line:  rgba(239, 68, 68, .32);
+  --color-accent-halo:  rgba(239, 68, 68, .45);
+  --color-focus:        #f87171;
+
+  /* --- typographie --- */
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+
+  --text-xl:   1.4rem;
+  --text-lg:   1.1rem;
+  --text-base: 1rem;
+  --text-sm:   .9rem;
+  --text-xs:   .78rem;
+  --text-2xs:  .66rem;
+  --text-3xs:  .62rem;
+
+  /* --- espacement, echelle 4 pt --- */
+  --space-2xs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  20px;
+  --space-lg:  32px;
+  --space-xl:  48px;
+  --space-2xl: 72px;
+
+  /* --- filets, rayons --- */
+  --rule-hair: 1px;
+  --radius-sm: 6px;
+
+  /* --- mouvement --- */
+  --ease-out:  cubic-bezier(.32, .72, 0, 1);
+  --dur-short: 150ms;
+  --dur-trace: 620ms;
+  --dur-poser: 420ms;
+
+  /* --- gabarit --- */
+  --gutter: clamp(18px, 4vw, 34px);
+
+  /* --- profondeur --- */
+  --z-plan:  1;
+  --z-noeud: 2;
+  /* le portrait passe AU-DESSUS des nœuds : il leur roule dessus en voyageant */
+  --z-dessus: 3;
+}
