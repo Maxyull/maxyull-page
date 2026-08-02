@@ -19,18 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
---------------------------------------------------------------------------
-Ce que la licence MIT NE couvre PAS
---------------------------------------------------------------------------
-
-- `avatar.png` — portrait de Maxime Lacoste. Tous droits réservés. Réutilisez
-  le code, remplacez la photo.
-- Le nom « Maxime Lacoste », le pseudonyme « maxyull » et les comptes qui y
-  sont liés.
-- Les marques dessinées dans le jeu d'icônes de `index.html` : les tracés
-  proviennent de Simple Icons v16 (CC0) mais les MARQUES elles-mêmes
-  (GitHub, YouTube, Steam, Discord…) appartiennent à leurs détenteurs.
-  Le signe « ComeUp » n'est pas la vraie marque : c'est un dessin neutre.
-- Les polices, sous licence SIL Open Font License 1.1 — voir
-  `fonts/licences/`.

@@ -84,6 +84,7 @@ jobs:
             **/mockups/**
             **/README.md
             **/LICENSE
+            **/NOTICE.md
             **/verif.js
             **/verif.html
             **/*.ps1

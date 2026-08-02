@@ -105,8 +105,5 @@ de ce fichier.
 
 ## Licences
 
-Code sous **MIT** (`LICENSE`). Le portrait, le nom et les marques n'en font pas
-partie — c'est écrit dans le fichier. Polices sous **SIL OFL 1.1**
-(`fonts/licences/`). Tracés d'icônes issus de **Simple Icons v16 (CC0)**, sauf
-LinkedIn, l'épée de Black Desert Idle, la manette, le réseau, le sac et la bulle,
-dessinés à la main dans la même voix.
+Code sous **MIT** (`LICENSE`). Le portrait, le nom, les marques et les polices
+n'en font pas partie : le détail est dans **`NOTICE.md`**.
