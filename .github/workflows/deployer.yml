@@ -38,14 +38,27 @@ jobs:
 
       # ⚠️ PORTE DE PUBLICATION — ne pas retirer.
       # La page ne doit charger AUCUNE ressource tierce : polices, icônes et
-      # portrait sont auto-hébergés, il n'y a ni analytics ni cookie. Une seule
-      # balise pointant vers un CDN casserait cette promesse sans que rien ne
-      # se voie à l'écran. On refuse donc de publier dans ce cas.
+      # portrait sont auto-hébergés. Une seule balise pointant vers un CDN
+      # casserait cette promesse sans que rien ne se voie à l'écran. On refuse
+      # donc de publier dans ce cas.
+      #
+      # UNE exception, ajoutée le 2026-08-03 : le marqueur d'audience Umami,
+      # auto-hébergé sur stats.maxyull.fr (le VPS, pas un service tiers), sans
+      # cookie ni identifiant persistant. La page n'affirme donc plus « aucune
+      # ressource externe » mais « une seule, la mienne ».
+      #
+      # ⚠️ L'exception est écrite en dur, chemin complet compris : elle tolère
+      # `https://stats.maxyull.fr/script.js` et RIEN d'autre. L'élargir en
+      # `stats\.maxyull\.fr` suffirait à laisser passer n'importe quelle autre
+      # ressource servie par ce domaine, et la porte ne garderait plus grand
+      # chose. Toute nouvelle exception se discute, elle ne s'ajoute pas.
       - name: Vérifier qu'aucune ressource tierce ne s'est glissée dans la page
         run: |
-          if grep -nE '(src|href)="https?://' index.html; then
+          if grep -nE '(src|href)="https?://' index.html \
+             | grep -v 'src="https://stats\.maxyull\.fr/script\.js"'; then
             echo "::error::Ressource externe dans index.html (voir ci-dessus)."
             echo "Seuls les liens de navigation sont autorisés en https, pas les ressources."
+            echo "Seule exception admise : le marqueur https://stats.maxyull.fr/script.js"
             exit 1
           fi
           if grep -nE '@import[^;]*https?://' styles.css tokens.css fonts/fonts.css; then
