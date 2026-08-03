@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Une seule URL : le site EST une page unique. Le français et l'anglais
+     vivent dans le même document (bascule `data-lang`, aucune URL propre),
+     il n'y a donc rien à déclarer en `hreflang`. Si un jour les deux langues
+     obtiennent chacune leur adresse, c'est ici que ça se déclare. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://maxyull.fr/</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

@@ -1,0 +1,11 @@
+# maxyull.fr — page de liens de Maxime Lacoste
+#
+# Le site est une page unique, publique, sans espace privé : tout est
+# indexable. Les dossiers de travail (mockups, decor-src, outils) ne sont
+# pas déployés du tout — voir la liste `exclude` du workflow, ils n'ont donc
+# pas besoin d'être écartés ici.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://maxyull.fr/sitemap.xml
