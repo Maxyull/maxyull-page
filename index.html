@@ -107,6 +107,11 @@
 
   <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
 
+  <!-- ⚠️ Le logo Chrome dit « extension de navigateur », il ne dit pas que Google
+       cautionne quoi que ce soit. C'est un usage descriptif, comme les autres
+       marques de ce sprite. -->
+  <symbol id="i-chrome" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 16.364a4.364 4.364 0 1 1 0-8.728 4.364 4.364 0 0 1 0 8.728Z"/></symbol>
+
   <symbol id="i-gumroad" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0Zm-.007 5.12c4.48 0 5.995 3.025 6.064 4.744h-3.239c-.069-.962-.897-2.406-2.896-2.406-2.136 0-3.514 1.857-3.514 4.126 0 2.27 1.378 4.125 3.514 4.125 1.93 0 2.758-1.512 3.103-3.025h-3.103v-1.238h6.509v6.327h-2.855v-3.989c-.207 1.444-1.102 4.264-4.617 4.264-3.516 0-5.584-2.82-5.584-6.326 0-3.645 2.276-6.602 6.618-6.602z"/></symbol>
 
   <symbol id="i-fiverr" viewBox="0 0 24 24"><path fill="currentColor" d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z"/></symbol>
@@ -252,10 +257,10 @@ var MERES = [
      déjà ses dépôts — il n'y a rien à ouvrir, donc rien ne se perd à ce que le
      clic parte sur le profil. Règle générale : `url` ⇒ destination (même avec
      des enfants) · pas d'`url` + `enfants` ⇒ étape.
-     ⚠️ ORDRE DES DÉPÔTS = LEUR PLACE. Ils sont répartis sur un tour à partir de
-     -150° : le 1er en haut à gauche, le 2ᵉ en haut à droite, le 3ᵉ dessous.
-     Occulta est donc écrite EN DERNIER pour tomber en bas, seule, les deux
-     autres en haut — demandé explicitement. Les réordonner les déplace. */
+     ⚠️ ORDRE DES DÉPÔTS = LEUR PLACE. Ils sont posés sur les angles de `TOUR`
+     (voir plus bas), dans l'ordre : les deux premiers en haut, les deux derniers
+     dessous. Occulta est écrite EN DERNIER pour tomber en bas — demandé
+     explicitement. Les réordonner les déplace. */
   { id:'projet', i:'i-projet', place: 4,
     fr:['Projets', 'ce que je fabrique'], en:['Projects', 'what I build'],
     enfants: [
@@ -266,6 +271,15 @@ var MERES = [
             fr:['son bot', 'discord.js'], en:['its bot', 'discord.js'] },
           { id:'jeu', i:'i-bdi', url:'https://github.com/Maxyull/black-desert-idle',
             fr:['Black Desert Idle', 'le code'], en:['Black Desert Idle', 'the code'] },
+          /* ⚠️ Le lien pointe sur le DÉPÔT, pas sur le Chrome Web Store :
+             l'extension n'y est pas encore publiée (docs/AUDIT-SECU.md la
+             donne « à faire au moment de la publication »). Le jour où elle
+             y sera, seule cette `url` change — l'icône et le texte tiennent
+             déjà. Ne pas inventer une URL de store en attendant : une fiche
+             absente rend un 404 chez Google. */
+          { id:'extension', i:'i-chrome', url:'https://github.com/Maxyull/twitch-drops-claimer',
+            fr:['Auto Claim Twitch Drops', 'extension Chrome'],
+            en:['Auto Claim Twitch Drops', 'Chrome extension'] },
           { id:'occulta', i:'i-occulta', url:'https://occulta.fr',
             fr:['Occulta', 'occulta.fr'], en:['Occulta', 'occulta.fr'] }
         ] }
@@ -383,23 +397,47 @@ function placer(n, profondeur) {
      n'aurait servi qu'à le coller à sa mère. */
   if (n.enfants.length === 1 && n.enfants[0].enfants) { rx = 130; ry = 105; }
 
-  /* ⚠️ Au 3ᵉ niveau : LE DERNIER ENFANT PASSE DESSOUS, les autres s'ouvrent vers
-     le haut. Deux essais ratés avant celui-là — un éventail vers le haut met
-     forcément le milieu en haut et les DEUX extrêmes en bas (l'inverse de ce
-     que Maxime demande) ; et un tour réparti régulièrement à trois enfants
-     impose des positions à -150/-30/+90, or -30 vise exactement « Projets »
-     depuis GitHub (63 px d'écart, mesuré).
-     L'anneau est APLATI (130 × 190) : GitHub n'est qu'à 150 px du bord gauche,
-     un cercle de 190 en sortait. Et tout ceci ne tient que parce que « Projets »
-     occupe la place de GAUCHE (`place: 4`) — ailleurs, pas la hauteur. */
+  /* ⚠️ Au 3ᵉ niveau les angles sont ÉCRITS, pas calculés — et c'est voulu.
+     GitHub n'a pas un tour libre autour de lui : il est à 150 px du bord gauche
+     et « Projets », sa mère, lui barre le flanc DROIT à -15°. Il ne lui reste
+     que le haut et le bas, deux secteurs séparés, ce qu'aucun éventail régulier
+     ne sait exprimer. Trois formules ont été essayées avant :
+     · un éventail vers le haut met forcément le milieu en haut et les DEUX
+       extrêmes en bas (l'inverse de ce que Maxime demande) ;
+     · un tour réparti régulièrement à trois donne -150/-30/+90, et -30 vise
+       exactement « Projets » (63 px d'écart, mesuré) ;
+     · la règle « le dernier dessous, les autres en éventail vers le haut » a
+       tenu tant qu'il y avait TROIS dépôts ; au quatrième elle rend
+       -165/-90/-15/+90, où -165 sort par la gauche et -15 se pose SUR
+       « Projets ». C'est ce qui a fait passer les angles en dur.
+     Le partage est donc deux en haut, deux dessous, et il laisse le secteur
+     -40°..0° vide : c'est là qu'est la mère.
+     L'anneau est APLATI (130 × 190) : un cercle de 190 sortait par la gauche.
+     Tout ceci ne tient que parce que « Projets » occupe la place de GAUCHE
+     (`place: 4`) — ailleurs, pas la hauteur. */
+  var TOUR = {
+    1: [90],
+    2: [-90, 90],
+    3: [-127.5, -52.5, 90],      /* la disposition d'avant, à l'identique */
+    /* ⚠️ Les deux du bas s'écartent PLUS que les deux du haut (76° contre 70°),
+       et ce n'est pas de la symétrie ratée : « Auto Claim Twitch Drops » est
+       l'étiquette la plus large de la carte et « Occulta » l'une des plus
+       étroites, or elles sont voisines. À 62/118 il restait 4 px entre les deux
+       (mesuré) — le banc laissait passer, il tolère 2 px, l'œil non.
+       Et -137 pour le premier collait « son bot » à 19 px du bord gauche ;
+       -130 le ramène à 28. Ces quatre nombres sont mesurés, pas déduits. */
+    4: [-130, -60, 52, 128]
+  };
   var tour = profondeur >= 2;
-  if (tour) { rx = 130; ry = 190; pas = 75; }
+  if (tour) { rx = 130; ry = 190; }
 
   n.enfants.forEach(function (e, j, tous) {
-    var dessus = tous.length - 1;          /* tous sauf le dernier */
-    var ae = tour
-      ? (j === dessus ? 90 : -90 + (j - (dessus - 1) / 2) * pas) * Math.PI / 180
-      : dir + (j - (tous.length - 1) / 2) * pas * Math.PI / 180;
+    /* ⚠️ Au-delà de ce que `TOUR` sait placer on retombe sur l'éventail : c'est
+       un filet, pas une disposition tenue. Un 5ᵉ dépôt demande une mesure. */
+    var angles = tour ? TOUR[tous.length] : null;
+    var ae = angles
+      ? angles[j] * Math.PI / 180
+      : dir + (j - (tous.length - 1) / 2) * (tour ? 75 : pas) * Math.PI / 180;
     e.a = ae;
     e.de = n;
     e.p = profondeur + 1;
@@ -461,6 +499,23 @@ function trait(de, vers, classe) {
   l.setAttribute('pathLength', '1');
   l.setAttribute('class', classe);
   return l;
+}
+
+/* ⚠️ TOUTE destination part dans un onglet neuf : le plan reste ouvert derrière,
+   à l'endroit où on l'a laissé. C'est une carte, on ne la referme pas pour aller
+   voir une de ses branches — et il n'y a pas d'historique à remonter puisque
+   l'état du plan (mère ouverte, portrait en route) ne vit qu'en mémoire : un
+   retour arrière du navigateur ramenait la page au centre, comme au premier
+   chargement.
+   ⚠️ `noopener` n'est pas décoratif : sans lui la page ouverte reçoit un
+   `window.opener` qui peut réécrire l'URL de celle-ci. Les navigateurs récents
+   l'imposent d'eux-mêmes avec `_blank`, les vieux non — et il ne coûte rien.
+   ⚠️ Les deux rendus (le plan ET le repli mobile) passent par ici : c'est le
+   seul endroit où un `<a>` est fabriqué deux fois dans le fichier, et les
+   séparer, c'est se garantir qu'un des deux dérive. */
+function dehors(a) {
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
 }
 
 function corps(n, k) {
@@ -555,6 +610,7 @@ function fratrie(m, montrer) {
     if (e.url) {
       el = document.createElement('a');
       el.href = e.url;
+      dehors(el);
     } else {
       el = document.createElement('button');
       el.type = 'button';
@@ -764,6 +820,7 @@ function replier(n, niveau) {
     var a = document.createElement('a');
     a.className = 'liste__lien' + (niveau > 1 ? ' liste__lien--enfant' : '');
     a.href = e.url;
+    dehors(a);
     a.innerHTML = '<svg aria-hidden="true"><use href="#' + e.i + '"/></svg><b></b><span></span>';
     e._liste = a;
     liste.appendChild(a);
