@@ -45,8 +45,15 @@ Options -Indexes
   # c'est sans effet et ça évite de dépendre d'une variable d'environnement
   # que le répartiteur de charge d'OVH ne renseigne pas forcément.
   Header always set Strict-Transport-Security "max-age=15552000"
-  # La page ne charge RIEN de tiers : ni script, ni police, ni image externe.
-  # `default-src 'self'` le dit au navigateur — c'est la partie qui protège.
+  # La page ne charge qu'UNE ressource externe, le marqueur d'audience Umami
+  # auto-hébergé sur stats.maxyull.fr. Tout le reste est en `'self'`.
+  #
+  # ⚠️ DEUX directives, pas une : `script-src` pour charger le marqueur,
+  # `connect-src` pour qu'il puisse envoyer la visite. Sans `connect-src`,
+  # le script se charge, la console reste propre, et rien n'est jamais
+  # compté — c'est la panne la plus vicieuse de ce montage.
+  # ⚠️ `connect-src` doit exister explicitement : il n'y en avait aucune
+  # directive ici, donc `default-src 'self'` s'appliquait et bloquait l'envoi.
   #
   # ⚠️⚠️ `'unsafe-inline'` est INDISPENSABLE ici, ne pas le retirer en croyant
   # durcir. Une première version sans lui a mis le site en ligne CASSÉ : le
@@ -57,7 +64,7 @@ Options -Indexes
   # Le coût est faible : la page n'a aucune entrée utilisateur, aucun
   # formulaire, et `?lang=` est comparé à deux valeurs sans jamais être inséré
   # dans le document. Il n'y a pas de vecteur d'injection à couvrir.
-  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://stats.maxyull.fr; connect-src 'self' https://stats.maxyull.fr; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
 </IfModule>
 
 # ── Cache ──────────────────────────────────────────────────────────────────
