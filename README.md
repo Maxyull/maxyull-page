@@ -63,10 +63,17 @@ rien ne se perd à ce que le clic parte.
   pas du cadre), « Réseaux » à droite (six enfants, flanc le plus haut),
   « Boutique » et « Gaming » échangées (en haut à droite, PayPal tombait sur
   YouTube). En déplacer une rouvre le sien.
-- **Au 3ᵉ niveau, le dernier enfant passe dessous et les autres s'ouvrent vers le
-  haut.** Deux règles ont été essayées avant : un éventail vers le haut met
-  forcément le milieu en haut et les *deux* extrêmes en bas ; un tour réparti
-  régulièrement impose une position qui vise exactement la mère grand-parent.
+- **Au 3ᵉ niveau les angles sont écrits en dur** (`TOUR`, dans `index.html`), pas
+  calculés. GitHub n'a pas un tour libre : le bord gauche le serre et « Projets »
+  lui barre le flanc droit, il ne lui reste que deux secteurs séparés — ce
+  qu'aucun éventail régulier ne sait exprimer. Trois formules ont été essayées
+  avant, la dernière ayant tenu jusqu'à ce qu'un 4ᵉ dépôt la fasse poser un nœud
+  sur « Projets ». **Un 5ᵉ dépôt demande une nouvelle mesure**, il n'y a pas
+  d'angle pour lui.
+- **Toute destination s'ouvre dans un onglet neuf** (`dehors()`, appelée aux
+  *deux* endroits où un `<a>` est fabriqué : le plan et le repli mobile). La
+  carte reste donc ouverte derrière, à l'endroit où on l'a laissée — son état ne
+  vit qu'en mémoire, un retour arrière du navigateur la ramenait au centre.
 - **Le plan est borné par la hauteur** et tout ce qu'il contient est dimensionné
   en `cqw` (`container-type: inline-size`). Remettre une taille en px ferait
   grossir cet élément quand la carte rétrécit, et les étiquettes se
