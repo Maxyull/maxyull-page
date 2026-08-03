@@ -144,6 +144,8 @@
 
   <symbol id="i-reddit" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0Zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.998-5.87-.954-.447-1.614-1.415-1.614-2.538 0-1.548 1.255-2.802 2.803-2.802.645 0 1.239.218 1.712.585 1.275-.79 2.881-1.291 4.64-1.365v-.01c0-1.663 1.263-3.034 2.88-3.207.188-.911.993-1.595 1.959-1.595Zm-8.085 8.376c-.784 0-1.459.78-1.506 1.797-.047 1.016.64 1.429 1.426 1.429.786 0 1.371-.369 1.418-1.385.047-1.017-.553-1.841-1.338-1.841Zm7.406 0c-.786 0-1.385.824-1.338 1.841.047 1.017.634 1.385 1.418 1.385.785 0 1.473-.413 1.426-1.429-.046-1.017-.721-1.797-1.506-1.797Zm-3.703 4.013c-.974 0-1.907.048-2.77.135-.147.015-.241.168-.183.305.483 1.154 1.622 1.964 2.953 1.964 1.33 0 2.47-.81 2.953-1.964.057-.137-.037-.29-.184-.305-.863-.087-1.795-.135-2.769-.135Z"/></symbol>
 
+  <symbol id="i-pinterest" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12"/></symbol>
+
 </defs></svg>
 
 
@@ -299,7 +301,11 @@ var MERES = [
       { id:'reddit', i:'i-reddit', url:'https://www.reddit.com/user/Maxyull',
         fr:['Reddit', 'u/Maxyull'], en:['Reddit', 'u/Maxyull'] },
       { id:'ph', i:'i-producthunt', url:'https://www.producthunt.com/@maxyull',
-        fr:['Product Hunt', 'lancements'], en:['Product Hunt', 'launches'] }
+        fr:['Product Hunt', 'lancements'], en:['Product Hunt', 'launches'] },
+      /* ⚠️ Le pseudo porte un TIRET BAS. `pinterest.com/maxyull` existe mais
+         appartient à un compte fantôme qui n'est pas celui de Maxime. */
+      { id:'pinterest', i:'i-pinterest', url:'https://www.pinterest.com/maxyull_/',
+        fr:['Pinterest', '@maxyull_'], en:['Pinterest', '@maxyull_'] }
     ] },
 
   /* ⚠️ Black Desert Idle en a été RETIRÉ à la demande de Maxime (02/08) : le
@@ -350,7 +356,24 @@ function placer(n, profondeur) {
      deux voisins tombait à 87 px pour une étiquette de 88 px de haut. Ça
      passait tout juste à 1120 px de large et se percutait dès que la carte
      rétrécissait d'un cheveu (X × Threads, constaté à 1094). */
-  var rx = 225, ry = large ? 230 : 190, pas = large ? 30 : 38;
+  /* ⚠️ SEPT enfants ne tiennent pas sur l'arc des six : en gardant 30°/230,
+     l'écart Threads × Reddit tombait à 5 px (mesuré au banc, contre 13 px à
+     six). Il faut ÉCARTER le pas ET pousser l'anneau — l'un sans l'autre ne
+     suffit pas, un pas plus large sur un petit anneau ne fait que ramener les
+     deux bouts de l'éventail l'un vers l'autre par le bas.
+     27°/240/280 rend 12 px, soit l'écart que la carte avait déjà à six (13 px).
+     Deux murs bornent la recherche, et ils tirent en sens INVERSE — monter
+     l'anneau décolle le bas mais fait remonter YouTube :
+     · en bas, Product Hunt sort du cadre (mesuré à -3 px avec 32°/235/300) ;
+     · en haut, YouTube percute le Twitch de Gaming EN VUE ÉCLATÉE seulement,
+       là où les deux fratries sont posées en même temps (mesuré, même triplet).
+     Réordonner les enfants ne rachète rien : la paire qui serre est toujours
+     Threads × Reddit, et elle serre par la géométrie, pas par la largeur des
+     étiquettes (balayé sur les 5040 ordres possibles). */
+  var foule = n.enfants.length >= 7;
+  var rx = foule ? 240 : 225,
+      ry = foule ? 280 : large ? 230 : 190,
+      pas = foule ? 27 : large ? 30 : 38;
   var dir = n.a;
 
   /* ⚠️ Un enfant unique QUI A LUI-MÊME DES ENFANTS (GitHub sous Projets) se pose

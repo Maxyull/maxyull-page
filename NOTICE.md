@@ -23,8 +23,8 @@ rattachés ne sont pas concédés.
 Les tracés du jeu d'icônes de `index.html` proviennent de
 [Simple Icons](https://simpleicons.org) v16, publiés en **CC0**. Mais les
 **marques** qu'ils représentent (GitHub, YouTube, TikTok, X, Threads, Reddit,
-Product Hunt, Instagram, LinkedIn, Steam, Discord, Gumroad, Fiverr, PayPal)
-appartiennent à leurs détenteurs respectifs.
+Product Hunt, Pinterest, Instagram, LinkedIn, Steam, Discord, Gumroad, Fiverr,
+PayPal) appartiennent à leurs détenteurs respectifs.
 
 Dessinés à la main, dans la même voix graphique, et donc couverts par la MIT :
 LinkedIn (retiré de Simple Icons), l'épée de Black Desert Idle, la manette, le
