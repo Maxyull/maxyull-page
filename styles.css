@@ -391,8 +391,35 @@ p  { margin: 0; }
 /* ------------------------------------------------------------ le centre */
 
 /* le siège vide : un anneau discret, révélé seulement quand le portrait est
-   parti — au repos il serait caché sous la photo de toute façon */
+   parti — au repos il serait caché sous la photo de toute façon.
+   ⚠️ C'est un BOUTON (il ramène au centre d'un coup), donc il faut défaire
+   l'apparence native : sans `appearance: none` + `background: none`, Windows
+   pose un rectangle gris plein au milieu de la carte. */
+/* ⚠️ LA CIBLE ET L'ANNEAU SONT DEUX BOÎTES. Le bouton fait 44 px au minimum,
+   l'anneau visible reste à 3.04cqw : dessiné à même le bouton, il descendait
+   sous 28 px dès qu'on rétrécit la fenêtre (le plan vit jusqu'à 880 px), et le
+   banc de mesure le rapporte comme cible trop petite — à juste titre, on ne
+   vise pas un anneau de 26 px à la souris. */
 .siege {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(3.04cqw, 44px);
+  height: max(3.04cqw, 44px);
+  translate: -50% -50%;
+  appearance: none;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: var(--z-plan);
+  transition: opacity var(--dur-short) var(--ease-out);
+}
+
+.siege::before {
+  content: '';
   position: absolute;
   left: 50%;
   top: 50%;
@@ -401,13 +428,21 @@ p  { margin: 0; }
   translate: -50% -50%;
   border: var(--rule-hair) dashed var(--color-line-2);
   border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  z-index: var(--z-plan);
-  transition: opacity var(--dur-short) var(--ease-out);
+  transition: border-color var(--dur-short) var(--ease-out),
+              scale var(--dur-short) var(--ease-out);
 }
 
-.plan.ouvert .siege { opacity: 1; }
+/* ⚠️ `pointer-events` revient AVEC l'opacité, jamais avant : au repos le siège
+   est exactement sous le portrait, et resté cliquable il lui volerait le clic
+   — d'autant qu'il est maintenant plus large que l'anneau qu'on voit. */
+.plan.ouvert .siege { opacity: 1; pointer-events: auto; cursor: pointer; }
+
+.plan.ouvert .siege:hover::before,
+.plan.ouvert .siege:focus-visible::before {
+  border-color: var(--color-accent);
+  border-style: solid;
+  scale: 1.18;
+}
 
 /* ⚠️ `.moi` ne contient QUE le portrait dans le flux : c'est ce qui le laisse
    exactement au centre géométrique, là où convergent les traits. Le nom, le

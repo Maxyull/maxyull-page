@@ -55,6 +55,18 @@ il est cliquable *et* parent de ses dépôts, ce qui n'est tenable que parce
 qu'arriver sur « Projets » déplie déjà ses dépôts : il n'y a rien à ouvrir, donc
 rien ne se perd à ce que le clic parte.
 
+### Deux façons de revenir
+
+> **Le portrait remonte d'un cran. Le siège vide, au centre, ramène au centre.**
+
+Le portrait *est* le bouton retour : depuis GitHub il ramène à « Projets », pas
+au centre — et son libellé le dit. L'anneau pointillé laissé à la place du
+portrait est un bouton lui aussi, et celui-là rentre **d'un coup**, en suivant
+les traits (deux étapes depuis le 2ᵉ niveau : on ne coupe jamais à travers la
+carte). Il n'apparaît, et ne devient cliquable, qu'une fois le portrait parti :
+au repos il est exactement sous la photo et lui volerait son clic. `Échap` fait
+comme le portrait.
+
 ## Les pièges (à lire avant de modifier)
 
 - **`place:` décide de la position d'une mère, pas l'ordre du tableau.** Chaque
@@ -89,6 +101,15 @@ rien ne se perd à ce que le clic parte.
   resterait vide pour qui a désactivé les animations.
 - **Le repli mobile (≤ 880 px) a sa propre identité** : le portrait vit dans le
   plan, qui est masqué à cette largeur.
+- **Le siège, c'est deux boîtes** : le bouton fait 44 px au minimum, l'anneau
+  qu'on voit n'est qu'un `::before` de 3.04cqw. Dessiné à même le bouton, il
+  descendait sous 28 px sur fenêtre étroite — et le banc le rapportait, à juste
+  titre : on ne vise pas un anneau de 26 px.
+- **`_noeud` peut être nul dans `basculer`**, et seulement en rentrant au centre
+  depuis le 2ᵉ niveau : le repli part alors de la mère et a déjà retiré le nœud
+  d'où l'on vient. Sans le garde-fou, le clic sur le siège lançait une exception
+  au lieu du voyage. Le retour d'un cran, lui, ne repliait jamais que sous le
+  nœud courant : il ne l'a jamais rencontré.
 
 ## Le banc de mesure
 

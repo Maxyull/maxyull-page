@@ -189,9 +189,13 @@
 
   <!-- ⚠️ La place vide laissée par le portrait. Sans elle, dès qu'il part sur
        une mère, les quatre traits convergent vers un point où il n'y a plus
-       rien : le plan a l'air cassé. Décorative, jamais cliquable — c'est le
-       portrait lui-même qui ramène au centre. -->
-  <span class="siege" aria-hidden="true"></span>
+       rien : le plan a l'air cassé.
+       Elle est AUSSI le raccourci du retour, et c'est là toute la différence
+       avec le portrait : le portrait remonte d'un CRAN (depuis un dépôt il
+       ramène à GitHub), le siège rentre au centre d'un coup. Désactivé tant
+       qu'on est au centre : il n'y a nulle part d'où revenir, et il est de
+       toute façon caché sous la photo. -->
+  <button type="button" class="siege" id="siege" disabled></button>
 
   <!-- ⚠️ `.moi` ne contient QUE le portrait dans le flux : c'est ce qui le pose
        exactement au centre géométrique, là où convergent les traits. -->
@@ -473,6 +477,7 @@ var svg = document.getElementById('traits');
 var liste = document.getElementById('liste');
 var moi = document.getElementById('moi');
 var retour = document.getElementById('retour');
+var siege = document.getElementById('siege');
 var ou = document.getElementById('ou');
 var racine = document.documentElement;
 
@@ -643,10 +648,14 @@ function chemin(n) {
   return c;
 }
 
+/* ⚠️ `n` peut être NULL : c'est le retour au centre d'un coup (le siège). Le
+   reste de la fonction n'a pas besoin de le savoir — `chemin(null)` est vide,
+   donc on remonte simplement toute la branche jusqu'au centre, trait par
+   trait. Et si on y est déjà, il n'y a aucune étape : on sort plus bas. */
 function basculer(n) {
   if (enVol) return;
   if (eclate) eclater(false);
-  var cible = (ouverte === n) ? (n.de || null) : n;   /* recliquer = remonter */
+  var cible = !n ? null : (ouverte === n) ? (n.de || null) : n;   /* recliquer = remonter */
   var precedente = ouverte;
 
   var ancien = precedente ? chemin(precedente) : [];
@@ -666,8 +675,14 @@ function basculer(n) {
   /* on replie ce qui quitte le chemin, tout de suite : ces nœuds ne doivent
      pas rester posés pendant le trajet */
   ancien.slice(commun).forEach(function (a) { fratrie(a, false); });
+  /* ⚠️ `_noeud` PEUT ÊTRE NUL ICI, et ça n'arrive qu'en rentrant au centre
+     depuis le 2ᵉ niveau : `commun` vaut alors 0, le repli ci-dessus part de la
+     MÈRE, et il a donc déjà retiré le nœud d'où l'on vient. Sans ce garde-fou,
+     le clic sur le siège lançait une exception au lieu du voyage — le retour
+     d'un cran, lui, ne repliait jamais que sous le nœud courant et ne l'a
+     jamais rencontré. */
   ancien.forEach(function (a) {
-    if (nouveau.indexOf(a) < 0) {
+    if (nouveau.indexOf(a) < 0 && a._noeud) {
       a._noeud.setAttribute('aria-expanded', 'false');
       a._noeud.classList.remove('actif');
     }
@@ -687,6 +702,7 @@ function basculer(n) {
   }
 
   retour.disabled = !cible;
+  siege.disabled = !cible;
   ou.hidden = !cible;
 
   /* seul le départ depuis le repos est ralenti : en transit on repasse par le
@@ -757,6 +773,9 @@ function placerOu() {
 
 /* remonter d'un cran : le portrait est le bouton retour */
 retour.addEventListener('click', function () { if (ouverte) basculer(ouverte); });
+
+/* rentrer d'un coup : le siège vide, à l'endroit où le portrait était posé */
+siege.addEventListener('click', function () { if (ouverte) basculer(null); });
 document.addEventListener('keydown', function (e) {
   if (e.key !== 'Escape') return;
   if (eclate) eclater(false);
@@ -792,6 +811,7 @@ function eclater(on) {
     }
     plan.classList.remove('ouvert', 'profond');
     retour.disabled = true;
+    siege.disabled = true;
     ou.hidden = true;
     viser(null);
     MERES.forEach(deplier);
@@ -859,6 +879,12 @@ function ecrire(lang) {
   var parent = ouverte && ouverte.de;
   retour.setAttribute('aria-label',
     !ouverte ? 'Maxime Lacoste' : (parent ? mots.retour + ' : ' + parent[lang][0] : mots.centre));
+  /* ⚠️ Le siège dit TOUJOURS « au centre », même quand le portrait n'est qu'à
+     une mère : c'est ce qui le distingue du portrait, qui lui remonte d'un
+     cran. Deux boutons au même endroit avec le même libellé n'auraient aucun
+     sens au clavier ni au lecteur d'écran. */
+  siege.setAttribute('aria-label', mots.centre);
+  siege.setAttribute('title', mots.centre);
   if (ouverte) {
     ou.querySelector('b').textContent = ouverte[lang][0];
     ou.querySelector('span').textContent = parent ? parent[lang][0] : mots.centre;
