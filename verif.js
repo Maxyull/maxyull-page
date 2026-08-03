@@ -100,7 +100,11 @@
   }
 
   function petites() {
-    return [].slice.call(document.querySelectorAll('.noeud, .moi__bouton:not([disabled]), .langue button'))
+    /* ⚠️ `.siege` compte : c'est un bouton (retour au centre), et son anneau
+       visible fait 3.04cqw — il passait sous 28 px sur fenêtre étroite. C'est
+       la boîte du bouton, volontairement plus large que l'anneau, qui est
+       mesurée ici : c'est bien elle qu'on clique. */
+    return [].slice.call(document.querySelectorAll('.noeud, .moi__bouton:not([disabled]), .siege:not([disabled]), .langue button'))
       .filter(function (n) { var r = n.getBoundingClientRect(); return r.width && (r.width < 28 || r.height < 28); })
       .map(function (n) { return n.textContent.trim().slice(0, 18) + ' ' + Math.round(n.getBoundingClientRect().width) + 'x' + Math.round(n.getBoundingClientRect().height); });
   }
