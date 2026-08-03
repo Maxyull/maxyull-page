@@ -8,9 +8,14 @@ centre, cinq mères l'entourent, et **cliquer une mère y envoie le portrait** l
 long du trait avant que ses destinations ne se déploient. Une liste ne peut pas
 dire qu'un dépôt appartient à GitHub qui appartient aux projets ; une carte, si.
 
-Statique, sans dépendance, sans build, **sans aucune requête réseau tierce** :
-polices auto-hébergées, icônes en sprite SVG inliné, aucun analytics, aucun
-cookie.
+Statique, sans dépendance, sans build : polices auto-hébergées, icônes en
+sprite SVG inliné, **aucun cookie**.
+
+Une seule requête sort du domaine, depuis le 2026-08-03 : le marqueur d'audience
+**Umami**, auto-hébergé sur `stats.maxyull.fr`, c'est-à-dire sur mon VPS et pas
+chez un service tiers. Sans cookie ni identifiant persistant, donc sans bandeau
+de consentement. La porte de publication de `deployer.yml` continue de refuser
+tout le reste, et ne tolère que cette URL exacte.
 
 ## Lancer en local
 

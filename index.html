@@ -21,6 +21,20 @@
      erreur visible. Le .htaccess force en plus le HTML à revalider, sans quoi
      ce numéro de version n'arriverait jamais au navigateur. -->
 <link rel="stylesheet" href="styles.css?v=6">
+
+<!-- Mesure d'audience Umami, auto-hébergée sur le VPS (stats.maxyull.fr).
+     Sans cookie, sans identifiant persistant : aucun bandeau de consentement
+     à ajouter, et c'est la seule raison pour laquelle elle est ici plutôt
+     qu'un service tiers.
+
+     ⚠️ `data-domains` n'est PAS décoratif : sans lui, chaque rendu du banc de
+     mesure (verif.html, fabriqué depuis ce fichier) compterait comme une
+     visite, et les chiffres du site seraient ceux des tests.
+
+     ⚠️ C'est la SEULE ressource externe tolérée par la porte de publication
+     de `.github/workflows/deployer.yml`. Toute autre fait échouer le
+     déploiement, et c'est voulu. -->
+<script defer src="https://stats.maxyull.fr/script.js" data-website-id="69a3fb18-9178-4f40-8cec-5b680223495c" data-domains="maxyull.fr"></script>
 </head>
 <body>
 
