@@ -1,5 +1,10 @@
 # maxyull — le plan
 
+[![Déploiement](https://github.com/Maxyull/maxyull-page/actions/workflows/deployer.yml/badge.svg)](https://github.com/Maxyull/maxyull-page/actions/workflows/deployer.yml)
+[![En ligne](https://img.shields.io/website?url=https%3A%2F%2Fmaxyull.fr&label=maxyull.fr)](https://maxyull.fr)
+[![Licence MIT](https://img.shields.io/badge/licence-MIT-yellow.svg)](LICENSE)
+[![Sans dépendance](https://img.shields.io/badge/build-statique%2C%20sans%20d%C3%A9pendance-4c9a2a)](#comment-cest-construit)
+
 Page de liens personnelle de **Maxime Lacoste** (`maxyull`), en ligne sur
 **[maxyull.fr](https://maxyull.fr)**.
 
