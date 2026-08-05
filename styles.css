@@ -690,6 +690,33 @@ p  { margin: 0; }
   *, *::before, *::after { transition-duration: 120ms !important; }
 }
 
+/* ------------------------------------------------------- pied de page */
+
+/* ⚠️ Exigé par les plateformes qui examinent une application développeur :
+   les liens vers la politique de confidentialité et les conditions doivent
+   être atteignables depuis le site SANS ouvrir de menu. D'où un pied en clair
+   plutôt qu'un nœud de plus dans le plan, qui serait un menu déguisé.
+   Volontairement effacé : il ne doit pas concurrencer la constellation. */
+.pied {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-ink-3);
+  letter-spacing: .04em;
+}
+
+.pied a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+}
+
+.pied a:hover { color: var(--color-ink-2); border-bottom-color: var(--color-line-2); }
+.pied a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+
 /* --------------------------------------------------------- impression */
 
 @media print {
