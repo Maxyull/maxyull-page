@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Politique de confidentialité · maxyull</title>
+<meta name="description" content="Politique de confidentialité de maxyull.fr et des applications développeur exploitées par Maxime Lacoste.">
+<meta name="theme-color" content="#0a0c0b">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="avatar.png">
+
+<!-- ⚠️ Même contrainte que sur index.html : `crossorigin` est obligatoire même
+     en même origine, sinon le préchargement est jeté et la police téléchargée
+     deux fois. -->
+<link rel="preload" href="fonts/space-grotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- ⚠️ `?v=` obligatoire et à incrémenter à chaque modification : OVH sert tout
+     avec `max-age=3600`. Voir l'avertissement détaillé en tête d'index.html. -->
+<link rel="stylesheet" href="fonts/fonts.css?v=1">
+<link rel="stylesheet" href="tokens.css?v=1">
+
+<!-- Marqueur d'audience Umami, auto-hébergé sur le VPS. Sans cookie et sans
+     identifiant persistant, d'où l'absence de bandeau de consentement — ce que
+     cette page elle-même explique plus bas. C'est la seule ressource externe
+     tolérée par la porte de publication du dépôt. -->
+<script defer src="https://stats.maxyull.fr/script.js" data-website-id="69a3fb18-9178-4f40-8cec-5b680223495c" data-domains="maxyull.fr"></script>
+
+<style>
+/* Page autonome : elle n'emprunte pas styles.css, dont les règles servent le
+   plan et le décor de l'accueil et n'auraient aucun sens ici. Seuls les jetons
+   de couleur et de typographie sont partagés, pour que les deux pages restent
+   visiblement du même site. */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: var(--space-xl) var(--space-md) var(--space-2xl);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+main { max-width: 68ch; margin: 0 auto; }
+
+h1 {
+  font-size: var(--text-xl);
+  line-height: 1.25;
+  margin: 0 0 var(--space-2xs);
+}
+
+h2 {
+  font-size: var(--text-lg);
+  margin: var(--space-xl) 0 var(--space-xs);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-line);
+}
+
+h3 { font-size: var(--text-base); margin: var(--space-md) 0 var(--space-2xs); }
+
+p, li { color: var(--color-ink-2); }
+li { margin-bottom: var(--space-2xs); }
+strong { color: var(--color-ink); font-weight: 600; }
+
+a { color: var(--color-accent); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-2); }
+a:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
+
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-ink-3);
+  margin: 0 0 var(--space-lg);
+}
+
+.retour {
+  display: inline-block;
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+/* La version anglaise suit la française dans le même document plutôt que
+   derrière une bascule : une page de politique doit rester lisible sans
+   JavaScript, y compris par un examinateur de plateforme qui la parcourt
+   automatiquement. */
+.autre-langue {
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-line-2);
+}
+</style>
+</head>
+<body>
+<main>
+
+<a class="retour" href="/">&larr; maxyull.fr</a>
+
+<h1>Politique de confidentialité</h1>
+<p class="date">Dernière mise à jour : 5 août 2026</p>
+
+<h2>Qui est responsable</h2>
+<p>
+  Ce site et les applications décrites ci-dessous sont exploités par
+  <strong>Maxime Lacoste</strong> (« maxyull »), développeur indépendant, sous le
+  statut de micro-entreprise immatriculée en France.
+</p>
+<p>
+  Pour toute question relative à cette politique ou pour exercer vos droits, le
+  contact se fait par message privé sur
+  <a href="https://www.linkedin.com/in/maxyull" rel="noopener">LinkedIn</a>.
+</p>
+
+<h2>Ce que fait ce site</h2>
+<p>
+  <strong>maxyull.fr est un site vitrine.</strong> Il ne comporte ni formulaire,
+  ni compte, ni espace de connexion, ni commerce. Il ne vous demande aucune
+  donnée personnelle et n'en conserve aucune vous concernant.
+</p>
+
+<h3>Mesure d'audience</h3>
+<p>
+  La fréquentation est mesurée avec <strong>Umami</strong>, un logiciel libre que
+  j'héberge moi-même sur mon propre serveur (<code>stats.maxyull.fr</code>). Les
+  données ne sont transmises à aucun service tiers et ne sont ni vendues, ni
+  partagées, ni utilisées à des fins publicitaires.
+</p>
+<p>Cette mesure <strong>ne dépose aucun cookie</strong> et ne crée aucun identifiant
+  permettant de vous suivre d'une visite à l'autre. Elle enregistre uniquement
+  des données agrégées :</p>
+<ul>
+  <li>la page consultée et la date de la visite ;</li>
+  <li>le site depuis lequel vous êtes arrivé, s'il y en a un ;</li>
+  <li>le type d'appareil, le navigateur et le système d'exploitation ;</li>
+  <li>le pays, déduit de l'adresse IP sans que celle-ci soit conservée.</li>
+</ul>
+<p>
+  C'est précisément parce qu'aucun cookie n'est déposé et qu'aucun profil n'est
+  constitué que ce site n'affiche pas de bandeau de consentement.
+</p>
+
+<h2>Les applications développeur</h2>
+<p>
+  J'utilise les interfaces de programmation de plusieurs réseaux sociaux
+  (<strong>Pinterest, Instagram, Facebook, Threads</strong> et d'autres) pour
+  programmer et publier <strong>mes propres publications</strong> depuis un
+  ordonnanceur que j'héberge sur mon serveur.
+</p>
+<p>Ce qu'il faut en retenir :</p>
+<ul>
+  <li>ces applications servent <strong>exclusivement mes propres comptes</strong> ;</li>
+  <li>elles ne sont proposées à personne d'autre et n'ont aucun utilisateur tiers ;</li>
+  <li>elles <strong>ne collectent aucune donnée d'autres personnes</strong> ;</li>
+  <li>les jetons d'accès délivrés par ces plateformes sont conservés
+      <strong>sur mon serveur uniquement</strong>, et ne sont ni transmis ni revendus ;</li>
+  <li>les statistiques éventuellement récupérées concernent mes propres
+      publications, et servent seulement à savoir ce qui fonctionne.</li>
+</ul>
+
+<h2>Sous-traitants</h2>
+<p>
+  L'hébergement du site et du serveur est assuré par <strong>OVHcloud</strong>
+  (France). Aucune donnée n'est transférée hors de l'Union européenne du fait de
+  ce site.
+</p>
+
+<h2>Durée de conservation</h2>
+<p>
+  Les mesures d'audience agrégées sont conservées au maximum
+  <strong>vingt-quatre mois</strong>. Les jetons d'accès aux réseaux sociaux sont
+  conservés tant que la connexion au réseau concerné reste active, et détruits
+  dès qu'elle est révoquée.
+</p>
+
+<h2>Vos droits</h2>
+<p>
+  Le règlement général sur la protection des données vous donne un droit d'accès,
+  de rectification, d'effacement, de limitation et d'opposition sur vos données
+  personnelles. Ce site n'en collectant aucune qui permette de vous identifier,
+  ces droits n'ont en pratique pas d'objet ici, mais toute demande reste la
+  bienvenue et recevra une réponse.
+</p>
+<p>
+  Vous pouvez également introduire une réclamation auprès de la
+  <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.
+</p>
+
+<h2>Modifications</h2>
+<p>
+  Cette politique peut évoluer. La date de dernière mise à jour, en haut de page,
+  fait foi.
+</p>
+
+<section class="autre-langue" lang="en">
+  <h2>Privacy Policy (English)</h2>
+  <p class="date">Last updated: 5 August 2026</p>
+
+  <h3>Who is responsible</h3>
+  <p>
+    This website and the applications described below are operated by
+    <strong>Maxime Lacoste</strong> ("maxyull"), an independent developer
+    registered as a sole trader in France. For any question about this policy, or
+    to exercise your rights, please get in touch via private message on
+    <a href="https://www.linkedin.com/in/maxyull" rel="noopener">LinkedIn</a>.
+  </p>
+
+  <h3>What this website does</h3>
+  <p>
+    <strong>maxyull.fr is a showcase website.</strong> It has no forms, no
+    accounts, no login area and no shop. It asks you for no personal data and
+    stores none about you.
+  </p>
+  <p>
+    Traffic is measured with <strong>Umami</strong>, open-source software that I
+    host myself on my own server. No data is sent to any third party, and none is
+    sold, shared or used for advertising. This measurement
+    <strong>sets no cookies</strong> and creates no identifier that could track
+    you across visits. It records only aggregated data: the page viewed and the
+    date, the referring site if any, the device type, browser and operating
+    system, and the country, derived from the IP address without storing it. That
+    is precisely why this site shows no consent banner.
+  </p>
+
+  <h3>Developer applications</h3>
+  <p>
+    I use the APIs of several social networks (<strong>Pinterest, Instagram,
+    Facebook, Threads</strong> and others) to schedule and publish
+    <strong>my own posts</strong> from a scheduler hosted on my own server. These
+    applications serve <strong>only my own accounts</strong>. They are not offered
+    to anyone else, have no third-party users, and
+    <strong>collect no data about other people</strong>. Access tokens issued by
+    these platforms are stored <strong>on my server only</strong>, and are never
+    transmitted or sold. Any statistics retrieved concern my own posts.
+  </p>
+
+  <h3>Processors, retention and your rights</h3>
+  <p>
+    Hosting is provided by <strong>OVHcloud</strong> (France); no data leaves the
+    European Union because of this site. Aggregated analytics are kept for at most
+    <strong>twenty-four months</strong>; social network access tokens are kept
+    while the connection is active and destroyed once it is revoked.
+  </p>
+  <p>
+    Under the GDPR you have rights of access, rectification, erasure, restriction
+    and objection. As this site collects no data that identifies you, those rights
+    have little practical object here, but any request is welcome and will be
+    answered. You may also lodge a complaint with the French data protection
+    authority, the <a href="https://www.cnil.fr/" rel="noopener">CNIL</a>.
+  </p>
+</section>
+
+</main>
+</body>
+</html>
