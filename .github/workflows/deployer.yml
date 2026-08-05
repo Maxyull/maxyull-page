@@ -63,7 +63,7 @@ jobs:
       - name: Vérifier qu'aucune ressource tierce ne s'est glissée dans les pages
         run: |
           if grep -nEi '<(link|script|img|source|iframe|video|audio|embed|object|track)[^>]*(src|href)="https?://' \
-               index.html confidentialite.html \
+               index.html confidentialite.html conditions.html \
              | grep -v 'src="https://stats\.maxyull\.fr/script\.js"'; then
             echo "::error::Ressource externe dans une page (voir ci-dessus)."
             echo "Seuls les liens de navigation <a href> sont autorisés en https, pas les ressources."
@@ -81,7 +81,7 @@ jobs:
       # revenu par une modification distraite.
       - name: Vérifier qu'aucune adresse e-mail n'est en clair
         run: |
-          if grep -nE 'mailto:|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' index.html confidentialite.html; then
+          if grep -nE 'mailto:|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' index.html confidentialite.html conditions.html; then
             echo "::error::Adresse e-mail en clair dans une page — le contact passe par LinkedIn."
             exit 1
           fi
