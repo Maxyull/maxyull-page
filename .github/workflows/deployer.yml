@@ -52,12 +52,21 @@ jobs:
       # `stats\.maxyull\.fr` suffirait à laisser passer n'importe quelle autre
       # ressource servie par ce domaine, et la porte ne garderait plus grand
       # chose. Toute nouvelle exception se discute, elle ne s'ajoute pas.
-      - name: Vérifier qu'aucune ressource tierce ne s'est glissée dans la page
+      #
+      # ⚠️ La règle ne vise QUE les balises qui CHARGENT quelque chose. Elle
+      # visait auparavant tout `href="https://"`, ce qui revenait à interdire
+      # aussi les liens de navigation, alors que le message d'erreur affirmait
+      # l'inverse. L'accueil n'en contenait aucun (ses liens sortants sont
+      # posés en JavaScript), la contradiction ne s'était donc jamais vue. La
+      # page de confidentialité, elle, doit pouvoir pointer vers la CNIL et
+      # vers LinkedIn : ce sont des liens, pas des ressources.
+      - name: Vérifier qu'aucune ressource tierce ne s'est glissée dans les pages
         run: |
-          if grep -nE '(src|href)="https?://' index.html \
+          if grep -nEi '<(link|script|img|source|iframe|video|audio|embed|object|track)[^>]*(src|href)="https?://' \
+               index.html confidentialite.html \
              | grep -v 'src="https://stats\.maxyull\.fr/script\.js"'; then
-            echo "::error::Ressource externe dans index.html (voir ci-dessus)."
-            echo "Seuls les liens de navigation sont autorisés en https, pas les ressources."
+            echo "::error::Ressource externe dans une page (voir ci-dessus)."
+            echo "Seuls les liens de navigation <a href> sont autorisés en https, pas les ressources."
             echo "Seule exception admise : le marqueur https://stats.maxyull.fr/script.js"
             exit 1
           fi
@@ -72,8 +81,8 @@ jobs:
       # revenu par une modification distraite.
       - name: Vérifier qu'aucune adresse e-mail n'est en clair
         run: |
-          if grep -nE 'mailto:|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' index.html; then
-            echo "::error::Adresse e-mail en clair dans index.html — le contact passe par LinkedIn."
+          if grep -nE 'mailto:|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' index.html confidentialite.html; then
+            echo "::error::Adresse e-mail en clair dans une page — le contact passe par LinkedIn."
             exit 1
           fi
           echo "Aucune adresse en clair."
