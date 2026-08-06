@@ -137,6 +137,16 @@ comme le portrait.
   en `cqw` (`container-type: inline-size`). Remettre une taille en px ferait
   grossir cet élément quand la carte rétrécit, et les étiquettes se
   percuteraient sur les petits écrans.
+- **La réserve de 298 px dans `.plan` est la somme de tout ce qui n'est pas le
+  plan**, gouttières du `flex` comprises — donc **ajouter ou retirer un enfant
+  du `body` oblige à la reprendre**. Elle valait 265 px, écrite quand la page
+  finissait sur le plan ; le pied des mentions légales est arrivé après (16 px
+  + 32 px de gouttière) sans que le chiffre bouge. Le plan sortait alors de
+  33 px, la page défilait d'autant, et **le nom se coupait en haut** dès qu'on
+  touchait la molette — pour un défaut visible en plein milieu de la page
+  d'accueil, aucune erreur nulle part. Le détail est écrit dans `styles.css`.
+  Sous le plancher de 880 px, en revanche, la page défile pour de bon : c'est
+  assumé, et le banc le distingue (`plancher: true`).
 - **`pathLength="1"`** sur chaque trait, posé en JS (c'est un attribut SVG, pas
   une propriété CSS) : sans lui, un trait court se dessine plus vite qu'un long
   et la construction paraît boiteuse.
@@ -163,19 +173,37 @@ comme le portrait.
 `verif.js` n'est pas chargé par la page. On fabrique une page de test :
 
 ```bash
-sed 's|</body>|<script src="verif.js"></script></body>|' index.html > verif.html
+sed "s|</body>|<script src=\"verif.js?v=$(date +%s)\"></script></body>|" index.html > verif.html
 ```
+
+> ⚠️ Le `?v=` compte : sans lui, un navigateur déjà passé sur `verif.html` rejoue
+> l'**ancien** `verif.js` sans rien dire, et on croit avoir mesuré la
+> modification qu'on vient d'écrire.
 
 Puis on la rend dans un navigateur sans interface et on lit le JSON produit. Il
 ouvre chaque étape, en FR et en EN, et rapporte chevauchements, débordements,
-cibles sous 28 px et requêtes externes.
+cibles sous 28 px, défilement et requêtes externes.
 
-> ⚠️ **Ce banc a déjà menti trois fois**, toujours pour la même raison : en rendu
-> sans interface, l'horloge d'animation n'avance pas. Une transition lancée reste
-> bloquée sur sa valeur de départ *pour toujours*, et les nœuds restent à
+Le rapport s'ouvre sur deux champs qui se lisent ensemble :
+
+- **`verdict`** — la liste des défauts, toutes étapes confondues, ou
+  « rien à signaler ». Un défaut noyé dans neuf étapes n'est pas lu.
+- **`fenetre`** — la taille de la fenêtre mesurée. Sans elle, le défilement
+  rapporté ne veut rien dire : **la hauteur disponible est ce qui dimensionne
+  le plan**. Un rapport vert en 1920×1080 ne dit rien de 1512×982.
+
+> ⚠️ **Ce banc a déjà menti quatre fois.** Trois fois pour la même raison : en
+> rendu sans interface, l'horloge d'animation n'avance pas. Une transition lancée
+> reste bloquée sur sa valeur de départ *pour toujours*, et les nœuds restent à
 > `opacity: 0` — le banc les écartait tous et annonçait « 0 chevauchement » **en
 > ne mesurant rien**. D'où les coupe-circuits en tête de fichier. Les retirer
 > rend le rapport vert et faux.
+>
+> La quatrième fois, c'est le banc lui-même qui faussait la mesure : son `<pre>`
+> de sortie était un enfant de plus dans le `flex` du `body`, gouttière comprise,
+> et `debordementV` annonçait 96 px là où la page en défilait 32. Il est
+> maintenant hors flux. **Un chiffre faux dans un rapport vaut moins que pas de
+> chiffre du tout** : personne ne l'a lu, et le défilement est passé.
 
 ## Déploiement
 
