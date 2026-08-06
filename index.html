@@ -21,7 +21,7 @@
      pleine taille, en haut, et où le plan ne se plaçait plus — sans la moindre
      erreur visible. Le .htaccess force en plus le HTML à revalider, sans quoi
      ce numéro de version n'arriverait jamais au navigateur. -->
-<link rel="stylesheet" href="styles.css?v=9">
+<link rel="stylesheet" href="styles.css?v=10">
 
 <!-- Mesure d'audience Umami, auto-hébergée sur le VPS (stats.maxyull.fr).
      Sans cookie, sans identifiant persistant : aucun bandeau de consentement
@@ -191,6 +191,9 @@
 
   <symbol id="i-paypal" viewBox="0 0 24 24"><path fill="currentColor" d="M15.607 4.653H8.941L6.645 19.251H1.82L4.862 0h7.995c3.754 0 6.375 2.294 6.473 5.513-.648-.478-2.105-.86-3.722-.86m6.57 5.546c0 3.41-3.01 6.853-6.958 6.853h-2.493L11.595 24H6.74l1.845-11.538h3.592c4.208 0 7.346-3.634 7.153-6.949a5.24 5.24 0 0 1 2.848 4.686M9.653 5.546h6.408c.907 0 1.942.222 2.363.541-.195 2.741-2.655 5.483-6.441 5.483H8.714Z"/></symbol>
 
+  <!-- La loupe de la recherche. Dessinée ici : ce n'est la marque de personne. -->
+  <symbol id="i-loupe" viewBox="0 0 24 24"><path fill="currentColor" d="M10.4 2a8.4 8.4 0 0 1 6.62 13.57l4.7 4.7a1.15 1.15 0 0 1-1.62 1.62l-4.7-4.7A8.4 8.4 0 1 1 10.4 2m0 2.3a6.1 6.1 0 1 0 0 12.2 6.1 6.1 0 0 0 0-12.2"/></symbol>
+
   <symbol id="i-mail" viewBox="0 0 24 24"><path fill="currentColor" d="M0 5.4A2.4 2.4 0 0 1 2.4 3h19.2A2.4 2.4 0 0 1 24 5.4v.36L12 13.2 0 5.76ZM0 8.1l11.52 7.14a.9.9 0 0 0 .96 0L24 8.1v10.5a2.4 2.4 0 0 1-2.4 2.4H2.4A2.4 2.4 0 0 1 0 18.6Z"/></symbol>
 
   <symbol id="i-x" viewBox="0 0 24 24"><path fill="currentColor" d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></symbol>
@@ -231,17 +234,49 @@
     </p>
   </header>
 
-  <!-- La vue éclatée : tout le plan déplié d'un coup, sans avoir à ouvrir
-       chaque étape. C'est la sortie de secours de la navigation. Les cinq
-       points s'écartent quand elle est active. -->
-  <button type="button" class="eclat" id="eclat" aria-pressed="false">
-    <span class="eclat__marque" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-    <span class="eclat__mot"></span>
-  </button>
+  <!-- La recherche. Elle ne remplace pas la carte, elle en est le raccourci :
+       22 destinations sur une constellation, ça se parcourt à l'œil, mais quand
+       on SAIT ce qu'on cherche il ne faut pas avoir à ouvrir trois étapes.
+       ⚠️ La liste de résultats est en `position: absolute` — DÉLIBÉRÉMENT. Le
+       chapeau entre dans le calcul de la hauteur du plan (voir la réserve dans
+       styles.css) : une liste dans le flux ferait rétrécir la carte à chaque
+       frappe, et la page se remettrait à défiler.
+       ⚠️ Le motif ARIA est `combobox` + `listbox` : sans `aria-activedescendant`
+       un lecteur d'écran n'annonce rien quand on descend dans les résultats au
+       clavier — le champ garde le focus, ce sont les OPTIONS qui changent. -->
+  <div class="cherche" role="search">
+    <div class="cherche__barre">
+      <select class="cherche__cat" id="cat"></select>
+      <span class="cherche__champ">
+        <svg class="cherche__loupe" aria-hidden="true"><use href="#i-loupe"/></svg>
+        <input type="search" id="q" autocomplete="off" spellcheck="false"
+               role="combobox" aria-expanded="false" aria-controls="trouve"
+               aria-autocomplete="list">
+      </span>
+    </div>
+    <div class="trouve" id="trouve" role="listbox" hidden></div>
+  </div>
 
-  <div class="langue" role="group" aria-label="Langue / Language">
-    <button type="button" data-set-lang="fr" aria-pressed="true" disabled>FR</button>
-    <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+  <!-- ⚠️ La vue éclatée et la langue tiennent sur UNE SEULE ligne, et ce n'est
+       pas cosmétique : le chapeau entre dans la réserve de hauteur du plan
+       (voir styles.css). La barre de recherche a coûté 48 px ; empilée, elle
+       faisait passer un 1512×982 sous le plancher de 880 px de la carte, donc
+       la page se remettait à défiler et le nom se coupait en haut. Mises côte
+       à côte, ces deux commandes rendent 46 px et le compte est bon. Les
+       réempiler, c'est rouvrir ça. -->
+  <div class="outils">
+    <!-- La vue éclatée : tout le plan déplié d'un coup, sans avoir à ouvrir
+         chaque étape. C'est la sortie de secours de la navigation. Les cinq
+         points s'écartent quand elle est active. -->
+    <button type="button" class="eclat" id="eclat" aria-pressed="false">
+      <span class="eclat__marque" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="eclat__mot"></span>
+    </button>
+
+    <div class="langue" role="group" aria-label="Langue / Language">
+      <button type="button" data-set-lang="fr" aria-pressed="true" disabled>FR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 </div>
 
@@ -826,20 +861,23 @@ function chemin(n) {
    trait. Et si on y est déjà, il n'y a aucune étape : on sort plus bas. */
 function basculer(n) {
   if (enVol) return;
-  if (eclate) {
-    eclater(false);
-    /* ⚠️⚠️ `eclater(false)` RETIRE DU DOM tout ce qui pend sous les mères — y
-       compris le nœud sur lequel on vient de cliquer. Sans ce reposage, la
-       ligne `cible._noeud.setAttribute(...)` plus bas levait une exception et
-       `basculer` s'arrêtait NET : les traits du chemin restaient allumés, le
-       portrait au centre, la carte vide. C'était le bug « vue éclatée, puis
-       clic sur Black Desert Online » — et il ne se voyait que là, parce que
-       c'est le seul nœud assez profond pour que son parent soit lui-même un
-       enfant retiré. On repose donc le chemin, parent d'abord, `foulee` à vrai
-       pour ne poser QUE lui. */
-    if (n) chemin(n).forEach(function (a) { if (a.de) fratrie(a.de, true, true); });
-  }
+  if (eclate) eclater(false);
   var cible = !n ? null : (ouverte === n) ? (n.de || null) : n;   /* recliquer = remonter */
+
+  /* ⚠️⚠️ LE NŒUD VISÉ N'EST PAS FORCÉMENT POSÉ, et sans ce reposage la ligne
+     `cible._noeud.setAttribute(...)` plus bas lève une exception : `basculer`
+     s'arrête NET, les traits du chemin restent allumés, le portrait au centre,
+     LA CARTE VIDE. Deux façons d'y arriver, et la première est un bug vécu :
+     · depuis la VUE ÉCLATÉE, `eclater(false)` vient de retirer du DOM tout ce
+       qui pend sous les mères — y compris le nœud qu'on a cliqué ;
+     · depuis la RECHERCHE, on vise une feuille dont la branche n'a jamais été
+       ouverte, donc jamais posée.
+     On repose le chemin, PARENT D'ABORD (`chemin` va de la racine à la
+     feuille), `foulee` à vrai pour ne poser que lui et pas toute la descendance. */
+  if (cible && !cible._noeud) {
+    chemin(cible).forEach(function (a) { if (a.de) fratrie(a.de, true, true); });
+  }
+
   var precedente = ouverte;
 
   var ancien = precedente ? chemin(precedente) : [];
@@ -1143,6 +1181,20 @@ function ecrire(lang) {
     ou.querySelector('span').textContent = parent ? parent[lang][0] : mots.centre;
   }
   bouton.querySelector('.eclat__mot').textContent = eclate ? mots.replier : mots.eclat;
+
+  /* la recherche parle la même langue, libellés ET catégories */
+  var r = RECH[lang];
+  champ.placeholder = r.ph;
+  champ.setAttribute('aria-label', r.q);
+  choixCat.setAttribute('aria-label', r.cat);
+  choixCat.options[0].textContent = r.tout;
+  MERES.forEach(function (m, i) { choixCat.options[i + 1].textContent = m[lang][0]; });
+  /* ⚠️ Une liste OUVERTE est en français ou en anglais, pas les deux : on la
+     rejoue. Sans ça, changer de langue laissait les résultats de l'ancienne.
+     ⚠️⚠️ Et seulement si elle est ouverte : `basculer` appelle `ecrire`, donc
+     choisir un résultat ROUVRAIT la liste qu'on venait de fermer, par-dessus
+     le voyage qu'on venait de lancer. Vu à la capture, pas au test. */
+  if (!trouve.hidden && champ.value.trim()) cherche();
 }
 
 function appliquer(lang) {
@@ -1156,6 +1208,147 @@ function appliquer(lang) {
   ecrire(lang);
   try { localStorage.setItem('maxyull-lang', lang); } catch (e) {}
 }
+
+/* --- la recherche -----------------------------------------------------
+   Le raccourci de la carte, pas son remplaçant : 22 destinations se
+   parcourent à l'œil, mais quand on SAIT ce qu'on cherche il ne faut pas
+   avoir à ouvrir trois étapes pour y arriver. */
+
+var champ = document.getElementById('q');
+var choixCat = document.getElementById('cat');
+var trouve = document.getElementById('trouve');
+var resultats = [];
+var vise = -1;
+/* ⚠️ Sous 880 px le plan est masqué : y envoyer le portrait ne montrerait
+   rien. La recherche n'y propose donc que les DESTINATIONS — les étapes n'y
+   sont que des intertitres, le repli les affiche déjà toutes. */
+var PETIT = matchMedia('(max-width: 880px)');
+
+var RECH = {
+  fr: { ph: 'Chercher un projet, un réseau…', cat: 'Catégorie', tout: 'Tout',
+        q: 'Chercher sur la carte', rien: 'Rien de ce nom sur la carte' },
+  en: { ph: 'Search a project, a network…', cat: 'Category', tout: 'All',
+        q: 'Search the map', rien: 'Nothing by that name on the map' }
+};
+
+/* ⚠️ Les accents sont DÉPLIÉS avant comparaison : personne ne tape « Réseaux »
+   avec son accent dans un champ de recherche, et sans ça « reseaux » ne trouve
+   rien. Même raison pour la casse. */
+function pluche(s) {
+  return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+choixCat.appendChild(new Option('', '*'));
+MERES.forEach(function (m) { choixCat.appendChild(new Option('', m.id)); });
+
+function fermer() {
+  trouve.hidden = true;
+  trouve.textContent = '';
+  champ.setAttribute('aria-expanded', 'false');
+  champ.removeAttribute('aria-activedescendant');
+  resultats = [];
+  vise = -1;
+}
+
+function bouger(i) {
+  if (!resultats.length) return;
+  vise = (i + resultats.length) % resultats.length;
+  [].forEach.call(trouve.children, function (el, k) {
+    el.setAttribute('aria-selected', k === vise ? 'true' : 'false');
+  });
+  /* ⚠️ Le focus NE BOUGE PAS : il reste dans le champ, sinon on ne peut plus
+     taper. C'est `aria-activedescendant` qui dit au lecteur d'écran où on est
+     — le retirer rend la navigation au clavier muette. */
+  champ.setAttribute('aria-activedescendant', trouve.children[vise].id);
+  trouve.children[vise].scrollIntoView({ block: 'nearest' });
+}
+
+function cherche() {
+  var lang = racine.getAttribute('data-lang');
+  var q = pluche(champ.value.trim());
+  var cat = choixCat.value;
+  trouve.textContent = '';
+  resultats = [];
+  vise = -1;
+
+  if (!q) { fermer(); return; }
+
+  NOEUDS.forEach(function (n) {
+    if (PETIT.matches && !n.url) return;
+    if (cat !== '*' && chemin(n)[0].id !== cat) return;
+    var t = n[lang];
+    if (pluche(t[0]).indexOf(q) < 0 && pluche(t[1] || '').indexOf(q) < 0) return;
+    resultats.push(n);
+  });
+  /* ⚠️ Ce qui COMMENCE par la frappe passe devant, puis le plus court : taper
+     « you » doit rendre YouTube avant « ce que je publie », qui contient bien
+     la suite mais n'est pas ce qu'on cherchait. */
+  resultats.sort(function (a, b) {
+    var ra = pluche(a[lang][0]).indexOf(q) === 0 ? 0 : 1;
+    var rb = pluche(b[lang][0]).indexOf(q) === 0 ? 0 : 1;
+    return ra - rb || a[lang][0].length - b[lang][0].length;
+  });
+  resultats = resultats.slice(0, 8);
+
+  if (!resultats.length) {
+    var v = document.createElement('p');
+    v.className = 'trouve__rien';
+    v.textContent = RECH[lang].rien;
+    trouve.appendChild(v);
+  } else resultats.forEach(function (n, i) {
+    var el;
+    if (n.url) {
+      el = document.createElement('a');
+      el.href = n.url;
+      dehors(el);                       /* même règle que sur la carte */
+      el.addEventListener('click', fermer);
+    } else {
+      el = document.createElement('button');
+      el.type = 'button';
+      el.addEventListener('click', function () { fermer(); champ.blur(); basculer(n); });
+    }
+    el.className = 'trouve__r';
+    el.id = 'trouve-' + i;
+    el.setAttribute('role', 'option');
+    el.setAttribute('aria-selected', 'false');
+    el.innerHTML = '<span class="pastille"><svg aria-hidden="true"><use href="#' + n.i +
+      '"/></svg></span><span class="trouve__t"><b></b><span></span></span>' +
+      '<span class="trouve__ou"></span>';
+    el.querySelector('b').textContent = n[lang][0];
+    el.querySelector('.trouve__t span').textContent = n[lang][1] || '';
+    el.querySelector('.trouve__ou').textContent =
+      chemin(n).slice(0, -1).map(function (a) { return a[lang][0]; }).join(' › ');
+    trouve.appendChild(el);
+  });
+
+  trouve.hidden = false;
+  champ.setAttribute('aria-expanded', 'true');
+}
+
+champ.addEventListener('input', cherche);
+choixCat.addEventListener('change', function () { cherche(); champ.focus(); });
+
+champ.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape') {
+    /* ⚠️ On COUPE la propagation : l'Échap global replie la carte, et vider
+       son champ de recherche ne doit pas faire ça dans le dos de qui tape. */
+    e.stopPropagation();
+    if (champ.value) { champ.value = ''; cherche(); } else { fermer(); champ.blur(); }
+    return;
+  }
+  if (e.key === 'ArrowDown') { e.preventDefault(); bouger(vise + 1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); bouger(vise - 1); }
+  else if (e.key === 'Enter') {
+    var el = trouve.children[vise < 0 ? 0 : vise];
+    if (el && el.classList.contains('trouve__r')) { e.preventDefault(); el.click(); }
+  }
+});
+
+document.addEventListener('click', function (e) {
+  if (!trouve.hidden && !e.target.closest('.cherche')) fermer();
+});
+/* la liste suit le champ : si on quitte la carte des yeux, elle se referme */
+PETIT.addEventListener('change', cherche);
 
 /* ?lang=fr / ?lang=en force la langue — lien partageable, capture déterministe */
 var choix = new URLSearchParams(location.search).get('lang');

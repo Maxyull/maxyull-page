@@ -7,8 +7,12 @@ mockups/
 # Journal de l'outil de conception, purement local.
 .hallmark/
 
-# Page de mesure fabriquée à la demande depuis index.html (voir verif.js).
+# Pages de mesure fabriquées à la demande depuis index.html (voir verif.js et
+# verif-recherche.js). `piege*.html` sont les copies volontairement cassées qui
+# servent à vérifier que le banc sait dire non.
 verif.html
+verif-recherche.html
+piege*.html
 
 # ⚠️ Polices NON utilisées par la page. `fonts/fonts.css` déclare six familles
 # parce que le dossier local sert aussi aux brouillons ; seules Space Grotesk et
