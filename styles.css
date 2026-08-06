@@ -218,7 +218,17 @@ p  { margin: 0; }
    ⚠️ La largeur est bornée par la HAUTEUR disponible, pas seulement par la
    fenêtre : depuis que le nom est sorti du plan, le chapeau prend 165 px et la
    page se mettait à défiler sous 990 px de haut (mesuré : 281 px de trop en
-   1280×800). 265 px = chapeau + gouttières + un peu d'air.
+   1280×800).
+
+   ⚠️⚠️ Cette réserve est la SOMME de tout ce qui n'est pas le plan, et il faut
+   la reprendre dès qu'on ajoute ou retire un élément dans le `flex` du body —
+   sa gouttière comprise. Elle valait 265 px, écrite quand la page finissait sur
+   le plan ; le pied de page des mentions légales est arrivé après (16 px + 32 px
+   de gouttière) et personne n'a corrigé le chiffre. Résultat : 32 px de trop,
+   la page défilait, et le nom se coupait en haut dès qu'on touchait la molette.
+   Le détail, mesuré au navigateur :
+     32 (marge haute) + 165 (chapeau) + 32 (gouttière) + 32 (gouttière)
+     + 16 (pied) + 20 (marge basse) + 1 (arrondi) = 298.
 
    ⚠️ `container-type: inline-size` va avec : TOUT ce qu'il y a dedans est
    dimensionné en `cqw`, donc la carte rapetisse d'un bloc. Repasser une taille
@@ -231,7 +241,7 @@ p  { margin: 0; }
      (1280×800) rétrécissait la carte à 810 px, les pastilles tombaient sous
      30 px et les étiquettes devenaient illisibles. Passé ce plancher on laisse
      la page défiler de quelques dizaines de pixels — c'est le moindre mal. */
-  width: min(1120px, 100%, max(880px, (100dvh - 265px) * 1180 / 780));
+  width: min(1120px, 100%, max(880px, (100dvh - 298px) * 1180 / 780));
   aspect-ratio: 1180 / 780;
 }
 

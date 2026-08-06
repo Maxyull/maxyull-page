@@ -59,6 +59,14 @@
 
   var out = document.createElement('pre');
   out.id = 'verif';
+  /* ⚠️ QUATRIÈME mensonge du banc, de la même famille que les trois autres :
+     ce <pre> est un enfant de plus dans le `flex` du body, avec sa gouttière.
+     Posé dans le flux il ajoutait 64 px à la hauteur de la page et
+     `debordementV` mesurait le banc, pas la page — il annonçait 96 px là où la
+     vraie page en défilait 32. Un chiffre faux dans le rapport vaut zéro
+     chiffre : personne ne l'a lu, et le défilement est passé. Hors flux, il ne
+     pèse rien. */
+  out.style.cssText = 'position:fixed;top:0;left:0;z-index:99';
   document.body.appendChild(out);
 
   function boites() {
@@ -128,7 +136,11 @@
       debords: debords(),
       ciblesTropPetites: petites(),
       debordementH: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-      debordementV: document.documentElement.scrollHeight - document.documentElement.clientHeight
+      debordementV: document.documentElement.scrollHeight - document.documentElement.clientHeight,
+      /* Le plan a touché son plancher de 880 px : il ne peut plus rétrécir pour
+         tenir dans la hauteur, la page défile, et c'est le choix assumé de
+         styles.css. Au-dessus du plancher, un défilement est un défaut. */
+      plancher: Math.round(p.width) <= 881
     };
   }
 
@@ -148,8 +160,34 @@
   etapes.push(function () { res.push(etat('vue eclatee')); });
   etapes.push(function () { document.getElementById('eclat').click(); });
   etapes.push(function () { res.push(etat('repliee')); });
+  /* Le verdict : ce qu'il faut lire quand on n'a pas le temps de lire les
+     étapes. Il rassemble ce que le banc sait déjà mesurer — un rapport où
+     chaque défaut est enterré dans une étape parmi neuf n'est pas lu.
+     ⚠️ Le défilement en fait partie parce qu'il a déjà échappé une fois : la
+     page défilait de 32 px, le nom se coupait en haut, et le seul chiffre qui
+     le disait était faux (voir le <pre> ci-dessus) puis noyé dans le détail. */
+  function verdict() {
+    var mal = [];
+    res.forEach(function (e) {
+      e.chocs.forEach(function (c) { mal.push(e.etape + ' · chevauchement : ' + c); });
+      e.debords.forEach(function (d) { mal.push(e.etape + ' · sort du cadre : ' + d); });
+      e.ciblesTropPetites.forEach(function (p) { mal.push(e.etape + ' · cible sous 28 px : ' + p); });
+      if (e.debordementH) mal.push(e.etape + ' · la page déborde de ' + e.debordementH + ' px en largeur');
+      /* ⚠️ Sous le plancher de 880 px le plan ne rétrécit plus, et la page
+         défile : c'est écrit dans styles.css et assumé. Ailleurs, non. */
+      if (e.debordementV && !e.plancher) mal.push(e.etape + ' · la page défile de ' + e.debordementV + ' px');
+    });
+    return mal;
+  }
+
   etapes.push(function () {
+    var mal = verdict();
     out.textContent = 'DEBUT_VERIF' + JSON.stringify({
+      verdict: mal.length ? mal : 'rien à signaler',
+      /* ⚠️ Sans la taille de fenêtre, `debordementV` ne veut rien dire : la
+         hauteur disponible EST ce qui dimensionne le plan. Un rapport sans ce
+         couple ne se rejoue pas. */
+      fenetre: [window.innerWidth, window.innerHeight],
       langue: document.documentElement.getAttribute('data-lang'),
       externes: performance.getEntriesByType('resource').filter(function (e) { return e.name.indexOf(location.origin) !== 0; }).map(function (e) { return e.name; }),
       iconesCassees: [].slice.call(document.querySelectorAll('use')).filter(function (u) { return !document.getElementById(u.getAttribute('href').slice(1)); }).length,
