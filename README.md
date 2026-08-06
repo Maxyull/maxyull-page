@@ -42,6 +42,7 @@ marche aussi.
 | `tokens.css` | Couleurs, typographie, espacements, durées |
 | `fonts/` | Space Grotesk + JetBrains Mono (variables, latin), sous OFL 1.1 |
 | `verif.js` | Banc de mesure : ouvre chaque étape et vérifie chevauchements, débordements et cibles tactiles |
+| `verif-recherche.js` | Banc de la barre de recherche : frappe, filtre, clavier, choix d un résultat, changement de langue |
 
 ### Une seule source de vérité
 
@@ -129,6 +130,21 @@ comme le portrait.
   vérifier que le banc le signale, puis le remettre en place. C'est la seule
   façon de distinguer « rien à signaler » de « rien mesuré » — et ce banc-là
   s'est déjà tu quatre fois.
+- **La barre de recherche n'a coûté AUCUNE hauteur, et ce n'est pas gratuit.**
+  Le chapeau entre dans la réserve qui dimensionne la carte : empilée sous le
+  reste, la barre prenait 48 px et faisait passer un 1512×982 sous le plancher
+  de 880 px — la page se remettait à défiler, le nom se recoupait en haut.
+  « Vue éclatée » et la langue ont donc été mises **côte à côte** (`.outils`),
+  ce qui rend exactement la place qu'elle prend. Le chapeau vaut toujours
+  166 px. **Ajouter une ligne au chapeau, c'est soit en retirer une ailleurs,
+  soit reprendre la réserve dans `styles.css`.**
+- **La liste de résultats est en `position: absolute`**, et c'est la même
+  raison : dans le flux, elle ferait rétrécir la carte à chaque frappe.
+- **`basculer` repose le chemin quand le nœud visé n'est pas posé.** Deux
+  chemins y mènent : la vue éclatée (qui vient de tout retirer du DOM) et la
+  recherche (qui vise une feuille dont la branche n'a jamais été ouverte). Sans
+  ce reposage, `cible._noeud` est nul, la fonction lève une exception en plein
+  milieu et **la carte reste vide**, traits allumés et portrait au centre.
 - **Toute destination s'ouvre dans un onglet neuf** (`dehors()`, appelée aux
   *deux* endroits où un `<a>` est fabriqué : le plan et le repli mobile). La
   carte reste donc ouverte derrière, à l'endroit où on l'a laissée — son état ne
@@ -256,6 +272,40 @@ Le rapport s'ouvre sur deux champs qui se lisent ensemble :
 > et `debordementV` annonçait 96 px là où la page en défilait 32. Il est
 > maintenant hors flux. **Un chiffre faux dans un rapport vaut moins que pas de
 > chiffre du tout** : personne ne l'a lu, et le défilement est passé.
+
+### Le banc de la recherche
+
+`verif-recherche.js`, même principe et même invocation :
+
+```bash
+sed "s|</body>|<script src=\"verif-recherche.js?v=$(date +%s)\"></script></body>|" \
+  index.html > verif-recherche.html
+```
+
+Il tape dans le champ, filtre par catégorie, navigue au clavier, choisit un
+résultat, change de langue, et rapporte 27 contrôles.
+
+> ⚠️ **Le banc doit rester EXTERNE**, chargé par `<script src>`. Collé en ligne,
+> son propre code source contient les chaînes `DEBUT_VERIF` et `FIN_VERIF` : un
+> lecteur qui les cherche dans le DOM tombe sur le **source** et croit lire un
+> rapport. Ça a fait conclure **trois fois de suite** qu'un piège n'était pas
+> détecté, alors que la page plantait pour de bon. Le coupable était le lecteur,
+> pas le banc — c'est la même leçon que la rasterisation de l'emblème, qui
+> annonçait 95 % là où le navigateur en rendait 61.
+
+> ⚠️ **Un chien de garde publie le rapport même si le banc meurt en route.** Une
+> exception levée *dans un écouteur* ne remonte pas à l'appelant : `el.click()`
+> rend la main comme si de rien n'était. Sans ce filet, un plantage se lit
+> « le banc n'a rien rendu » — un silence, pas un défaut nommé.
+
+**Le piéger**, avant de croire un rapport vert. Trois copies volontairement
+cassées suffisent, et elles sortent bien trois défauts distincts :
+
+| ce qu'on retire | ce que le banc dit |
+|---|---|
+| le dépliage des accents | « sans accent, *reseaux* trouve *Réseaux* » |
+| le reposage du chemin dans `basculer` | l'exception, et « la fratrie visée est posée » |
+| le filtre par catégorie | « la catégorie réduit la liste : 8 → 8 » |
 
 ## Déploiement
 

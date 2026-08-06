@@ -129,6 +129,164 @@ p  { margin: 0; }
 }
 .tete .role { margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-ink-2); }
 
+/* La vue éclatée et la langue, côte à côte : voir le ⚠️ dans index.html, c'est
+   48 px de chapeau rendus au plan. */
+.outils { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; justify-content: center; }
+
+/* -------------------------------------------------------- la recherche */
+
+/* ⚠️ `position: relative` sur le bloc, et RIEN dans le flux en dessous : la
+   liste de résultats est ancrée ici en absolu. La hauteur du chapeau est une
+   constante du calcul de la carte (voir la réserve de `.plan`) ; si la liste
+   poussait le flux, la carte rétrécirait à chaque frappe. */
+.cherche { position: relative; width: min(430px, 100%); }
+
+.cherche__barre {
+  display: flex;
+  align-items: stretch;
+  gap: var(--space-2xs);
+}
+
+/* Le sélecteur de catégorie est un vrai `<select>`, pas une liste maison :
+   au clavier et sur mobile, le natif fait mieux que tout ce qu'on écrirait. */
+.cherche__cat {
+  flex: none;
+  max-width: 40%;
+  padding: 0 24px 0 12px;
+  border: var(--rule-hair) solid var(--color-line-2);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink-2);
+  font: 600 var(--text-3xs) / 1 var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  appearance: none;
+  /* le chevron, en fond : `appearance: none` retire celui du système */
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 12px top 50%, right 7px top 50%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: color var(--dur-short) var(--ease-out),
+              border-color var(--dur-short) var(--ease-out);
+}
+
+.cherche__cat:hover { color: var(--color-ink); border-color: var(--color-accent-line); }
+/* ⚠️ Le menu déroulant natif se dessine avec les couleurs du SYSTÈME, pas du
+   site : sans ça, texte clair sur fond clair chez qui a un thème clair. */
+.cherche__cat option { background: var(--color-paper-2); color: var(--color-ink); }
+
+.cherche__champ {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-width: 0;
+  padding: 0 14px;
+  border: var(--rule-hair) solid var(--color-line-2);
+  border-radius: 999px;
+  transition: border-color var(--dur-short) var(--ease-out);
+}
+
+.cherche__champ:focus-within { border-color: var(--color-accent); }
+.cherche__loupe { width: 14px; height: 14px; flex: none; color: var(--color-ink-3); }
+
+.cherche__champ input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 34px;                 /* cible tactile, aligné sur `.eclat` */
+  border: 0;
+  background: none;
+  color: var(--color-ink);
+  font: 400 var(--text-sm) / 1 var(--font-body);
+}
+
+.cherche__champ input::placeholder { color: var(--color-ink-3); }
+.cherche__champ input:focus { outline: none; }   /* le cadre passe au parent */
+/* la croix native de `type="search"` est grise sur noir et hors voix : on la
+   retire, Échap et le bouton effacent déjà */
+.cherche__champ input::-webkit-search-cancel-button { display: none; }
+
+/* ------------------------------------------------------ les résultats */
+
+.trouve {
+  position: absolute;
+  z-index: var(--z-dessus);
+  top: calc(100% + var(--space-2xs));
+  left: 0;
+  right: 0;
+  max-height: 46vh;
+  overflow-y: auto;
+  padding: var(--space-2xs);
+  border: var(--rule-hair) solid var(--color-line-2);
+  border-radius: 14px;
+  background: var(--color-paper-2);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .55);
+  text-align: left;
+}
+
+.trouve__r {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 9px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.trouve__r[aria-selected="true"],
+.trouve__r:hover { background: var(--color-accent-soft); }
+
+.trouve__r .pastille { width: 26px; height: 26px; flex: none; }
+.trouve__r .pastille svg { width: 12px; height: 12px; }
+
+.trouve__t { min-width: 0; flex: 1 1 auto; }
+.trouve__t b {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.trouve__t span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-3xs);
+  color: var(--color-ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* le chemin : d'où vient ce résultat dans la carte */
+.trouve__ou {
+  flex: none;
+  max-width: 38%;
+  font-family: var(--font-mono);
+  font-size: var(--text-3xs);
+  color: var(--color-ink-3);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trouve__rien {
+  padding: 12px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--color-ink-3);
+}
+
 /* --------------------------------------------------------- vue éclatée */
 
 .eclat {
@@ -227,8 +385,14 @@ p  { margin: 0; }
    de gouttière) et personne n'a corrigé le chiffre. Résultat : 32 px de trop,
    la page défilait, et le nom se coupait en haut dès qu'on touchait la molette.
    Le détail, mesuré au navigateur :
-     32 (marge haute) + 165 (chapeau) + 32 (gouttière) + 32 (gouttière)
+     32 (marge haute) + 166 (chapeau) + 32 (gouttière) + 32 (gouttière)
      + 16 (pied) + 20 (marge basse) + 1 (arrondi) = 298.
+   ⚠️ La barre de recherche a été ajoutée SANS toucher à ce chiffre, et c'est
+   volontaire : empilée, elle coûtait 48 px et faisait passer un 1512×982 sous
+   le plancher de 880 px — la page se remettait à défiler. « Vue éclatée » et
+   la langue ont donc été mises côte à côte, ce qui rend exactement la place
+   qu'elle prend. Le chapeau vaut toujours 166. Rajouter une ligne ici, c'est
+   soit en retirer une ailleurs, soit reprendre ce chiffre.
 
    ⚠️ `container-type: inline-size` va avec : TOUT ce qu'il y a dedans est
    dimensionné en `cqw`, donc la carte rapetisse d'un bloc. Repasser une taille
