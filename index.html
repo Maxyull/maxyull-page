@@ -76,8 +76,17 @@
     </g>
   </symbol>
 
-  <!-- ⚠️ Butin et Rubin sont dessinées ici : elles n'ont pas encore de logo.
-       Le jour où elles en auront un, seul le `d` change.
+  <!-- ⚠️ Butin et Rubin ONT un logo depuis le 06/08/2026, et ce qui suit en
+       est la transposition, pas un dessin libre : une bourse pour Butin, un
+       rubis dans un anneau ouvert pour Rubin. Le jeu complet vit dans
+       `D:\DEV\bdo\ressources\`, avec les .ico des exécutables.
+       ⚠️ Les logos d'origine sont AU TRAIT, facettés, et EN COULEUR (or et
+       rouge). Ici ils sont pleins et monochromes : c'est voulu, la page a une
+       seule voix pour toutes ses icônes (plein, `currentColor`, 24×24), et un
+       filaire à facettes se referme en bouillie sous 24 px. Reprendre la
+       couleur ou le trait ici casserait la rangée entière, pas seulement ces
+       deux-là.
+       Le jour où l'un des deux change de marque, seul le `d` change.
 
        BLACK DESERT ONLINE, lui, EST SA VRAIE MARQUE : l'emblème de Pearl
        Abyss, une spirale carrée tournée à -45°, RELEVÉE SUR L'ICÔNE OFFICIELLE
@@ -112,11 +121,24 @@
           d="M17.86 6.14V17.86H6.14V6.14H12.58V12.58H9.52" transform="rotate(315 12 12)"/>
   </symbol>
 
-  <!-- Butin : une pile de pièces, c'est un compteur de butin. -->
-  <symbol id="i-butin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4.4 0 8 1.34 8 3s-3.6 3-8 3-8-1.34-8-3 3.6-3 8-3M4 8.5c1.6 1.2 4.6 1.9 8 1.9s6.4-.7 8-1.9V11c0 1.66-3.6 3-8 3s-8-1.34-8-3zm0 5c1.6 1.2 4.6 1.9 8 1.9s6.4-.7 8-1.9V16c0 1.66-3.6 3-8 3s-8-1.34-8-3z"/></symbol>
+  <!-- Butin : sa bourse nouée, reprise de son logo. Trois morceaux empilés,
+       le col, le lien, la panse : un seul contour bavait au petit. -->
+  <symbol id="i-butin" viewBox="0 0 24 24"><path fill="currentColor" d="M9.4 1.8h5.2l1.4 3.4H8zm-1.8 4h8.8v1.9H7.6zm1.4 2.9h6c2.2 2 6 4.5 6 8.3 0 3.6-4 6-9 6s-9-2.4-9-6c0-3.8 3.8-6.3 6-8.3"/></symbol>
 
-  <!-- Rubin : un sablier, c'est un chronomètre de quêtes. -->
-  <symbol id="i-rubin" viewBox="0 0 24 24"><path fill="currentColor" d="M5 2h14v2h-1.5v2.6c0 1.5-.7 2.9-1.9 3.8L13.7 12l1.9 1.6c1.2.9 1.9 2.3 1.9 3.8V20H19v2H5v-2h1.5v-2.6c0-1.5.7-2.9 1.9-3.8L10.3 12 8.4 10.4A4.8 4.8 0 0 1 6.5 6.6V4H5zm3.5 2v2.6c0 .9.4 1.7 1.1 2.2l2.4 2 2.4-2c.7-.5 1.1-1.3 1.1-2.2V4z"/></symbol>
+  <!-- Rubin : son rubis dans l'anneau ouvert, repris de son logo. L'anneau est
+       plein et percé (deux arcs de sens opposés, pas besoin d'`evenodd`), et
+       sa coupure en haut est ce qui l'empêche de se lire comme un cercle.
+       ⚠️ Deux réglages ont été MESURÉS sur un banc à 16, 24, 50 et 160 px,
+       parce que le premier jet se lisait « télécharger » :
+       1. l'ouverture fait 60°, pas 20° : sous 24 px une coupure de 20° se
+          referme et l'anneau redevient un cercle plein ;
+       2. le pavillon (7,6 → 16,4) est PLUS ÉTROIT que la ceinture de la
+          couronne (6,5 → 17,5). À largeurs égales, bande + triangle pointant
+          vers le bas est exactement le glyphe du téléchargement. Le gabarit
+          inverse — large en haut, étroit en dessous — ne peut pas être une
+          flèche, et c'est ce qui rend la gemme lisible.
+       Élargir le pavillon ou refermer l'ouverture ramène l'un ou l'autre. -->
+  <symbol id="i-rubin" viewBox="0 0 24 24"><path fill="currentColor" d="M17.3 2.82A10.6 10.6 0 1 1 6.7 2.82L7.55 4.29A8.9 8.9 0 1 0 16.45 4.29ZM8.6 8.2h6.8l2.1 2.6H6.5zm-1 3.7h8.8L12 18.2z"/></symbol>
 
   <symbol id="i-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
 
