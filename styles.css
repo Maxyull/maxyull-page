@@ -355,10 +355,18 @@ p  { margin: 0; }
 .noeud--etape .pastille { border-color: var(--color-accent-line); }
 .plan.ouvert.fini .noeud--etape.actif { opacity: 0; pointer-events: none; }
 
-/* ⚠️ Au 3ᵉ niveau les mères s'effacent : la fratrie profonde vise l'intérieur
-   de la carte et leur passerait dessus. Leurs traits, eux, restent — c'est le
-   fil d'Ariane par lequel le portrait est arrivé. */
-.plan.profond.fini .noeud--mere { opacity: 0; pointer-events: none; }
+/* ⚠️⚠️ LE MÊME PIÈGE QUE POUR LES MÈRES, une marche plus bas, et il a coûté
+   cher. Tant que l'animation d'entrée reste accrochée en `forwards`, elle garde
+   la main sur `opacity` et AUCUNE règle normale ne s'applique — la ligne
+   juste au-dessus, celle qui efface l'étape ouverte pour que le portrait vienne
+   s'y poser, ne faisait donc RIEN : l'étiquette de « Black Desert Online »
+   restait lisible sous le portrait, à moitié cachée par lui. Les mères ont leur
+   décrochage (`.plan.fini`), les enfants n'en avaient aucun.
+   `posee` est ce décrochage, posé en JS nœud par nœud une fois la pose jouée :
+   par minuteur et non par `animationend`, qui ne viendrait jamais en mouvement
+   réduit. Il doit rendre `opacity: 1`, sinon le nœud retombe sur le `0` de
+   `.noeud` et disparaît. */
+.plan .noeud--enfant.posee { animation: none; opacity: 1; }
 
 /* ------------------------------------------------------ la vue éclatée */
 
