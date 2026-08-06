@@ -170,6 +170,13 @@ comme le portrait.
   côtés ne suffisaient pas : le centre percute, le haut sort de la carte, les
   flancs sont pris. **Elle se place donc APRÈS l'arrivée**, une fois la fratrie
   posée — au départ du voyage il n'y a encore rien à éviter.
+- **Descendre depuis la VUE ÉCLATÉE n'est pas descendre depuis le repos.**
+  `eclater(false)` retire du DOM tout ce qui pend sous les mères — **y compris
+  le nœud qu'on vient de cliquer**. `basculer` levait alors une exception en
+  plein milieu (`cible._noeud` nul) et s'arrêtait net : traits du chemin
+  allumés, portrait au centre, **carte vide**. Le chemin est donc reposé avant
+  de voyager. Ça ne se voyait que sur « Black Desert Online » : c'est le seul
+  nœud assez profond pour que son parent soit lui-même un enfant retiré.
 - **Il n'y a plus d'état `profond`.** Il effaçait les cinq mères dès le 3ᵉ
   niveau, parce que la fratrie profonde visait alors l'intérieur de la carte.
   Depuis que « Black Desert Online » est monté dans le coin haut-gauche, la
@@ -213,11 +220,21 @@ chrome --headless=new --window-size=2560,1290 --virtual-time-budget=90000 \
   --dump-dom "http://localhost:8781/verif.html?lang=fr"
 ```
 
-> ⚠️ Il descend jusqu'à **« Black Desert Online »**, seul nœud du 4ᵉ niveau et
-> état le plus fragile de la carte : le plus profond, et le seul où le portrait
-> quitte une mère sans y rester. Il n'était mesuré **nulle part** — la carte s'y
-> est vidée pour de bon pendant que le banc annonçait « rien à signaler » neuf
-> fois de suite. Ne pas retirer cette étape.
+> ⚠️ Il descend jusqu'à **« Black Desert Online »** — **deux fois** : depuis le
+> repos, et depuis la vue éclatée. C'est le seul nœud du 4ᵉ niveau et l'état le
+> plus fragile de la carte : le plus profond, le seul où le portrait quitte une
+> mère sans y rester, et le seul dont le parent est lui-même un enfant. Il
+> n'était mesuré **nulle part** — la carte s'y est vidée deux fois, de deux
+> façons différentes, pendant que le banc annonçait « rien à signaler ». Ne pas
+> retirer ces étapes, ni le temps mort qui suit le clic depuis l'éclatée : trois
+> vols durent 1 860 ms et le banc mesure toutes les 1 500 ms.
+
+Le rapport porte enfin un champ **`plantages`**. Une exception dans une étape
+n'arrêtait pas que l'étape : elle empêchait le minuteur suivant, donc le banc
+s'arrêtait pour de bon et ne rendait **aucun rapport**. C'est exactement ce
+qu'a fait le clic sur Black Desert Online depuis la vue éclatée. Les exceptions
+sont maintenant attrapées, nommées, et le parcours continue — celles de la page
+aussi, via `window.onerror`, là où le `try` du banc ne va pas.
 
 Le rapport s'ouvre sur deux champs qui se lisent ensemble :
 

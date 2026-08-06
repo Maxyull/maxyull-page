@@ -57,6 +57,14 @@
     return;
   }
 
+  /* Les exceptions, d'où qu'elles viennent : celles des étapes du banc
+     (attrapées plus bas) et celles que la page lève de son côté, dans un
+     minuteur ou un écouteur, où le `try` du banc ne va pas. */
+  var plantages = [];
+  window.addEventListener('error', function (e) {
+    plantages.push('page : ' + (e.message || 'erreur') + ' (' + (e.filename || '?').split('/').pop() + ':' + e.lineno + ')');
+  });
+
   var out = document.createElement('pre');
   out.id = 'verif';
   /* ⚠️ QUATRIÈME mensonge du banc, de la même famille que les trois autres :
@@ -179,7 +187,19 @@
   etapes.push(function () { res.push(etat('retour au centre')); });
   etapes.push(function () { document.getElementById('eclat').click(); });
   etapes.push(function () { res.push(etat('vue eclatee')); });
-  etapes.push(function () { document.getElementById('eclat').click(); });
+  /* ⚠️ Descendre depuis la VUE ÉCLATÉE n'est pas la même chose que descendre
+     depuis le repos : la refermeture retire du DOM tout ce qui pend sous les
+     mères, y compris le nœud cliqué. Ce chemin-là plantait `basculer` en
+     silence et laissait la carte vide. Il se mesure donc, lui aussi. */
+  etapes.push(function () { var b = parNom('Black Desert Online'); if (b) b.click(); });
+  /* ⚠️ Une étape vide, et elle est NÉCESSAIRE : depuis la vue éclatée le
+     portrait fait TROIS vols (centre → Projets → GitHub → Black Desert Online),
+     soit 1 860 ms, alors que le banc mesure toutes les 1 500 ms. Sans ce temps
+     mort il mesurait EN PLEIN VOL et rapportait un chevauchement qui n'existe
+     que pendant le trajet. Depuis le repos il n'y a que deux vols, ça passe. */
+  etapes.push(function () {});
+  etapes.push(function () { res.push(etat('eclatee puis Black Desert Online')); });
+  etapes.push(function () { document.getElementById('siege').click(); });
   etapes.push(function () { res.push(etat('repliee')); });
   /* Le verdict : ce qu'il faut lire quand on n'a pas le temps de lire les
      étapes. Il rassemble ce que le banc sait déjà mesurer — un rapport où
@@ -189,6 +209,7 @@
      le disait était faux (voir le <pre> ci-dessus) puis noyé dans le détail. */
   function verdict() {
     var mal = [];
+    plantages.forEach(function (p) { mal.push('EXCEPTION · ' + p); });
     res.forEach(function (e) {
       e.chocs.forEach(function (c) { mal.push(e.etape + ' · chevauchement : ' + c); });
       e.debords.forEach(function (d) { mal.push(e.etape + ' · sort du cadre : ' + d); });
@@ -205,6 +226,7 @@
     var mal = verdict();
     out.textContent = 'DEBUT_VERIF' + JSON.stringify({
       verdict: mal.length ? mal : 'rien à signaler',
+      plantages: plantages,
       /* ⚠️ Sans la taille de fenêtre, `debordementV` ne veut rien dire : la
          hauteur disponible EST ce qui dimensionne le plan. Un rapport sans ce
          couple ne se rejoue pas. */
@@ -216,10 +238,18 @@
     }, null, 1) + 'FIN_VERIF';
   });
 
+  /* ⚠️ Une exception dans une étape n'arrêtait pas seulement l'étape : elle
+     empêchait le `setTimeout` suivant, donc le banc s'arrêtait pour de bon et
+     ne rendait AUCUN rapport. Or c'est exactement ce qu'a fait le clic sur
+     « Black Desert Online » depuis la vue éclatée — `basculer` levait une
+     exception au milieu, la carte restait vide, et aucune mesure ne le disait.
+     Un plantage est un défaut comme un autre : on l'attrape, on le nomme, et
+     on continue le parcours. */
   var i2 = 0;
   (function suite() {
     if (i2 >= etapes.length) return;
-    etapes[i2++]();
+    try { etapes[i2++](); }
+    catch (e) { plantages.push('étape ' + (i2 - 1) + ' : ' + (e && e.message ? e.message : e)); }
     setTimeout(suite, 1500);
   })();
 })();

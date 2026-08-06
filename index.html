@@ -774,7 +774,19 @@ function chemin(n) {
    trait. Et si on y est déjà, il n'y a aucune étape : on sort plus bas. */
 function basculer(n) {
   if (enVol) return;
-  if (eclate) eclater(false);
+  if (eclate) {
+    eclater(false);
+    /* ⚠️⚠️ `eclater(false)` RETIRE DU DOM tout ce qui pend sous les mères — y
+       compris le nœud sur lequel on vient de cliquer. Sans ce reposage, la
+       ligne `cible._noeud.setAttribute(...)` plus bas levait une exception et
+       `basculer` s'arrêtait NET : les traits du chemin restaient allumés, le
+       portrait au centre, la carte vide. C'était le bug « vue éclatée, puis
+       clic sur Black Desert Online » — et il ne se voyait que là, parce que
+       c'est le seul nœud assez profond pour que son parent soit lui-même un
+       enfant retiré. On repose donc le chemin, parent d'abord, `foulee` à vrai
+       pour ne poser QUE lui. */
+    if (n) chemin(n).forEach(function (a) { if (a.de) fratrie(a.de, true, true); });
+  }
   var cible = !n ? null : (ouverte === n) ? (n.de || null) : n;   /* recliquer = remonter */
   var precedente = ouverte;
 
