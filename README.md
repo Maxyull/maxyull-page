@@ -60,6 +60,15 @@ il est cliquable *et* parent de ses dépôts, ce qui n'est tenable que parce
 qu'arriver sur « Projets » déplie déjà ses dépôts : il n'y a rien à ouvrir, donc
 rien ne se perd à ce que le clic parte.
 
+Ce dépliage « dans la foulée » va d'**un seul cran**, jamais plus (`foulee`, dans
+`fratrie()`). Il est là pour qu'arriver sur « Projets » ne montre pas GitHub tout
+seul — pas pour vider la branche entière. « Black Desert Online », qui est une
+étape sous GitHub, garde donc ses deux outils repliés jusqu'à ce qu'on l'ouvre.
+Sans cette limite les huit nœuds de la branche se posaient pleine taille dans le
+tiers gauche, et **aucune position ne s'en sortait** : le balayage complet des
+angles et des rayons ne rendait que 7 px de marge, contre 22 une fois la cascade
+coupée.
+
 ### Deux façons de revenir
 
 > **Le portrait remonte d'un cran. Le siège vide, au centre, ramène au centre.**
@@ -85,8 +94,21 @@ comme le portrait.
   lui barre le flanc droit, il ne lui reste que deux secteurs séparés — ce
   qu'aucun éventail régulier ne sait exprimer. Trois formules ont été essayées
   avant, la dernière ayant tenu jusqu'à ce qu'un 4ᵉ dépôt la fasse poser un nœud
-  sur « Projets ». **Un 5ᵉ dépôt demande une nouvelle mesure**, il n'y a pas
-  d'angle pour lui.
+  sur « Projets ». Le 5ᵉ (« Black Desert Online ») a été mesuré à son tour :
+  20°, et un `bras` à lui seul pour aller chercher le seul creux disponible.
+  **Un 6ᵉ dépôt demande une nouvelle mesure**, il n'y a pas d'angle pour lui.
+- **Un nœud peut poser ses enfants lui-même** (`angles`, `anneau`) et s'éloigner
+  de ses frères (`bras`). Ça n'existe que pour « Black Desert Online », le seul
+  nœud du 4ᵉ niveau. Sur l'anneau ordinaire il tombait à 42 px de « Auto Claim
+  Twitch Drops », l'étiquette la plus large de la carte, et `TOUR[2]` aurait
+  envoyé ses deux outils droit au-dessus et droit en dessous — il n'y a plus la
+  hauteur pour ça si bas dans l'arbre.
+- **Trois états à vérifier, pas un.** Une position peut passer en vue éclatée
+  (étiquettes rapetissées, notes masquées) et se chevaucher en vue normale, où
+  les nœuds sont pleine taille. Il faut mesurer : *Projets ouverte*, *Black
+  Desert Online ouverte* (les mères s'effacent, le portrait change de place) et
+  *vue éclatée*. En français **et** en anglais : les étiquettes n'ont pas la
+  même largeur.
 - **Toute destination s'ouvre dans un onglet neuf** (`dehors()`, appelée aux
   *deux* endroits où un `<a>` est fabriqué : le plan et le repli mobile). La
   carte reste donc ouverte derrière, à l'endroit où on l'a laissée — son état ne
