@@ -76,28 +76,30 @@
     </g>
   </symbol>
 
-  <!-- ⚠️ Les trois suivantes sont dessinées ici, il n'existe pas de logo de
-       marque pour elles : Black Desert Online est un jeu tiers (pas de logo
-       repris, on n'a pas le droit), Butin et Rubin n'en ont pas encore.
-       Le jour où ils en auront un, seul le `d` change.
+  <!-- ⚠️ Butin et Rubin sont dessinées ici : elles n'ont pas encore de logo.
+       Le jour où elles en auront un, seul le `d` change.
 
-       Black Desert Online : un soleil sur une dune, le désert que le nom dit.
-       ⚠️⚠️ Le soleil est BAS et À DROITE, à hauteur de crête, et la crête est à
-       gauche. Ce n'est pas un choix de goût, c'est la seule composition qui
-       marche : un disque POSÉ AU-DESSUS d'une bosse, c'est l'icône universelle
-       « utilisateur », et à 24 px l'œil ne lit rien d'autre. Sept essais
-       successifs l'ont vérifié au rendu (15 px, 24 px, 50 px) — soleil centré,
-       soleil décentré, éclipse, deux dunes : tous se lisaient comme un avatar
-       tant que le disque restait EN HAUT DU MILIEU. Le descendre à côté de la
-       crête en fait un paysage, d'un coup.
-       ⚠️ Un anneau (éclipse, le « soleil noir ») disait mieux le nom, mais son
-       trait se bouche en vue éclatée, où l'icône tombe à 15 px.
-       Trois rides de sable seules, sans soleil, se lisaient « wifi ». -->
+       BLACK DESERT ONLINE, lui, EST SA VRAIE MARQUE : l'emblème de Pearl
+       Abyss, une spirale carrée tournée à 45°, retracée à la géométrie depuis
+       l'icône officielle (le vrai fait 1,75 tour, trait = intervalle).
+       ⚠️ C'est une DÉCISION DE MAXIME, prise le 06/08 en connaissance de
+       cause : la marque appartient à Pearl Abyss, elle n'est publiée sous
+       aucune licence libre, et ce dépôt est public. Elle est reprise pour
+       DÉSIGNER le jeu, rien d'autre. Voir `NOTICE.md`. Ne pas la retirer sans
+       lui demander, et ne pas la « corriger » vers un dessin maison : c'est
+       précisément ce qui a été essayé avant, et rejeté.
+       ⚠️ Deux dessins maison ont échoué avant elle, et savoir POURQUOI évite
+       de les refaire : un disque posé au-dessus d'une bosse se lit « avatar »,
+       et le même décentré se lit « IMAGE CASSÉE » — montagne + petit soleil,
+       c'est le glyphe universel du remplacement d'image. Sept variantes
+       rendues à 15, 24 et 50 px n'avaient pas suffi à le voir ; Maxime l'a vu
+       du premier coup d'œil sur sa page. Le paysage est un terrain miné.
+       ⚠️ Le tracé est au TRAIT (`stroke`), seul de tout le jeu d'icônes : la
+       spirale est un ruban, la remplir n'a pas de sens. `fill="none"` est donc
+       obligatoire, sans quoi elle se referme en losange plein. -->
   <symbol id="i-bdo" viewBox="0 0 24 24">
-    <g fill="currentColor">
-      <path d="M1.4 20.6c2.2 0 3.4-8 7.6-8 4.6 0 6.4 5.6 13.6 8z"/>
-      <circle cx="18.4" cy="8.6" r="3.2"/>
-    </g>
+    <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"
+          d="M4.6 4.6H19.4V19.4H4.6V9.6H14.4V14.4H9.6" transform="rotate(45 12 12)"/>
   </symbol>
 
   <!-- Butin : une pile de pièces, c'est un compteur de butin. -->
