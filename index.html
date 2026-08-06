@@ -76,6 +76,18 @@
     </g>
   </symbol>
 
+  <!-- ⚠️ Les trois suivantes sont dessinées ici, il n'existe pas de logo de
+       marque pour elles : Black Desert Online est un jeu tiers (pas de logo
+       repris, on n'a pas le droit), Butin et Rubin n'en ont pas encore.
+       Le jour où ils en auront un, seul le `d` change. -->
+  <symbol id="i-bdo" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8 3.6 4.8v6.4c0 4.9 3.5 9.3 8.4 10.9 4.9-1.6 8.4-6 8.4-10.9V4.8zm0 2.5 6 2.1v4.8c0 3.6-2.5 6.9-6 8.3-3.5-1.4-6-4.7-6-8.3V6.4z"/></symbol>
+
+  <!-- Butin : une pile de pièces, c'est un compteur de butin. -->
+  <symbol id="i-butin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2c4.4 0 8 1.34 8 3s-3.6 3-8 3-8-1.34-8-3 3.6-3 8-3M4 8.5c1.6 1.2 4.6 1.9 8 1.9s6.4-.7 8-1.9V11c0 1.66-3.6 3-8 3s-8-1.34-8-3zm0 5c1.6 1.2 4.6 1.9 8 1.9s6.4-.7 8-1.9V16c0 1.66-3.6 3-8 3s-8-1.34-8-3z"/></symbol>
+
+  <!-- Rubin : un sablier, c'est un chronomètre de quêtes. -->
+  <symbol id="i-rubin" viewBox="0 0 24 24"><path fill="currentColor" d="M5 2h14v2h-1.5v2.6c0 1.5-.7 2.9-1.9 3.8L13.7 12l1.9 1.6c1.2.9 1.9 2.3 1.9 3.8V20H19v2H5v-2h1.5v-2.6c0-1.5.7-2.9 1.9-3.8L10.3 12 8.4 10.4A4.8 4.8 0 0 1 6.5 6.6V4H5zm3.5 2v2.6c0 .9.4 1.7 1.1 2.2l2.4 2 2.4-2c.7-.5 1.1-1.3 1.1-2.2V4z"/></symbol>
+
   <symbol id="i-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
 
   <!-- Les mères qui n'ont pas de marque à porter. Dessinées ici, dans la même
@@ -294,6 +306,32 @@ var MERES = [
             fr:['son bot', 'discord.js'], en:['its bot', 'discord.js'] },
           { id:'jeu', i:'i-bdi', url:'https://github.com/Maxyull/black-desert-idle',
             fr:['Black Desert Idle', 'le code'], en:['Black Desert Idle', 'the code'] },
+          /* ⚠️ Le SEUL nœud du 4ᵉ niveau de la carte, et il ne tient que par
+             les trois nombres ci-dessous — voir `angles` / `anneau` près de
+             `TOUR`. Il est posé à DROITE de GitHub, dans le couloir laissé
+             libre entre « Projets » (au-dessus) et « Auto Claim Twitch Drops »
+             (en dessous) : c'est le seul creux du flanc gauche. À gauche de
+             GitHub il n'y a rien à prendre, « son bot » est déjà à 28 px du
+             bord. Ses deux outils, eux, sortent vers le centre de la carte,
+             dans la poche vide entre « Projets », le portrait et « Boutique ».
+             ⚠️ Pas d'`url` ici, et c'est voulu : le jeu appartient à Pearl Abyss,
+             on n'envoie pas chez eux depuis une carte personnelle. C'est une
+             étape, elle ne fait que regrouper. */
+          { id:'bdo', i:'i-bdo',
+            bras:[276, 276], angles:[-115, -60], anneau:[155, 155],
+            fr:['Black Desert Online', 'mes deux outils'],
+            en:['Black Desert Online', 'my two tools'],
+            enfants: [
+              { id:'butin', i:'i-butin', url:'https://github.com/Maxyull/butin-bdo',
+                fr:['Butin', 'compteur de butin'], en:['Butin', 'loot tracker'] },
+              /* ⚠️ Le dépôt, PAS `rubin.maxyull.fr`. Ce sous-domaine existe et
+                 répond, mais c'est l'API du client de bureau : sa racine rend un
+                 404 en JSON (vérifié, seul `/sante` répond quelque chose). Y
+                 envoyer un visiteur, c'est lui servir une page d'erreur. Le jour
+                 où une vraie page vivra à cette adresse, c'est ici que ça change. */
+              { id:'rubin', i:'i-rubin', url:'https://github.com/Maxyull/rubin-bdo',
+                fr:['Rubin', 'chronomètre de quêtes'], en:['Rubin', 'quest timer'] }
+            ] },
           /* ⚠️ Le lien pointe sur le DÉPÔT, pas sur le Chrome Web Store :
              l'extension n'y est pas encore publiée (docs/AUDIT-SECU.md la
              donne « à faire au moment de la publication »). Le jour où elle
@@ -449,23 +487,49 @@ function placer(n, profondeur) {
        (mesuré) — le banc laissait passer, il tolère 2 px, l'œil non.
        Et -137 pour le premier collait « son bot » à 19 px du bord gauche ;
        -130 le ramène à 28. Ces quatre nombres sont mesurés, pas déduits. */
-    4: [-130, -60, 52, 128]
+    4: [-130, -60, 52, 128],
+    /* ⚠️ Le 5ᵉ est « Black Desert Online » et il vaut 20°, pas autre chose :
+       c'est le seul cap qui le fasse tomber dans le couloir entre « Projets »
+       (97 px au-dessus, mesuré) et « Auto Claim Twitch Drops » (85 px en
+       dessous). Les quatre autres n'ont pas bougé d'un degré — les toucher
+       rouvre les chevauchements que le commentaire ci-dessus décrit. */
+    5: [-130, -60, 20, 52, 128]
   };
   var tour = profondeur >= 2;
   if (tour) { rx = 130; ry = 190; }
 
+  /* ⚠️ Un nœud peut poser SES enfants lui-même. Sans ça, « Black Desert Online »
+     héritait de `TOUR[2]`, c'est-à-dire -90/+90 : un enfant droit au-dessus,
+     l'autre droit en dessous. Au 4ᵉ niveau il n'y a plus la hauteur pour ça,
+     celui du haut allait percuter « Projets ». Ses deux outils partent donc en
+     biais vers le centre de la carte, sur un anneau ROND (175 × 175) et non
+     aplati : c'est de la largeur qu'il lui faut, pas de la hauteur. */
+  if (n.anneau) { rx = n.anneau[0]; ry = n.anneau[1]; }
+
   n.enfants.forEach(function (e, j, tous) {
     /* ⚠️ Au-delà de ce que `TOUR` sait placer on retombe sur l'éventail : c'est
-       un filet, pas une disposition tenue. Un 5ᵉ dépôt demande une mesure. */
-    var angles = tour ? TOUR[tous.length] : null;
+       un filet, pas une disposition tenue. Un 6ᵉ dépôt demande une mesure. */
+    var angles = n.angles || (tour ? TOUR[tous.length] : null);
     var ae = angles
       ? angles[j] * Math.PI / 180
       : dir + (j - (tous.length - 1) / 2) * (tour ? 75 : pas) * Math.PI / 180;
     e.a = ae;
     e.de = n;
     e.p = profondeur + 1;
-    e.x = n.x + Math.cos(ae) * rx;
-    e.y = n.y + Math.sin(ae) * ry;
+    /* ⚠️ `bras` allonge le trait d'UN enfant sans toucher à ses frères, et il
+       n'existe que pour « Black Desert Online ». Sur l'anneau ordinaire (130)
+       il tombait à x=274, soit 42 px de « Auto Claim Twitch Drops » — or c'est
+       l'étiquette la plus large de la carte, et EN VUE NORMALE (nœuds pleine
+       taille, notes affichées) les deux se chevauchaient de 10 px. Le mesurer
+       en vue éclatée ne suffit pas : là les étiquettes rapetissent et la même
+       position passait à 19 px de marge. Il faut les deux vues.
+       203 le pose à x=344, soit 112 px d'écart — juste au-delà des 110 px que
+       demandent les deux demi-étiquettes. Le rapprocher le fait replonger, et
+       le pousser plus loin l'envoie sur le portrait au centre. */
+    var brx = e.bras ? e.bras[0] : rx,
+        bry = e.bras ? e.bras[1] : ry;
+    e.x = n.x + Math.cos(ae) * brx;
+    e.y = n.y + Math.sin(ae) * bry;
     NOEUDS.push(e);
     placer(e, profondeur + 1);
   });
@@ -607,7 +671,7 @@ function viser(n) {
 
 /* Un nœud qui a des enfants est une ÉTAPE (bouton) ; sinon c'est une
    destination (lien). Une seule règle, valable à toutes les profondeurs. */
-function fratrie(m, montrer) {
+function fratrie(m, montrer, foulee) {
   m.enfants.forEach(function (e, j) {
     if (!montrer) {
       if (e.enfants) fratrie(e, false);   /* on replie aussi ses descendants */
@@ -653,9 +717,21 @@ function fratrie(m, montrer) {
   /* ⚠️ Une étape parmi les enfants est dépliée DANS LA FOULÉE : arriver sur
      Projets pour n'y trouver que GitHub, seul, ne montrerait rien. On voit
      donc GitHub ET ses dépôts d'un coup ; y aller ensuite ne fait que
-     rapprocher le portrait. */
-  if (montrer) {
-    m.enfants.forEach(function (e) { if (e.enfants) fratrie(e, true); });
+     rapprocher le portrait.
+     ⚠️ UN SEUL cran, et `foulee` est là pour ça. Sans lui l'appel se rappelait
+     lui-même de proche en proche et vidait la branche entière d'un coup : en
+     ouvrant Projets on recevait aussi Butin et Rubin, soit huit nœuds pleine
+     taille et le portrait dans le tiers gauche. Mesuré : « Black Desert Online »
+     chevauchait « Auto Claim Twitch Drops » et le portrait, et AUCUNE position
+     ne s'en sortait — la recherche balayée sur les angles et les rayons ne
+     rendait que 7 px de marge, contre 22 une fois la cascade coupée.
+     Le pas de plus n'était pas voulu : le commentaire ci-dessus dit « GitHub ET
+     ses dépôts », pas la carte entière. Black Desert Online est une étape, elle
+     s'ouvre — c'est la règle de tous les autres nœuds cerclés.
+     ⚠️ La vue éclatée ne passe PAS par ici pour descendre : `deplier` recurse
+     de son côté, elle reste dépliée de bout en bout. */
+  if (montrer && !foulee) {
+    m.enfants.forEach(function (e) { if (e.enfants) fratrie(e, true, true); });
     ecrire(racine.getAttribute('data-lang'));
   }
 }
