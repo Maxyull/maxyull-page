@@ -95,8 +95,23 @@ comme le portrait.
   qu'aucun éventail régulier ne sait exprimer. Trois formules ont été essayées
   avant, la dernière ayant tenu jusqu'à ce qu'un 4ᵉ dépôt la fasse poser un nœud
   sur « Projets ». Le 5ᵉ (« Black Desert Online ») a été mesuré à son tour :
-  20°, et un `bras` à lui seul pour aller chercher le seul creux disponible.
+  -98°, et un `bras` à lui seul pour monter chercher le coin haut-gauche.
   **Un 6ᵉ dépôt demande une nouvelle mesure**, il n'y a pas d'angle pour lui.
+- **Un trait ne doit traverser aucune étiquette**, et c'est une vraie règle de
+  la carte : hors des cinq traits qui partent du portrait, elle n'a **aucun**
+  croisement. Un banc qui ne compare que les boîtes ne le voit pas. Une
+  première version de « Black Desert Online » passait tous les tests de
+  chevauchement et se faisait quand même barrer « Butin » et « Rubin » par le
+  trait qui va du centre à « Projets ». Une fois la règle imposée, le balayage
+  complet ne rend plus **aucune** position dans le corps de la carte : les 222
+  qui restent sont toutes à gauche de GitHub, dans le coin haut, et aucune à
+  moins de 210 unités de lui. C'est pour ça que ce bras est long.
+- **En vue normale, c'est la NOTE qui fait la largeur** dès qu'elle dépasse le
+  nom. « chronomètre de quêtes » portait Rubin à 132 unités, « compteur de
+  butin » Butin à 107 — à ces largeurs il n'existait littéralement aucune
+  position valide sur la carte. Raccourcies en « les quêtes » et « les drops »,
+  elles tombent à 63 et 57, et 222 positions s'ouvrent. Rallonger une note,
+  c'est refermer la porte.
 - **Un nœud peut poser ses enfants lui-même** (`angles`, `anneau`) et s'éloigner
   de ses frères (`bras`). Ça n'existe que pour « Black Desert Online », le seul
   nœud du 4ᵉ niveau. Sur l'anneau ordinaire il tombait à 42 px de « Auto Claim
@@ -109,6 +124,11 @@ comme le portrait.
   Desert Online ouverte* (les mères s'effacent, le portrait change de place) et
   *vue éclatée*. En français **et** en anglais : les étiquettes n'ont pas la
   même largeur.
+- **Un banc qui ne trouve rien ne prouve rien tant qu'on ne l'a pas piégé.**
+  Avant de croire un rapport vert, poser volontairement un nœud sur un trait et
+  vérifier que le banc le signale, puis le remettre en place. C'est la seule
+  façon de distinguer « rien à signaler » de « rien mesuré » — et ce banc-là
+  s'est déjà tu quatre fois.
 - **Toute destination s'ouvre dans un onglet neuf** (`dehors()`, appelée aux
   *deux* endroits où un `<a>` est fabriqué : le plan et le repli mobile). La
   carte reste donc ouverte derrière, à l'endroit où on l'a laissée — son état ne
