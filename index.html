@@ -318,19 +318,26 @@ var MERES = [
              on n'envoie pas chez eux depuis une carte personnelle. C'est une
              étape, elle ne fait que regrouper. */
           { id:'bdo', i:'i-bdo',
-            bras:[276, 276], angles:[-115, -60], anneau:[155, 155],
-            fr:['Black Desert Online', 'mes deux outils'],
-            en:['Black Desert Online', 'my two tools'],
+            bras:[285, 285], angles:[-115, -65], anneau:[140, 140],
+            /* ⚠️ Les trois notes sont COURTES, et ce n'est pas une question de
+               style : en vue normale la largeur d'un nœud est celle de sa note
+               dès qu'elle dépasse le nom. « chronomètre de quêtes » portait
+               Rubin à 132 unités de large, « compteur de butin » Butin à 107.
+               À ces largeurs il n'existe AUCUNE position valide sur la carte —
+               balayage complet, zéro candidat. Avec des notes courtes il y en a
+               255. Rallonger une de ces trois notes, c'est rouvrir ça. */
+            fr:['Black Desert Online', 'mes outils'],
+            en:['Black Desert Online', 'my tools'],
             enfants: [
               { id:'butin', i:'i-butin', url:'https://github.com/Maxyull/butin-bdo',
-                fr:['Butin', 'compteur de butin'], en:['Butin', 'loot tracker'] },
+                fr:['Butin', 'les drops'], en:['Butin', 'drops'] },
               /* ⚠️ Le dépôt, PAS `rubin.maxyull.fr`. Ce sous-domaine existe et
                  répond, mais c'est l'API du client de bureau : sa racine rend un
                  404 en JSON (vérifié, seul `/sante` répond quelque chose). Y
                  envoyer un visiteur, c'est lui servir une page d'erreur. Le jour
                  où une vraie page vivra à cette adresse, c'est ici que ça change. */
               { id:'rubin', i:'i-rubin', url:'https://github.com/Maxyull/rubin-bdo',
-                fr:['Rubin', 'chronomètre de quêtes'], en:['Rubin', 'quest timer'] }
+                fr:['Rubin', 'les quêtes'], en:['Rubin', 'quests'] }
             ] },
           /* ⚠️ Le lien pointe sur le DÉPÔT, pas sur le Chrome Web Store :
              l'extension n'y est pas encore publiée (docs/AUDIT-SECU.md la
@@ -488,12 +495,19 @@ function placer(n, profondeur) {
        Et -137 pour le premier collait « son bot » à 19 px du bord gauche ;
        -130 le ramène à 28. Ces quatre nombres sont mesurés, pas déduits. */
     4: [-130, -60, 52, 128],
-    /* ⚠️ Le 5ᵉ est « Black Desert Online » et il vaut 20°, pas autre chose :
-       c'est le seul cap qui le fasse tomber dans le couloir entre « Projets »
-       (97 px au-dessus, mesuré) et « Auto Claim Twitch Drops » (85 px en
-       dessous). Les quatre autres n'ont pas bougé d'un degré — les toucher
-       rouvre les chevauchements que le commentaire ci-dessus décrit. */
-    5: [-130, -60, 20, 52, 128]
+    /* ⚠️ Le 5ᵉ est « Black Desert Online » et il part vers le HAUT (-98°), le
+       long du bord gauche, pas vers le milieu de la carte. Une première
+       version le posait à 20°, entre « Projets » et « Auto Claim Twitch
+       Drops » : les boîtes ne se touchaient pas, mais le trait qui va du
+       centre à « Projets » traversait « Butin » et « Rubin ». Un banc qui ne
+       mesure que les boîtes ne voit pas ça — la carte n'a AUCUN autre
+       croisement trait/étiquette, c'est sa règle.
+       Une fois cette règle imposée, il ne reste que le coin haut-gauche : le
+       balayage complet rend 222 positions, toutes à gauche de GitHub, aucune
+       à moins de 210 unités de lui. Le bras est long parce qu'il n'y a rien
+       de plus court qui tienne.
+       Les quatre autres angles n'ont pas bougé d'un degré. */
+    5: [-130, -60, -98, 52, 128]
   };
   var tour = profondeur >= 2;
   if (tour) { rx = 130; ry = 190; }
@@ -518,14 +532,13 @@ function placer(n, profondeur) {
     e.p = profondeur + 1;
     /* ⚠️ `bras` allonge le trait d'UN enfant sans toucher à ses frères, et il
        n'existe que pour « Black Desert Online ». Sur l'anneau ordinaire (130)
-       il tombait à x=274, soit 42 px de « Auto Claim Twitch Drops » — or c'est
-       l'étiquette la plus large de la carte, et EN VUE NORMALE (nœuds pleine
-       taille, notes affichées) les deux se chevauchaient de 10 px. Le mesurer
-       en vue éclatée ne suffit pas : là les étiquettes rapetissent et la même
-       position passait à 19 px de marge. Il faut les deux vues.
-       203 le pose à x=344, soit 112 px d'écart — juste au-delà des 110 px que
-       demandent les deux demi-étiquettes. Le rapprocher le fait replonger, et
-       le pousser plus loin l'envoie sur le portrait au centre. */
+       il reste collé à GitHub, au milieu de ses quatre dépôts. Il lui faut 285
+       pour atteindre le coin haut-gauche, le seul creux de la carte où sa
+       propre fratrie tienne aussi.
+       ⚠️ Mesurer en vue éclatée ne suffit pas : là les étiquettes rapetissent
+       et les notes disparaissent. En vue normale elles sont pleine taille, et
+       c'est la NOTE qui fait la largeur dès qu'elle dépasse le nom. Il faut
+       les deux vues, et les deux langues. */
     var brx = e.bras ? e.bras[0] : rx,
         bry = e.bras ? e.bras[1] : ry;
     e.x = n.x + Math.cos(ae) * brx;
