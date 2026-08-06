@@ -21,7 +21,7 @@
      pleine taille, en haut, et où le plan ne se plaçait plus — sans la moindre
      erreur visible. Le .htaccess force en plus le HTML à revalider, sans quoi
      ce numéro de version n'arriverait jamais au navigateur. -->
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 
 <!-- Mesure d'audience Umami, auto-hébergée sur le VPS (stats.maxyull.fr).
      Sans cookie, sans identifiant persistant : aucun bandeau de consentement
@@ -725,6 +725,18 @@ function fratrie(m, montrer, foulee) {
     brancherPouls(el, pouls);
     e._noeud = el;
     plan.appendChild(el);
+    /* ⚠️ On DÉCROCHE l'animation d'entrée une fois qu'elle a joué, exactement
+       comme `fini` le fait pour les mères : en `forwards` elle garde la main sur
+       `opacity` pour toujours, et la règle qui efface l'étape ouverte (celle où
+       le portrait vient se poser) ne s'appliquait jamais. Voir `.posee` dans
+       styles.css.
+       ⚠️ Un MINUTEUR, pas un `animationend` : en mouvement réduit l'animation
+       n'existe pas et l'événement ne viendrait jamais. La marge de 60 ms couvre
+       le décalage entre l'horloge des animations et celle des minuteurs. */
+    if (LENT.matches) el.classList.add('posee');
+    else (function (n) {
+      setTimeout(function () { n.classList.add('posee'); }, 200 + j * 80 + 420 + 60);
+    })(el);
   });
 
   /* ⚠️ Une étape parmi les enfants est dépliée DANS LA FOULÉE : arriver sur
@@ -792,16 +804,29 @@ function basculer(n) {
   ancien.forEach(function (a) {
     if (nouveau.indexOf(a) < 0 && a._noeud) {
       a._noeud.setAttribute('aria-expanded', 'false');
-      a._noeud.classList.remove('actif');
     }
+    /* ⚠️ `actif` veut dire « le portrait est ICI », pas « cette branche est
+       ouverte » — les deux ne se confondent qu'au 1ᵉʳ niveau. Il doit donc
+       quitter TOUS les ascendants, et pas seulement ceux qui sortent du chemin :
+       en ouvrant « Black Desert Online », « Projets » restait marqué actif,
+       donc EFFACÉ par la règle qui lui fait la place du portrait — lequel était
+       parti deux crans plus loin. Le trait rouge menait à un trou. */
+    if (a !== cible && a._noeud) a._noeud.classList.remove('actif');
     if (a._base) a._base.classList.remove('suivi');
   });
 
   ouverte = cible;
   plan.classList.toggle('ouvert', !!cible);
-  /* ⚠️ Au 3ᵉ niveau les mères s'effacent : la fratrie profonde vise l'intérieur
-     de la carte et leur passerait dessus. */
-  plan.classList.toggle('profond', nouveau.length >= 2);
+  /* ⚠️ Il y avait ici un état `profond` qui EFFAÇAIT les cinq mères dès le 3ᵉ
+     niveau, parce que la fratrie profonde visait alors l'intérieur de la carte
+     et leur serait passée dessus. Il n'y a plus qu'un seul nœud de ce niveau,
+     « Black Desert Online », et depuis qu'il est monté dans le coin haut-gauche
+     sa fratrie ne vise plus rien de ce qui appartient aux mères — la raison est
+     morte, la règle lui a survécu. Elle vidait la carte : les mères
+     disparaissaient mais LEURS TRAITS RESTAIENT, et l'ouverture de Black Desert
+     Online rendait quatre traits qui ne menaient nulle part et deux tiers de
+     carte vides. Remettre cet état, c'est reprendre les mesures d'écart entre
+     Butin/Rubin et les mères. */
 
   nouveau.forEach(function (a) { if (a._base) a._base.classList.add('suivi'); });
   if (cible) {
@@ -849,6 +874,11 @@ function basculer(n) {
          changement d'écran. C'est tout le geste demandé. */
       if (cible) fratrie(cible, true);
       ecrire(racine.getAttribute('data-lang'));
+      /* ⚠️ Deuxième passe, et elle est OBLIGATOIRE depuis que `placerOu` évite
+         les nœuds : au départ du voyage la fratrie d'arrivée n'existe pas
+         encore, il n'y a donc rien à éviter. C'est ici, une fois posée, qu'on
+         sait vraiment ce qu'il y a autour du portrait. */
+      placerOu();
     }, LENT.matches ? 0 : duree);
   })();
 
@@ -867,16 +897,67 @@ function basculer(n) {
 function placerOu() {
   if (!ouverte) return;
   var vers = Math.atan2(ouverte.y - CENTRE.y, ouverte.x - CENTRE.x);
-  var ux = -Math.cos(vers), uy = -Math.sin(vers);
   /* ⚠️ Le demi-portrait est LU, pas écrit en dur : il est dimensionné en `cqw`
      et rétrécit avec le plan sur les écrans courts. Une constante figée
      éloignerait l'étiquette bien trop sur petite carte. */
   var demi = retour.offsetWidth / 2 + 8;
   var lx = ou.offsetWidth / 2 + demi;
   var ly = ou.offsetHeight / 2 + demi;
-  var k = 1 / Math.max(Math.abs(ux) / lx, Math.abs(uy) / ly);
-  ou.style.setProperty('--ox', (ux * k) + 'px');
-  ou.style.setProperty('--oy', (uy * k) + 'px');
+
+  /* ⚠️ Le côté du centre est le PREMIER choix, pas le seul, et c'est « Black
+     Desert Online » qui l'a imposé. La règle d'origine tenait par une
+     hypothèse : l'éventail d'un nœud sort vers l'extérieur, donc le côté du
+     centre est libre. Elle est fausse pour lui — ses deux outils partent vers
+     le HAUT (angles -115 / -65), et son étiquette, posée vers le centre,
+     tombait sur « Black Desert Idle », sa propre sœur. Mesuré par le banc :
+     93 px de recouvrement, dans les deux langues et à toutes les tailles.
+     On garde donc la préférence, et on essaie les flancs puis l'extérieur si
+     elle percute quelque chose de VISIBLE. */
+  /* ⚠️ HUIT directions et pas quatre : avec les seuls quatre côtés, « Black
+     Desert Online » n'en avait aucun de bon — le centre percutait « Black
+     Desert Idle », le haut sortait de la carte, et les deux flancs étaient pris
+     par sa propre fratrie. Les diagonales, elles, passent. L'ordre va du plus
+     voulu (le centre) au moins (l'extérieur), et il départage à note égale. */
+  var cotes = [Math.PI, 3 * Math.PI / 4, -3 * Math.PI / 4,
+               Math.PI / 2, -Math.PI / 2, Math.PI / 4, -Math.PI / 4, 0];
+  var boites = [].filter.call(plan.querySelectorAll('.noeud'), function (n) {
+    return getComputedStyle(n).opacity !== '0';
+  }).map(function (n) { return n.getBoundingClientRect(); });
+  var cadre = plan.getBoundingClientRect();
+
+  /* ⚠️ Deux contraintes, et la seconde a été oubliée du premier coup : le côté
+     libre de tout nœud peut très bien sortir de la carte. « Black Desert
+     Online » est dans le coin haut-gauche, donc son flanc libre est le HAUT,
+     et l'étiquette passait par-dessus le bord. On NOTE donc les quatre côtés au
+     lieu de prendre le premier qui ne percute rien : sortir du cadre pèse
+     beaucoup plus lourd qu'un recouvrement, et à note égale c'est l'ordre de
+     `cotes` qui tranche — donc le centre d'abord, comme avant. */
+  function note(r) {
+    var dehors = Math.max(0, cadre.left - r.left) + Math.max(0, r.right - cadre.right) +
+                 Math.max(0, cadre.top - r.top) + Math.max(0, r.bottom - cadre.bottom);
+    var aire = 0;
+    boites.forEach(function (b) {
+      var w = Math.min(r.right, b.right) - Math.max(r.left, b.left);
+      var h = Math.min(r.bottom, b.bottom) - Math.max(r.top, b.top);
+      if (w > 2 && h > 2) aire += w * h;
+    });
+    return dehors * 10000 + aire;
+  }
+
+  var mieux = null;
+  for (var i = 0; i < cotes.length; i++) {
+    var a = vers + cotes[i];
+    var ux = Math.cos(a), uy = Math.sin(a);
+    var k = 1 / Math.max(Math.abs(ux) / lx, Math.abs(uy) / ly);
+    var ox = ux * k, oy = uy * k;
+    ou.style.setProperty('--ox', ox + 'px');
+    ou.style.setProperty('--oy', oy + 'px');
+    var mal = note(ou.getBoundingClientRect());
+    if (!mal) return;                       /* rien à redire : on s'arrête là */
+    if (!mieux || mal < mieux.mal) mieux = { mal: mal, ox: ox, oy: oy };
+  }
+  ou.style.setProperty('--ox', mieux.ox + 'px');
+  ou.style.setProperty('--oy', mieux.oy + 'px');
 }
 
 /* remonter d'un cran : le portrait est le bouton retour */
@@ -917,7 +998,7 @@ function eclater(on) {
       });
       ouverte = null;
     }
-    plan.classList.remove('ouvert', 'profond');
+    plan.classList.remove('ouvert');
     retour.disabled = true;
     siege.disabled = true;
     ou.hidden = true;

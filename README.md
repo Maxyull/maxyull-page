@@ -152,7 +152,31 @@ comme le portrait.
   et la construction paraît boiteuse.
 - **`.plan.fini`** décroche l'animation d'entrée des mères. Sans elle, son
   `forwards` garde la main sur `opacity` et le fondu des mères non ouvertes ne
-  se produit jamais.
+  se produit jamais. **`posee` est le même décrochage pour les enfants**, posé
+  par minuteur nœud par nœud — ils n'en avaient aucun, et la règle qui efface
+  l'étape ouverte (celle où le portrait vient se poser) ne s'appliquait donc
+  jamais : l'étiquette de « Black Desert Online » restait lisible sous le
+  portrait.
+- **`actif` veut dire « le portrait est ICI »**, pas « cette branche est
+  ouverte ». Les deux ne se confondent qu'au 1ᵉʳ niveau. Il ne se retirait que
+  des nœuds qui QUITTENT le chemin : en descendant sur « Black Desert Online »,
+  « Projets » restait marqué actif, donc effacé, et son trait rouge menait à un
+  trou au milieu de la branche.
+- **L'étiquette « où je suis » choisit son côté parmi huit**, elle n'est plus
+  posée du côté du centre quoi qu'il arrive. La règle d'origine tenait par une
+  hypothèse — l'éventail d'un nœud sort vers l'extérieur, donc le côté du centre
+  est libre — et « Black Desert Online » la casse : ses deux outils partent vers
+  le haut, l'étiquette tombait sur « Black Desert Idle », sa propre sœur. Quatre
+  côtés ne suffisaient pas : le centre percute, le haut sort de la carte, les
+  flancs sont pris. **Elle se place donc APRÈS l'arrivée**, une fois la fratrie
+  posée — au départ du voyage il n'y a encore rien à éviter.
+- **Il n'y a plus d'état `profond`.** Il effaçait les cinq mères dès le 3ᵉ
+  niveau, parce que la fratrie profonde visait alors l'intérieur de la carte.
+  Depuis que « Black Desert Online » est monté dans le coin haut-gauche, la
+  raison est morte — mais la règle avait survécu, et elle VIDAIT la carte : les
+  mères disparaissaient, **leurs traits restaient**, et l'ouverture de Black
+  Desert Online rendait quatre traits menant nulle part et deux tiers de carte
+  vides. Le remettre, c'est reprendre les écarts entre Butin/Rubin et les mères.
 - **Mouvement réduit** : tout est coupé, et traits + nœuds sont **remis
   visibles**. Leur état initial est « invisible » ; sans ces règles, la page
   resterait vide pour qui a désactivé les animations.
@@ -183,6 +207,17 @@ sed "s|</body>|<script src=\"verif.js?v=$(date +%s)\"></script></body>|" index.h
 Puis on la rend dans un navigateur sans interface et on lit le JSON produit. Il
 ouvre chaque étape, en FR et en EN, et rapporte chevauchements, débordements,
 cibles sous 28 px, défilement et requêtes externes.
+
+```bash
+chrome --headless=new --window-size=2560,1290 --virtual-time-budget=90000 \
+  --dump-dom "http://localhost:8781/verif.html?lang=fr"
+```
+
+> ⚠️ Il descend jusqu'à **« Black Desert Online »**, seul nœud du 4ᵉ niveau et
+> état le plus fragile de la carte : le plus profond, et le seul où le portrait
+> quitte une mère sans y rester. Il n'était mesuré **nulle part** — la carte s'y
+> est vidée pour de bon pendant que le banc annonçait « rien à signaler » neuf
+> fois de suite. Ne pas retirer cette étape.
 
 Le rapport s'ouvre sur deux champs qui se lisent ensemble :
 

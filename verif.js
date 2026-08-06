@@ -150,10 +150,31 @@
   meres.forEach(function (b, k) {
     etapes.push(function () { b.click(); });
     etapes.push(function () { res.push(etat('ouvert: ' + b.querySelector('.n').textContent)); });
-    /* ⚠️ Il n'y a plus d'étape au-delà du 1er niveau : GitHub porte une `url`,
-       c'est un lien. On vérifie donc seulement que ses dépôts sont bien posés
-       en même temps que lui (compté dans `enfants`). */
+    /* ⚠️ GitHub porte une `url`, c'est un LIEN : on ne l'ouvre pas, on vérifie
+       seulement que ses dépôts sont posés en même temps que lui (compté dans
+       `enfants`). L'étape qui suit descend en revanche jusqu'au 4ᵉ niveau. */
   });
+
+  /* ⚠️ « Black Desert Online » est le SEUL nœud du 4ᵉ niveau, et son ouverture
+     est l'état le plus fragile de la carte : c'est le plus profond, le seul où
+     le portrait quitte une mère sans y rester, et il n'était mesuré NULLE PART.
+     Il a cassé pour de bon — carte vidée, étiquette sous le portrait — pendant
+     que le banc annonçait « rien à signaler » neuf fois de suite.
+     Le nom est le même en FR et en EN, d'où la recherche par libellé. */
+  function parNom(nom) {
+    var t = [].filter.call(document.querySelectorAll('#plan .noeud .n'), function (e) {
+      return e.textContent.trim() === nom;
+    })[0];
+    return t ? t.closest('.noeud') : null;
+  }
+  etapes.push(function () { meres[0].click(); });
+  etapes.push(function () {
+    var b = parNom('Black Desert Online');
+    if (b) b.click(); else res.push({ etape: 'Black Desert Online INTROUVABLE', chocs: ['nœud absent'], debords: [], ciblesTropPetites: [], debordementH: 0, debordementV: 0, plancher: true, mesurees: [] });
+  });
+  etapes.push(function () { res.push(etat('ouvert: Black Desert Online')); });
+  etapes.push(function () { document.getElementById('siege').click(); });
+
   etapes.push(function () { document.getElementById('retour').click(); });
   etapes.push(function () { res.push(etat('retour au centre')); });
   etapes.push(function () { document.getElementById('eclat').click(); });
